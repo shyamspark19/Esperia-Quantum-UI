@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&family=Parkinsans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Manrope', sans-serif;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #F6F6F3;
+  color: #0A0A0A;
+  font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-sora {
+  font-family: 'Sora', sans-serif;
+}
+
+.font-parkinsans {
+  font-family: 'Parkinsans', sans-serif;
+}
+
+.font-manrope {
+  font-family: 'Manrope', sans-serif;
+}
+
+.font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.font-space {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Gradients derived directly from Figma document */
+.text-gradient-creative {
+  background: linear-gradient(90deg, #BF3854 0%, #3EA594 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-ai {
+  background: linear-gradient(90deg, #C5465B 0%, #C5465B 25.5%, #27C2A0 71.2%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-transform {
+  background: linear-gradient(90deg, #C5445A 0%, #3EA594 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-ingenuity {
+  background: linear-gradient(90deg, #8A9292 0%, #3EA594 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-impact {
+  background: linear-gradient(90deg, #9C727D 0%, #5E8980 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-stats {
+  background: linear-gradient(180deg, #C95E58 0%, #DB7A68 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-hero-gradient {
+  background: linear-gradient(135deg, #264240 0%, #041B19 60%, #020F0F 100%);
+}
+
+.bg-enterprise-banner {
+  background: linear-gradient(90deg, #5D7F72 0%, #678B7D 20%, #D67C65 100%);
+}
+
+.bg-talk-button {
+  background: linear-gradient(90deg, #FF7E8B 0%, #F2576B 100%);
+}
