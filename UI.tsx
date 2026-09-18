@@ -22,97 +22,6 @@ import {
 
 export default function EsperiaLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeBlogFilter, setActiveBlogFilter] = useState('All');
-  const [bookmarkedPosts, setBookmarkedPosts] = useState<number[]>([]);
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const toggleBookmark = (id: number) => {
-    setBookmarkedPosts(prev => 
-      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
-    );
-  };
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newsletterEmail.trim()) {
-      setSubscribed(true);
-      setTimeout(() => {
-        setNewsletterEmail('');
-      }, 3000);
-    }
-  };
-
-  const blogPosts = [
-    {
-      id: 1,
-      category: "AI Systems",
-      tag: "AI & Autonomy",
-      title: "AI Doesn't Replace Creativity. It Removes Friction.",
-      excerpt: "When repetitive operational burden dissolves, creative engineering ascends to strategic high-leverage architectural thinking.",
-      date: "14 Feb 2025",
-      readTime: "4 min read",
-      author: {
-        name: "Dr. Aris Thorne",
-        role: "Chief AI Architect",
-        avatar: "/assets/figma/a0e90c338be9c298666d3615b2b74e3e586bbaa1.png"
-      },
-      img: "/assets/figma/a0e90c338be9c298666d3615b2b74e3e586bbaa1.png",
-      views: "3.4k"
-    },
-    {
-      id: 2,
-      category: "Cloud Architecture",
-      tag: "Enterprise Cloud",
-      title: "Orchestrating Autonomous Agent Workflows at Enterprise Scale",
-      excerpt: "Moving beyond toy prototypes into multi-agent self-healing topologies that withstand petabyte-scale transactions.",
-      date: "08 Feb 2025",
-      readTime: "6 min read",
-      author: {
-        name: "Elena Rostova",
-        role: "VP of Distributed Systems",
-        avatar: "/assets/figma/8a61ffde7116dd86d327b183bf30b542c05f4962.png"
-      },
-      img: "/assets/figma/8a61ffde7116dd86d327b183bf30b542c05f4962.png",
-      views: "5.1k"
-    },
-    {
-      id: 3,
-      category: "Product Design",
-      tag: "Spatial Computing",
-      title: "Ambient Interfaces: The Shift Beyond Traditional Screens",
-      excerpt: "Synthesizing spatial depth, tactile haptic response, and predictive intent models into effortless quantum interaction.",
-      date: "28 Jan 2025",
-      readTime: "5 min read",
-      author: {
-        name: "Marcus Sterling",
-        role: "Head of Experience",
-        avatar: "/assets/figma/95ff2a9210fa3fece51d5af0276139539b7f5b7d.png"
-      },
-      img: "/assets/figma/95ff2a9210fa3fece51d5af0276139539b7f5b7d.png",
-      views: "2.8k"
-    },
-    {
-      id: 4,
-      category: "Engineering",
-      tag: "Quantum Resilience",
-      title: "Zero-Downtime Global Migrations Under High-Frequency Loads",
-      excerpt: "How our cloud delivery engine guarantees uninterrupted continuity across three continents simultaneously.",
-      date: "19 Jan 2025",
-      readTime: "8 min read",
-      author: {
-        name: "Siddharth Verma",
-        role: "Principal Infrastructure Lead",
-        avatar: "/assets/figma/hero_section_exact.png"
-      },
-      img: "/assets/figma/1d80fc741040828e2e6f3ee8341678f1b003f0b6.png",
-      views: "4.7k"
-    }
-  ];
-
-  const filteredPosts = activeBlogFilter === 'All' 
-    ? blogPosts 
-    : blogPosts.filter(p => p.category.toLowerCase().includes(activeBlogFilter.toLowerCase()) || p.tag.toLowerCase().includes(activeBlogFilter.toLowerCase()));
 
   return (
     <div className="min-h-screen bg-[#F6F6F3] text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white">
@@ -735,264 +644,81 @@ export default function EsperiaLanding() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 10. COLOSSAL BLOGS & NEWSLETTERS SHOWCASE                                 */}
+      {/* 10. BLOGS & NEWSLETTERS                                                   */}
       {/* ========================================================================= */}
-      <section id="blogs" className="py-28 px-6 max-w-7xl mx-auto relative">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-8">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#C5445A] animate-ping" />
-              <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#6B6B6B]">
-                Colossal Thought Leadership
-              </span>
-            </div>
-
-            <h2 
-              className="text-4xl sm:text-6xl lg:text-[68px] font-bold text-[#0A0A0A] tracking-tight leading-[1.08] font-parkinsans"
-            >
-              Insights at the Edge of <br />
-              <span className="text-gradient-creative">Design, AI &amp; Quantum</span>
-            </h2>
-            <p className="text-slate-600 text-base sm:text-lg mt-4 leading-relaxed font-manrope">
-              Explorations, deep technical architectural essays, and product blueprints curated by our senior engineers and design strategists.
-            </p>
+      <section id="blogs" className="py-24 px-6 max-w-7xl mx-auto">
+        <div className="max-w-2xl mb-14">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C5445A]" />
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6B6B6B]">
+              Blogs &amp; Newsletters
+            </span>
           </div>
 
-          {/* Interactive Category Filter Pills */}
-          <div className="flex flex-wrap gap-2.5 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm">
-            {['All', 'AI Systems', 'Cloud Architecture', 'Product Design', 'Engineering'].map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveBlogFilter(filter)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
-                  activeBlogFilter === filter 
-                    ? 'bg-[#C5445A] text-white shadow-md shadow-[#C5445A]/20' 
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
+          <h2 
+            className="text-3xl sm:text-5xl font-bold text-[#0A0A0A] tracking-tight leading-tight font-parkinsans"
+          >
+            Insights at the Edge of Design, AI, and Enterprise
+          </h2>
+          <p className="text-slate-600 text-sm sm:text-base mt-4 leading-relaxed font-manrope">
+            It&apos;s how we do it. Many agencies check the same capability boxes. What separates Esperia is the discipline we bring to execution — and the ambition we bring to outcomes.
+          </p>
         </div>
 
-        {/* ======================================================================= */}
-        {/* A. COLOSSAL FEATURED HERO ARTICLE (MASSIVE SHOWSTOPPER)                 */}
-        {/* ======================================================================= */}
-        <div className="mb-14">
-          <article className="colossal-card group relative bg-white border border-slate-200/90 rounded-[40px] overflow-hidden shadow-colossal grid grid-cols-1 lg:grid-cols-12">
-            {/* Colossal Picture Container */}
-            <div className="lg:col-span-7 relative h-[380px] sm:h-[480px] lg:h-full min-h-[440px] overflow-hidden">
-              <img 
-                src="/assets/figma/1d80fc741040828e2e6f3ee8341678f1b003f0b6.png" 
-                alt="Quantum Intelligence and Cloud Native Systems"
-                className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent lg:hidden" />
-              
-              <div className="absolute top-6 left-6 z-10 flex items-center gap-2">
-                <span className="bg-[#C5445A] text-white text-[11px] font-extrabold uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-lg">
-                  Featured Colossal Story
-                </span>
-                <span className="bg-black/60 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1.5 rounded-full border border-white/20">
-                  Must Read
-                </span>
-              </div>
-            </div>
-
-            {/* Content Body */}
-            <div className="lg:col-span-5 p-8 sm:p-12 lg:p-14 flex flex-col justify-between">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              img: "/assets/figma/a0e90c338be9c298666d3615b2b74e3e586bbaa1.png",
+              tag: " /  AI  /  Technology  / ",
+              title: "AI Doesn't Replace Creativity. It Removes Friction.",
+              date: "2 Jan 2025 / John Doe"
+            },
+            {
+              img: "/assets/figma/8a61ffde7116dd86d327b183bf30b542c05f4962.png",
+              tag: " /  AI  /  Technology  / ",
+              title: "AI Doesn't Replace Creativity. It Removes Friction.",
+              date: "2 Jan 2025 / John Doe"
+            },
+            {
+              img: "/assets/figma/95ff2a9210fa3fece51d5af0276139539b7f5b7d.png",
+              tag: " /  AI  /  Technology  / ",
+              title: "AI Doesn't Replace Creativity. It Removes Friction.",
+              date: "2 Jan 2025 / John Doe"
+            }
+          ].map((post, i) => (
+            <article 
+              key={i} 
+              className="colossal-card group cursor-pointer bg-white border border-slate-200/90 rounded-3xl overflow-hidden shadow-colossal hover:shadow-2xl hover:border-[#C5445A]/30 transition-all duration-500 flex flex-col justify-between"
+            >
               <div>
-                <div className="flex items-center justify-between text-xs text-slate-500 font-semibold mb-4">
-                  <span className="text-[#C5445A] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
-                    <Sparkles size={14} /> Quantum Architecture
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock size={14} /> 7 min read
-                  </span>
+                <div className="colossal-image-container w-full h-72 sm:h-80 overflow-hidden relative bg-slate-900">
+                  <img 
+                    src={post.img} 
+                    alt={post.title} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
-                <h3 className="text-2xl sm:text-4xl font-bold font-parkinsans text-slate-900 group-hover:text-[#C5445A] transition-colors leading-[1.2] mb-5">
-                  The Architecture of Tomorrow: Merging Quantum Intelligence with Cloud-Native Systems
-                </h3>
+                <div className="p-7 sm:p-8">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#9E1C34] mb-3 block">
+                    {post.tag}
+                  </span>
+                  <h3 
+                    className="text-xl font-bold text-[#0A0A0A] group-hover:text-[#C5445A] transition-colors leading-snug mb-3 font-parkinsans"
+                  >
+                    {post.title}
+                  </h3>
+                </div>
+              </div>
 
-                <p className="text-slate-600 text-base sm:text-[17px] leading-[1.75] font-manrope mb-8">
-                  How high-velocity enterprise software moves past monolithic bottlenecks by synchronizing self-optimizing neural networks with cloud infrastructure that never sleeps.
+              <div className="px-7 sm:px-8 pb-7 sm:pb-8 pt-0">
+                <p className="text-xs text-slate-400 font-medium">
+                  {post.date}
                 </p>
               </div>
-
-              <div>
-                <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-                  <div className="flex items-center gap-3.5">
-                    <img 
-                      src="/assets/figma/0aa099bd4ada7668a64c73c7a96a343aa4e97211.png" 
-                      alt="Dr. Aris Thorne" 
-                      className="w-11 h-11 rounded-full object-cover border-2 border-[#C5445A]"
-                    />
-                    <div>
-                      <div className="text-sm font-bold text-slate-900">Dr. Aris Thorne</div>
-                      <div className="text-xs text-slate-500">Chief Architect &bull; 18 Feb 2025</div>
-                    </div>
-                  </div>
-
-                  <a 
-                    href="#featured-story" 
-                    className="w-12 h-12 rounded-full bg-[#0A0A0A] group-hover:bg-[#C5445A] text-white flex items-center justify-center transition-all duration-300 shadow-md group-hover:rotate-45"
-                  >
-                    <ArrowUpRight size={20} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        {/* ======================================================================= */}
-        {/* B. COLOSSAL ARTICLE GRID (ANIMATED HOVER & MICRO-INTERACTIONS)          */}
-        {/* ======================================================================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {filteredPosts.map((post) => {
-            const isBookmarked = bookmarkedPosts.includes(post.id);
-
-            return (
-              <article 
-                key={post.id} 
-                className="colossal-card group cursor-pointer bg-white border border-slate-200/90 rounded-[32px] overflow-hidden shadow-colossal hover:border-[#C5445A]/40 flex flex-col justify-between"
-              >
-                <div>
-                  {/* Colossal Picture with Aspect Ratio and Zoom */}
-                  <div className="colossal-image-container relative w-full h-64 sm:h-72 overflow-hidden bg-slate-900">
-                    <img 
-                      src={post.img} 
-                      alt={post.title} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out opacity-95 group-hover:opacity-100"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-
-                    {/* Category Tag Badge */}
-                    <div className="absolute top-5 left-5 z-10">
-                      <span className="bg-white/90 backdrop-blur-md text-slate-900 text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-md">
-                        {post.category}
-                      </span>
-                    </div>
-
-                    {/* Bookmark Action Button */}
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleBookmark(post.id);
-                      }}
-                      className="absolute top-5 right-5 z-10 w-9 h-9 rounded-full bg-black/40 backdrop-blur-md hover:bg-[#C5445A] text-white flex items-center justify-center transition-colors"
-                      aria-label="Bookmark article"
-                    >
-                      <Bookmark size={15} className={isBookmarked ? "fill-white" : ""} />
-                    </button>
-
-                    {/* Colossal Views / Time Floating Overlay */}
-                    <div className="absolute bottom-4 left-5 right-5 z-10 flex items-center justify-between text-xs text-white/90 font-medium">
-                      <span className="flex items-center gap-1.5">
-                        <Clock size={13} /> {post.readTime}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Eye size={13} /> {post.views}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Article Card Content */}
-                  <div className="p-8">
-                    <span className="text-xs font-bold uppercase tracking-widest text-[#C5445A] mb-3 block">
-                      {post.tag}
-                    </span>
-                    
-                    <h3 
-                      className="text-xl sm:text-2xl font-bold text-[#0A0A0A] group-hover:text-[#C5445A] transition-colors leading-snug mb-3 font-parkinsans"
-                    >
-                      {post.title}
-                    </h3>
-                    
-                    <p className="text-sm text-slate-600 leading-relaxed font-manrope line-clamp-2 mb-6">
-                      {post.excerpt}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Footer Author & Read Link */}
-                <div className="px-8 pb-8 pt-2">
-                  <div className="pt-5 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <img 
-                        src={post.author.avatar} 
-                        alt={post.author.name}
-                        className="w-9 h-9 rounded-full object-cover border border-slate-200" 
-                      />
-                      <div>
-                        <span className="text-xs font-bold text-slate-800 block">
-                          {post.author.name}
-                        </span>
-                        <span className="text-[11px] text-slate-400">
-                          {post.date}
-                        </span>
-                      </div>
-                    </div>
-
-                    <span className="text-xs font-bold text-[#C5445A] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                      Read <ArrowRight size={14} />
-                    </span>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-
-        {/* ======================================================================= */}
-        {/* C. COLOSSAL NEWSLETTER ENGAGEMENT BANNER WITH ANIMATION                 */}
-        {/* ======================================================================= */}
-        <div className="rounded-[36px] bg-gradient-to-r from-[#0C151F] via-[#162725] to-[#2B1B22] text-white p-8 sm:p-14 border border-white/10 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-[#3EA594]/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-[#C5445A]/20 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-bold text-[#73A7A3] mb-6">
-              <Sparkles size={14} className="text-[#FF7E8B]" />
-              <span>Stay Ahead of the Tech Frontier</span>
-            </div>
-
-            <h3 className="text-3xl sm:text-5xl font-bold font-parkinsans tracking-tight mb-4">
-              Get the Colossal Monthly Dispatch
-            </h3>
-            <p className="text-slate-300 text-base sm:text-lg mb-8 max-w-xl mx-auto font-manrope">
-              Join 12,000+ engineers, founders, and product visionaries. Deep dives into autonomous systems, quantum architecture, and high-velocity shipping.
-            </p>
-
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
-              <input 
-                type="email" 
-                placeholder="Enter your work email..."
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                required
-                className="w-full sm:flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 text-white placeholder:text-white/50 text-sm focus:outline-none focus:border-[#73A7A3] backdrop-blur-md transition shadow-inner"
-              />
-              <button 
-                type="submit"
-                className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#C5445A] hover:bg-[#a93447] text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-xl shadow-[#C5445A]/30 flex items-center justify-center gap-2 shrink-0 hover:scale-105"
-              >
-                {subscribed ? (
-                  <>
-                    <CheckCircle2 size={16} />
-                    <span>Subscribed!</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Subscribe</span>
-                    <Send size={15} />
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
+            </article>
+          ))}
         </div>
       </section>
 
