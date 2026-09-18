@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   ChevronLeft,
   Send,
@@ -52,54 +52,6 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // Dynamic dimension observer for notched card shape
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [cardDims, setCardDims] = useState({ w: 481, h: 540 });
-
-  useEffect(() => {
-    if (!cardRef.current) return;
-    const updateDims = () => {
-      if (cardRef.current) {
-        const rect = cardRef.current.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-          setCardDims({
-            w: Math.round(rect.width),
-            h: Math.round(rect.height),
-          });
-        }
-      }
-    };
-    updateDims();
-    const ro = new ResizeObserver(updateDims);
-    ro.observe(cardRef.current);
-    return () => ro.disconnect();
-  }, []);
-
-  const { w, h } = cardDims;
-  const rOuter = 34;
-  const notchW = 110;
-  const notchH = 54;
-  const rLedge = 26;
-  const rInner = 20;
-  const rBottom = 26;
-
-  const cardPath = `
-    M ${rOuter} 0
-    H ${Math.max(rOuter, w - rOuter)}
-    A ${rOuter} ${rOuter} 0 0 1 ${w} ${rOuter}
-    V ${Math.max(rOuter, h - notchH - rLedge)}
-    A ${rLedge} ${rLedge} 0 0 0 ${w - rLedge} ${h - notchH}
-    H ${Math.max(rOuter, w - notchW + rInner)}
-    A ${rInner} ${rInner} 0 0 1 ${w - notchW} ${h - notchH + rInner}
-    V ${Math.max(rOuter, h - rBottom)}
-    A ${rBottom} ${rBottom} 0 0 0 ${w - notchW - rBottom} ${h}
-    H ${rOuter}
-    A ${rOuter} ${rOuter} 0 0 1 0 ${h - rOuter}
-    V ${rOuter}
-    A ${rOuter} ${rOuter} 0 0 1 ${rOuter} 0
-    Z
-  `;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -361,129 +313,108 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
 
             {/* Right Column: Dark Modern Form Card (Figma Node #88:241 - #88:282, w: 481px, h: 518px) */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div
-                ref={cardRef}
-                className="w-full max-w-[481px] min-h-[520px] relative flex flex-col justify-between select-none"
-              >
-                {/* Dynamic Notched SVG Background */}
-                <svg
-                  className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-2xl overflow-visible"
-                  viewBox={`0 0 ${w} ${h}`}
-                  fill="none"
-                  style={{ filter: 'drop-shadow(0 25px 35px rgba(0, 0, 0, 0.28))' }}
-                >
-                  <defs>
-                    <radialGradient id="contactCardGrad" cx="27%" cy="23%" r="85%">
-                      <stop offset="0%" stopColor="#565656" />
-                      <stop offset="100%" stopColor="#1D1F1E" />
-                    </radialGradient>
-                  </defs>
-                  <path d={cardPath} fill="url(#contactCardGrad)" />
-                </svg>
+              <div className="w-full max-w-[481px] min-h-[518px] rounded-[32px] bg-[radial-gradient(circle_at_27%_23%,_rgba(86,86,86,1)_0%,_rgba(29,31,30,1)_100%)] p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden flex flex-col justify-between">
+                
+                <div>
+                  <h3 className="text-[32px] font-bold text-white font-parkinsans tracking-tight mb-6 leading-tight">
+                    Get in Touch
+                  </h3>
 
-                {/* Inner Form Content */}
-                <div className="relative z-10 px-8 pt-8 pb-12 sm:px-10 sm:pt-10 sm:pb-14 flex flex-col justify-between h-full">
-                  <div>
-                    <h3 className="text-[32px] sm:text-[36px] font-bold text-white font-parkinsans tracking-tight mb-8 leading-tight">
-                      Get in Touch
-                    </h3>
+                  {isSubmitted ? (
+                    <div className="py-12 text-center flex flex-col items-center gap-4 relative z-10 animate-in fade-in zoom-in duration-500">
+                      <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                        <CheckCircle2 size={36} />
+                      </div>
+                      <h4 className="text-xl font-bold font-parkinsans text-white">Message Received</h4>
+                      <p className="text-sm text-slate-300 max-w-xs font-manrope">
+                        Thank you for reaching out to Esperia. Our team will get back to you shortly.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsSubmitted(false);
+                          setFormData({ fullName: '', email: '', subject: '', message: '' });
+                        }}
+                        className="mt-4 text-xs font-bold uppercase tracking-wider text-[#F56F6A] hover:underline cursor-pointer"
+                      >
+                        Send another message
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-5 relative z-10">
+                      {/* Full Name */}
+                      <div className="flex flex-col gap-1">
+                        <label htmlFor="fullName" className="text-[14px] font-normal text-[#898989] font-manrope">
+                          Full name
+                        </label>
+                        <input
+                          id="fullName"
+                          type="text"
+                          required
+                          value={formData.fullName}
+                          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-2 text-white text-[14px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
+                        />
+                      </div>
 
-                    {isSubmitted ? (
-                      <div className="py-12 text-center flex flex-col items-center gap-4 relative z-10 animate-in fade-in zoom-in duration-500">
-                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                          <CheckCircle2 size={36} />
-                        </div>
-                        <h4 className="text-xl font-bold font-parkinsans text-white">Message Received</h4>
-                        <p className="text-sm text-slate-300 max-w-xs font-manrope">
-                          Thank you for reaching out to Esperia. Our team will get back to you shortly.
-                        </p>
+                      {/* Email */}
+                      <div className="flex flex-col gap-1">
+                        <label htmlFor="email" className="text-[14px] font-normal text-[#898989] font-manrope">
+                          Email
+                        </label>
+                        <input
+                          id="email"
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-2 text-white text-[14px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
+                        />
+                      </div>
+
+                      {/* Subject */}
+                      <div className="flex flex-col gap-1">
+                        <label htmlFor="subject" className="text-[14px] font-normal text-[#898989] font-manrope">
+                          Subject
+                        </label>
+                        <input
+                          id="subject"
+                          type="text"
+                          value={formData.subject}
+                          onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-2 text-white text-[14px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
+                        />
+                      </div>
+
+                      {/* Message */}
+                      <div className="flex flex-col gap-1">
+                        <label htmlFor="message" className="text-[14px] font-normal text-[#898989] font-manrope">
+                          Message
+                        </label>
+                        <textarea
+                          id="message"
+                          required
+                          rows={3}
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-2 text-white text-[14px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors resize-none"
+                        />
+                      </div>
+
+                      {/* Send Button (Figma Node #88:280) */}
+                      <div className="flex justify-end pt-2">
                         <button
-                          type="button"
-                          onClick={() => {
-                            setIsSubmitted(false);
-                            setFormData({ fullName: '', email: '', subject: '', message: '' });
-                          }}
-                          className="mt-4 text-xs font-bold uppercase tracking-wider text-[#F56F6A] hover:underline cursor-pointer"
+                          type="submit"
+                          className="inline-flex items-center gap-2 bg-gradient-to-r from-[#F56F6A] to-[#C5445A] hover:brightness-110 text-white text-[14px] font-semibold px-6 py-2 rounded-[100px] shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer font-manrope"
                         >
-                          Send another message
+                          <span>Send</span>
+                          <Send size={14} />
                         </button>
                       </div>
-                    ) : (
-                      <form id="contact-form" onSubmit={handleSubmit} className="flex flex-col gap-6 relative z-10">
-                        {/* Full Name */}
-                        <div className="flex flex-col">
-                          <label htmlFor="fullName" className="text-[14px] font-normal text-[#898989] font-manrope mb-1">
-                            Full name
-                          </label>
-                          <input
-                            id="fullName"
-                            type="text"
-                            required
-                            value={formData.fullName}
-                            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                            className="w-full bg-transparent border-b border-[#ADADAD]/30 pb-2 text-white text-[15px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
-                          />
-                        </div>
-
-                        {/* Email */}
-                        <div className="flex flex-col">
-                          <label htmlFor="email" className="text-[14px] font-normal text-[#898989] font-manrope mb-1">
-                            Email
-                          </label>
-                          <input
-                            id="email"
-                            type="email"
-                            required
-                            value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full bg-transparent border-b border-[#ADADAD]/30 pb-2 text-white text-[15px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
-                          />
-                        </div>
-
-                        {/* Subject */}
-                        <div className="flex flex-col">
-                          <label htmlFor="subject" className="text-[14px] font-normal text-[#898989] font-manrope mb-1">
-                            Subject
-                          </label>
-                          <input
-                            id="subject"
-                            type="text"
-                            value={formData.subject}
-                            onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                            className="w-full bg-transparent border-b border-[#ADADAD]/30 pb-2 text-white text-[15px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
-                          />
-                        </div>
-
-                        {/* Message */}
-                        <div className="flex flex-col">
-                          <label htmlFor="message" className="text-[14px] font-normal text-[#898989] font-manrope mb-1">
-                            Message
-                          </label>
-                          <textarea
-                            id="message"
-                            required
-                            rows={3}
-                            value={formData.message}
-                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                            className="w-full bg-transparent border-b border-[#ADADAD]/30 pb-2 text-white text-[15px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors resize-none"
-                          />
-                        </div>
-                      </form>
-                    )}
-                  </div>
+                    </form>
+                  )}
                 </div>
 
-                {/* Send Button (Figma Node #88:280) - Positioned in the cutout notch */}
-                {!isSubmitted && (
-                  <button
-                    type="submit"
-                    form="contact-form"
-                    className="absolute bottom-0 right-0 z-20 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#F56F6A] to-[#C5445A] hover:brightness-110 text-white text-[14px] font-semibold px-6 py-2 rounded-full shadow-[0_4px_14px_rgba(197,68,90,0.35)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer font-manrope"
-                  >
-                    <span>Send</span>
-                    <Send size={15} />
-                  </button>
-                )}
               </div>
             </div>
 
