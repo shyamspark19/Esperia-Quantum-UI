@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { 
   ArrowRight, 
-  ArrowUpRight,
   Menu, 
   X, 
   ChevronRight,
@@ -9,15 +8,7 @@ import {
   Monitor, 
   Target, 
   Globe,
-  Sparkles,
-  Clock,
-  Bookmark,
-  Share2,
-  CheckCircle2,
-  TrendingUp,
-  Layers,
-  Send,
-  Eye
+  TrendingUp
 } from 'lucide-react';
 
 export default function EsperiaLanding() {
@@ -49,10 +40,7 @@ export default function EsperiaLanding() {
               <a href="#what-we-do" className="hover:text-[#73A7A3] transition-colors duration-200">What We Do</a>
               <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
               <a href="#our-works" className="hover:text-[#73A7A3] transition-colors duration-200">Our Works</a>
-              <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200 flex items-center gap-1.5">
-                <span>Blogs &amp; Newsletters</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF7E8B] animate-ping" />
-              </a>
+              <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200">Blogs &amp; Newsletters</a>
               <a href="#contact" className="hover:text-[#73A7A3] transition-colors duration-200">Contact Us</a>
             </nav>
 
@@ -81,11 +69,6 @@ export default function EsperiaLanding() {
         {/* Hero Body Grid */}
         <div className="max-w-7xl mx-auto px-6 pt-12 lg:pt-20 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           <div className="lg:col-span-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-[#73A7A3] mb-6">
-              <Sparkles size={14} className="text-[#FF7E8B] animate-spin" style={{ animationDuration: '8s' }} />
-              <span>Next-Generation Digital Transformation</span>
-            </div>
-
             <h1 
               className="text-5xl sm:text-7xl lg:text-[96px] font-bold tracking-[-0.03em] leading-[1.03] mb-6 font-sora"
             >
@@ -97,20 +80,13 @@ export default function EsperiaLanding() {
               From modern cloud architecture to AI-powered experiences, we engineer digital products that are scalable, secure, resilient, and built to move fast.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div>
               <a 
                 href="#our-works" 
                 className="group inline-flex items-center gap-2.5 border-2 border-[#73A7A3] text-[#73A7A3] hover:bg-[#73A7A3] hover:text-[#041B19] font-semibold text-base px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-[#73A7A3]/10"
               >
                 <span>See our works</span>
                 <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
-              </a>
-              <a 
-                href="#blogs" 
-                className="inline-flex items-center gap-2 text-white/80 hover:text-white text-base px-6 py-3.5 font-medium transition"
-              >
-                <span>Read Colossal Insights</span>
-                <ChevronRight size={18} />
               </a>
             </div>
           </div>
@@ -127,17 +103,6 @@ export default function EsperiaLanding() {
                   alt="Cloud-Native AI Digital Engineering Architecture" 
                   className="w-full h-auto object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-700 ease-out cursor-pointer"
                 />
-
-                {/* Floating Interactive Glass Badge */}
-                <div className="absolute -bottom-6 -left-4 sm:bottom-4 sm:-left-6 bg-[#0A111A]/85 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl flex items-center gap-3.5 animate-float-reverse">
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#3EA594] to-[#264240] flex items-center justify-center text-white shadow-lg">
-                    <Layers size={22} />
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-bold uppercase tracking-wider text-[#73A7A3]">System Architecture</div>
-                    <div className="text-sm font-bold text-white">Quantum Resilient v2.4</div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -204,7 +169,7 @@ export default function EsperiaLanding() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
           <div className="lg:col-span-7">
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#C5445A] animate-ping" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C5445A]" />
               <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#6B6B6B]">
                 Who We Are
               </span>
@@ -459,7 +424,7 @@ export default function EsperiaLanding() {
         <div className="rounded-[40px] bg-enterprise-banner text-white p-8 sm:p-14 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-2xl overflow-hidden relative group">
           <div className="max-w-xl z-10">
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-2 h-2 rounded-full bg-[#E58870] animate-ping" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E58870]" />
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#FFE3DC]">
                 Why Esperia
               </span>
@@ -740,7 +705,7 @@ export default function EsperiaLanding() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 pb-20">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#9E1C34] animate-ping" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#9E1C34]" />
                 <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F7F7F5]">
                   Contact us
                 </span>
