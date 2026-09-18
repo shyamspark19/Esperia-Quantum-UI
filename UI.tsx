@@ -11,7 +11,11 @@ import {
   TrendingUp
 } from 'lucide-react';
 
-export default function EsperiaLanding() {
+interface EsperiaLandingProps {
+  onNavigateToContact?: () => void;
+}
+
+export default function EsperiaLanding({ onNavigateToContact }: EsperiaLandingProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -33,7 +37,13 @@ export default function EsperiaLanding() {
             <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
             <a href="#our-works" className="hover:text-[#73A7A3] transition-colors duration-200">Our Works</a>
             <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200">Blogs &amp; Newsletters</a>
-            <a href="#contact" className="hover:text-[#73A7A3] transition-colors duration-200">Contact Us</a>
+            <button
+              type="button"
+              onClick={() => onNavigateToContact ? onNavigateToContact() : (window.location.hash = '#contact-us')}
+              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+            >
+              Contact Us
+            </button>
           </nav>
 
           <button
@@ -53,7 +63,17 @@ export default function EsperiaLanding() {
             <a href="#why-esperia" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
             <a href="#our-works" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Our Works</a>
             <a href="#blogs" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
-            <a href="#contact" className="text-[#FF7E8B] font-semibold pt-2 border-t border-white/10" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onNavigateToContact) onNavigateToContact();
+                else window.location.hash = '#contact-us';
+              }}
+              className="text-left text-[#FF7E8B] font-semibold pt-2 border-t border-white/10 cursor-pointer"
+            >
+              Contact Us
+            </button>
           </div>
         )}
       </header>
@@ -718,12 +738,13 @@ export default function EsperiaLanding() {
               </h2>
             </div>
 
-            <a
-              href="mailto:contact@esperia.io"
-              className="bg-talk-button hover:brightness-110 text-[#1C1C1C] font-bold text-sm uppercase tracking-wider px-12 py-5 rounded-full transition-all duration-300 shadow-2xl shadow-rose-900/40 shrink-0 hover:scale-105"
+            <button
+              type="button"
+              onClick={() => onNavigateToContact ? onNavigateToContact() : (window.location.hash = '#contact-us')}
+              className="bg-talk-button hover:brightness-110 text-[#1C1C1C] font-bold text-sm uppercase tracking-wider px-12 py-5 rounded-full transition-all duration-300 shadow-2xl shadow-rose-900/40 shrink-0 hover:scale-105 cursor-pointer"
             >
               Let’s Talk
-            </a>
+            </button>
           </div>
 
           <div className="w-full h-px bg-white/10 mb-16" />
@@ -780,7 +801,15 @@ export default function EsperiaLanding() {
                 <li><a href="#why-esperia" className="hover:text-white transition">Why Esperia</a></li>
                 <li><a href="#our-works" className="hover:text-white transition">Our Products</a></li>
                 <li><a href="#blogs" className="hover:text-white transition">Blogs &amp; Newsletters</a></li>
-                <li><a href="#contact" className="hover:text-white transition">Contact Us</a></li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => onNavigateToContact ? onNavigateToContact() : (window.location.hash = '#contact-us')}
+                    className="hover:text-white transition cursor-pointer"
+                  >
+                    Contact Us
+                  </button>
+                </li>
               </ul>
             </div>
           </footer>
