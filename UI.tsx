@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   ArrowRight,
   Menu,
@@ -13,56 +13,12 @@ import {
 
 export default function EsperiaLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [headerTheme, setHeaderTheme] = useState<'transparent' | 'dark' | 'light' | 'white'>('transparent');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      if (scrollY < 40) {
-        setHeaderTheme('transparent');
-        return;
-      }
-
-      const sections = document.querySelectorAll<HTMLElement>('section[data-header-theme]');
-      let activeTheme: 'dark' | 'light' | 'white' = 'dark';
-
-      sections.forEach((sec) => {
-        const rect = sec.getBoundingClientRect();
-        if (rect.top <= 90 && rect.bottom > 90) {
-          activeTheme = (sec.getAttribute('data-header-theme') as 'dark' | 'light' | 'white') || 'dark';
-        }
-      });
-
-      setHeaderTheme(activeTheme);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const isDark = headerTheme === 'transparent' || headerTheme === 'dark';
-
-  const headerBgClass = {
-    transparent: 'bg-transparent border-b border-transparent text-white',
-    dark: 'bg-[#041B19]/85 backdrop-blur-md border-b border-white/10 text-white shadow-lg shadow-black/10',
-    light: 'bg-[#F6F6F3]/90 backdrop-blur-md border-b border-slate-900/10 text-[#0A0A0A] shadow-md shadow-slate-900/5',
-    white: 'bg-white/90 backdrop-blur-md border-b border-slate-200 text-[#0A0A0A] shadow-md shadow-slate-200/50'
-  }[headerTheme];
-
-  const linkClass = isDark
-    ? 'text-white/90 hover:text-[#73A7A3]'
-    : 'text-slate-800 hover:text-[#C5445A] font-semibold';
-
-  const toggleClass = isDark
-    ? 'text-white hover:bg-white/10'
-    : 'text-slate-800 hover:bg-slate-200/50';
 
   return (
     <div className="min-h-screen bg-[#F6F6F3] text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white">
 
-      {/* Dynamic Sticky Navigation Bar */}
-      <header className={`sticky top-0 z-50 transition-all duration-300 ${headerBgClass}`}>
+      {/* Locked / Sticky Navigation Bar */}
+      <header className="sticky top-0 z-50 bg-[#0A111A]/95 backdrop-blur-md border-b border-white/10 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 h-20 sm:h-24 flex items-center justify-between">
           <a href="#" className="focus:outline-none flex items-center group">
             <img
@@ -72,18 +28,18 @@ export default function EsperiaLanding() {
             />
           </a>
 
-          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium transition-colors duration-200">
-            <a href="#what-we-do" className={linkClass}>What We Do</a>
-            <a href="#why-esperia" className={linkClass}>Why Esperia</a>
-            <a href="#our-works" className={linkClass}>Our Works</a>
-            <a href="#blogs" className={linkClass}>Blogs &amp; Newsletters</a>
-            <a href="#contact" className={linkClass}>Contact Us</a>
+          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-white/90">
+            <a href="#what-we-do" className="hover:text-[#73A7A3] transition-colors duration-200">What We Do</a>
+            <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
+            <a href="#our-works" className="hover:text-[#73A7A3] transition-colors duration-200">Our Works</a>
+            <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200">Blogs &amp; Newsletters</a>
+            <a href="#contact" className="hover:text-[#73A7A3] transition-colors duration-200">Contact Us</a>
           </nav>
 
           <button
             type="button"
             aria-label="Toggle navigation menu"
-            className={`md:hidden p-2 rounded-lg transition ${toggleClass}`}
+            className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -92,11 +48,11 @@ export default function EsperiaLanding() {
 
         {/* Mobile Nav Flyout */}
         {mobileMenuOpen && (
-          <div className={`md:hidden border-b px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300 ${isDark ? 'bg-[#0A111A] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
-            <a href="#what-we-do" className="hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
-            <a href="#why-esperia" className="hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
-            <a href="#our-works" className="hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Our Works</a>
-            <a href="#blogs" className="hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
+          <div className="md:hidden bg-[#0A111A] border-b border-white/10 px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300">
+            <a href="#what-we-do" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
+            <a href="#why-esperia" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
+            <a href="#our-works" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Our Works</a>
+            <a href="#blogs" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
             <a href="#contact" className="text-[#FF7E8B] font-semibold pt-2 border-t border-white/10" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
           </div>
         )}
@@ -105,7 +61,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 1. HERO SECTION (COLOSSAL 3D VISUALS & DYNAMIC GLOW ANIMATION)            */}
       {/* ========================================================================= */}
-      <section data-header-theme="dark" className="relative bg-hero-gradient text-white overflow-hidden">
+      <section className="relative bg-hero-gradient text-white overflow-hidden">
         {/* Animated Ambient Radial Lighting */}
         <div className="absolute top-0 right-1/4 w-[650px] h-[650px] bg-[#3EA594]/20 rounded-full blur-[150px] pointer-events-none animate-pulse-glow" />
         <div className="absolute bottom-1/4 right-1/12 w-[520px] h-[520px] bg-[#C5465B]/20 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: '2.5s' }} />
@@ -209,7 +165,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 2. WHO WE ARE (COLOSSAL VISUALS & MANIFESTO CARDS)                        */}
       {/* ========================================================================= */}
-      <section id="what-we-do" data-header-theme="light" className="py-28 px-6 max-w-7xl mx-auto relative">
+      <section id="what-we-do" className="py-28 px-6 max-w-7xl mx-auto relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
           <div className="lg:col-span-7">
             <div className="flex items-center gap-2 mb-4">
@@ -329,7 +285,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 4. WHAT WE DO: HUMAN INGENUITY (COLOSSAL WIDESCREEN PRESENTATION)         */}
       {/* ========================================================================= */}
-      <section data-header-theme="light" className="py-16 px-6 max-w-7xl mx-auto">
+      <section className="py-16 px-6 max-w-7xl mx-auto">
         <div className="rounded-[40px] bg-white border border-slate-200/90 p-8 sm:p-14 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-colossal overflow-hidden relative group">
           <div className="max-w-xl z-10">
             <div className="flex items-center gap-2 mb-4">
@@ -374,7 +330,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 5. OUR PRODUCTS: WHAT WE HAVE BUILT (COLOSSAL SHOWCASE)                   */}
       {/* ========================================================================= */}
-      <section id="our-works" data-header-theme="light" className="py-24 px-6 max-w-7xl mx-auto">
+      <section id="our-works" className="py-24 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16">
           <div>
             <div className="flex items-center gap-2 mb-3">
@@ -463,7 +419,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 6. WHY ESPERIA: ENTERPRISE DELIVERY MODEL (COLOSSAL BANNER)               */}
       {/* ========================================================================= */}
-      <section id="why-esperia" data-header-theme="light" className="py-16 px-6 max-w-7xl mx-auto">
+      <section id="why-esperia" className="py-16 px-6 max-w-7xl mx-auto">
         <div className="rounded-[40px] bg-enterprise-banner text-white p-8 sm:p-14 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-2xl overflow-hidden relative group">
           <div className="max-w-xl z-10">
             <div className="flex items-center gap-2 mb-4">
@@ -503,7 +459,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 7. CLIENTS & PARTNERS (INFINITE SMOOTH MARQUEE ANIMATION)                  */}
       {/* ========================================================================= */}
-      <section data-header-theme="white" className="py-20 border-y border-slate-200/80 bg-white overflow-hidden">
+      <section className="py-20 border-y border-slate-200/80 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 mb-10 text-center">
           <div className="inline-flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C5445A]" />
@@ -544,7 +500,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 8. TESTIMONIALS (MASONRY WITH ELEVATION & HOVER ANIMATIONS)               */}
       {/* ========================================================================= */}
-      <section data-header-theme="light" className="py-28 px-6 max-w-7xl mx-auto relative">
+      <section className="py-28 px-6 max-w-7xl mx-auto relative">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="flex justify-center gap-2 mb-5 text-[#ECB22E] animate-bounce" style={{ animationDuration: '3s' }}>
             {[...Array(5)].map((_, i) => (
@@ -615,7 +571,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 9. OUR WORKS: DIGITAL PRODUCTS (COLOSSAL REAL IMPACT)                     */}
       {/* ========================================================================= */}
-      <section data-header-theme="light" className="py-16 px-6 max-w-7xl mx-auto">
+      <section className="py-16 px-6 max-w-7xl mx-auto">
         <div className="rounded-[40px] bg-white border border-slate-200/90 p-8 sm:p-14 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-colossal overflow-hidden relative group">
           <div className="max-w-xl z-10">
             <div className="flex items-center gap-2 mb-4">
@@ -654,7 +610,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 10. BLOGS & NEWSLETTERS                                                   */}
       {/* ========================================================================= */}
-      <section id="blogs" data-header-theme="light" className="py-24 px-6 max-w-7xl mx-auto">
+      <section id="blogs" className="py-24 px-6 max-w-7xl mx-auto">
         <div className="max-w-2xl mb-14">
           <div className="flex items-center gap-2 mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C5445A]" />
@@ -733,7 +689,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 11. CONTACT CTA & FOOTER                                                  */}
       {/* ========================================================================= */}
-      <section id="contact" data-header-theme="dark" className="relative bg-[#1A1A1A] text-white pt-28 pb-16 overflow-hidden">
+      <section id="contact" className="relative bg-[#1A1A1A] text-white pt-28 pb-16 overflow-hidden">
         {/* Ambient Overlay */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <img
