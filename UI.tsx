@@ -1,45 +1,89 @@
-import React, { useState } from 'react';
-import { 
-  ArrowRight, 
-  Menu, 
-  X, 
+import React, { useState, useEffect } from 'react';
+import {
+  ArrowRight,
+  Menu,
+  X,
   ChevronRight,
-  Users2, 
-  Monitor, 
-  Target, 
+  Users2,
+  Monitor,
+  Target,
   Globe,
   TrendingUp
 } from 'lucide-react';
 
 export default function EsperiaLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [headerTheme, setHeaderTheme] = useState<'transparent' | 'dark' | 'light' | 'white'>('transparent');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      if (scrollY < 40) {
+        setHeaderTheme('transparent');
+        return;
+      }
+
+      const sections = document.querySelectorAll<HTMLElement>('section[data-header-theme]');
+      let activeTheme: 'dark' | 'light' | 'white' = 'dark';
+
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= 90 && rect.bottom > 90) {
+          activeTheme = (sec.getAttribute('data-header-theme') as 'dark' | 'light' | 'white') || 'dark';
+        }
+      });
+
+      setHeaderTheme(activeTheme);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const isDark = headerTheme === 'transparent' || headerTheme === 'dark';
+
+  const headerBgClass = {
+    transparent: 'bg-transparent border-b border-transparent text-white',
+    dark: 'bg-[#041B19]/85 backdrop-blur-md border-b border-white/10 text-white shadow-lg shadow-black/10',
+    light: 'bg-[#F6F6F3]/90 backdrop-blur-md border-b border-slate-900/10 text-[#0A0A0A] shadow-md shadow-slate-900/5',
+    white: 'bg-white/90 backdrop-blur-md border-b border-slate-200 text-[#0A0A0A] shadow-md shadow-slate-200/50'
+  }[headerTheme];
+
+  const linkClass = isDark
+    ? 'text-white/90 hover:text-[#73A7A3]'
+    : 'text-slate-800 hover:text-[#C5445A] font-semibold';
+
+  const toggleClass = isDark
+    ? 'text-white hover:bg-white/10'
+    : 'text-slate-800 hover:bg-slate-200/50';
 
   return (
     <div className="min-h-screen bg-[#F6F6F3] text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white">
 
-      {/* Locked / Sticky Navigation Bar */}
-      <header className="sticky top-0 z-50 bg-[#0A111A]/95 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+      {/* Dynamic Sticky Navigation Bar */}
+      <header className={`sticky top-0 z-50 transition-all duration-300 ${headerBgClass}`}>
         <div className="max-w-7xl mx-auto px-6 h-20 sm:h-24 flex items-center justify-between">
           <a href="#" className="focus:outline-none flex items-center group">
-            <img 
-              src="/assets/figma/esperia_header_logo.svg" 
-              alt="ESPERIA QUANTUM" 
+            <img
+              src="/assets/figma/esperia_header_logo.svg"
+              alt="ESPERIA QUANTUM"
               className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
           </a>
 
-          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-white/90">
-            <a href="#what-we-do" className="hover:text-[#73A7A3] transition-colors duration-200">What We Do</a>
-            <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
-            <a href="#our-works" className="hover:text-[#73A7A3] transition-colors duration-200">Our Works</a>
-            <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200">Blogs &amp; Newsletters</a>
-            <a href="#contact" className="hover:text-[#73A7A3] transition-colors duration-200">Contact Us</a>
+          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium transition-colors duration-200">
+            <a href="#what-we-do" className={linkClass}>What We Do</a>
+            <a href="#why-esperia" className={linkClass}>Why Esperia</a>
+            <a href="#our-works" className={linkClass}>Our Works</a>
+            <a href="#blogs" className={linkClass}>Blogs &amp; Newsletters</a>
+            <a href="#contact" className={linkClass}>Contact Us</a>
           </nav>
 
-          <button 
+          <button
             type="button"
             aria-label="Toggle navigation menu"
-            className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition"
+            className={`md:hidden p-2 rounded-lg transition ${toggleClass}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -48,11 +92,11 @@ export default function EsperiaLanding() {
 
         {/* Mobile Nav Flyout */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#0A111A] border-b border-white/10 px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300">
-            <a href="#what-we-do" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
-            <a href="#why-esperia" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
-            <a href="#our-works" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Our Works</a>
-            <a href="#blogs" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
+          <div className={`md:hidden border-b px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300 ${isDark ? 'bg-[#0A111A] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
+            <a href="#what-we-do" className="hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
+            <a href="#why-esperia" className="hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
+            <a href="#our-works" className="hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Our Works</a>
+            <a href="#blogs" className="hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
             <a href="#contact" className="text-[#FF7E8B] font-semibold pt-2 border-t border-white/10" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
           </div>
         )}
@@ -61,7 +105,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 1. HERO SECTION (COLOSSAL 3D VISUALS & DYNAMIC GLOW ANIMATION)            */}
       {/* ========================================================================= */}
-      <section className="relative bg-hero-gradient text-white overflow-hidden">
+      <section data-header-theme="dark" className="relative bg-hero-gradient text-white overflow-hidden">
         {/* Animated Ambient Radial Lighting */}
         <div className="absolute top-0 right-1/4 w-[650px] h-[650px] bg-[#3EA594]/20 rounded-full blur-[150px] pointer-events-none animate-pulse-glow" />
         <div className="absolute bottom-1/4 right-1/12 w-[520px] h-[520px] bg-[#C5465B]/20 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: '2.5s' }} />
@@ -69,7 +113,7 @@ export default function EsperiaLanding() {
         {/* Hero Body Grid */}
         <div className="max-w-7xl mx-auto px-6 pt-12 lg:pt-20 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           <div className="lg:col-span-6">
-            <h1 
+            <h1
               className="text-5xl sm:text-7xl lg:text-[96px] font-bold tracking-[-0.03em] leading-[1.03] mb-6 font-sora"
             >
               <span className="text-[#73A7A3]">Cloud-Native.</span><br />
@@ -81,8 +125,8 @@ export default function EsperiaLanding() {
             </p>
 
             <div>
-              <a 
-                href="#our-works" 
+              <a
+                href="#our-works"
                 className="group inline-flex items-center gap-2.5 border-2 border-[#73A7A3] text-[#73A7A3] hover:bg-[#73A7A3] hover:text-[#041B19] font-semibold text-base px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-[#73A7A3]/10"
               >
                 <span>See our works</span>
@@ -96,11 +140,11 @@ export default function EsperiaLanding() {
             {/* Colossal Floating Visual Platform */}
             <div className="relative w-full max-w-[620px] lg:max-w-[680px]">
               <div className="absolute -inset-4 bg-gradient-to-tr from-[#3EA594]/25 via-transparent to-[#C5465B]/25 rounded-3xl blur-2xl animate-pulse-glow" />
-              
+
               <div className="relative z-10 animate-float-slow">
-                <img 
-                  src="/assets/figma/e1bbc92e17afb48e5c127448f1d2bab209e43e66.png" 
-                  alt="Cloud-Native AI Digital Engineering Architecture" 
+                <img
+                  src="/assets/figma/e1bbc92e17afb48e5c127448f1d2bab209e43e66.png"
+                  alt="Cloud-Native AI Digital Engineering Architecture"
                   className="w-full h-auto object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-700 ease-out cursor-pointer"
                 />
               </div>
@@ -165,7 +209,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 2. WHO WE ARE (COLOSSAL VISUALS & MANIFESTO CARDS)                        */}
       {/* ========================================================================= */}
-      <section id="what-we-do" className="py-28 px-6 max-w-7xl mx-auto relative">
+      <section id="what-we-do" data-header-theme="light" className="py-28 px-6 max-w-7xl mx-auto relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
           <div className="lg:col-span-7">
             <div className="flex items-center gap-2 mb-4">
@@ -175,7 +219,7 @@ export default function EsperiaLanding() {
               </span>
             </div>
 
-            <h2 
+            <h2
               className="text-4xl sm:text-6xl lg:text-[70px] font-bold tracking-tight text-[#0A0A0A] leading-[1.12] font-parkinsans mb-6"
             >
               We are where <br />
@@ -194,7 +238,7 @@ export default function EsperiaLanding() {
               </p>
             </div>
 
-            <a 
+            <a
               href="#our-works"
               className="inline-flex items-center gap-3 bg-[#C5445A] hover:bg-[#a93447] text-white font-semibold text-base px-9 py-4 rounded-full transition-all duration-300 shadow-xl shadow-[#C5445A]/25 hover:shadow-2xl hover:-translate-y-0.5"
             >
@@ -205,13 +249,12 @@ export default function EsperiaLanding() {
 
           {/* Colossal Section Visual Graphic */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative group">
-              <div className="absolute -inset-4 bg-gradient-to-br from-[#BF3854]/15 to-[#3EA594]/15 rounded-3xl blur-2xl opacity-75 group-hover:opacity-100 transition duration-500" />
-              <div className="relative bg-white/60 backdrop-blur-xl border border-white/80 p-6 sm:p-8 rounded-[36px] shadow-2xl transition-transform duration-500 group-hover:scale-102">
-                <img 
-                  src="/assets/figma/93db253d9a77bca6768960eed7492c046fe70768.png" 
+            <div className="relative group cursor-pointer">
+              <div className="relative bg-white/60 backdrop-blur-xl border border-white/80 p-6 sm:p-8 rounded-[36px] shadow-2xl transition-all duration-700 ease-out group-hover:scale-105 group-hover:shadow-[0_25px_50px_-12px_rgba(62,165,148,0.3)]">
+                <img
+                  src="/assets/figma/93db253d9a77bca6768960eed7492c046fe70768.png"
                   alt="Esperia Intelligent Vision"
-                  className="w-72 sm:w-96 lg:w-[420px] h-auto object-contain animate-float"
+                  className="w-72 sm:w-96 lg:w-[420px] h-auto object-contain animate-float transition-transform duration-700 ease-out group-hover:scale-110 group-hover:-translate-y-3 group-hover:rotate-2"
                 />
               </div>
             </div>
@@ -248,7 +291,7 @@ export default function EsperiaLanding() {
               img: "/assets/figma/3e50b3dcfbdf8ecf5243ba83d59c3f4d53750852.png"
             }
           ].map((card, idx) => (
-            <div 
+            <div
               key={idx}
               className="colossal-card group bg-white border border-[#E9E5E5] rounded-[32px] p-8 flex flex-col justify-between shadow-colossal hover:border-[#C5445A]/40 overflow-hidden min-h-[480px]"
             >
@@ -259,7 +302,7 @@ export default function EsperiaLanding() {
                   </span>
                   <div className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-[#FF3C73] transition-colors" />
                 </div>
-                <h3 
+                <h3
                   className="text-xl sm:text-[22px] font-bold text-[#0A0A0A] leading-snug mb-3 font-parkinsans group-hover:text-[#C5445A] transition-colors"
                 >
                   {card.title}
@@ -272,9 +315,9 @@ export default function EsperiaLanding() {
               {/* Colossal 3D Card Artwork with Float and Zoom */}
               <div className="colossal-image-container w-full flex items-end justify-center pt-4 relative">
                 <div className="absolute inset-0 bg-gradient-to-t from-rose-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <img 
-                  src={card.img} 
-                  alt={card.title} 
+                <img
+                  src={card.img}
+                  alt={card.title}
                   className="w-full h-auto max-h-[300px] object-contain group-hover:-translate-y-3 transition-transform duration-500"
                 />
               </div>
@@ -286,7 +329,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 4. WHAT WE DO: HUMAN INGENUITY (COLOSSAL WIDESCREEN PRESENTATION)         */}
       {/* ========================================================================= */}
-      <section className="py-16 px-6 max-w-7xl mx-auto">
+      <section data-header-theme="light" className="py-16 px-6 max-w-7xl mx-auto">
         <div className="rounded-[40px] bg-white border border-slate-200/90 p-8 sm:p-14 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-colossal overflow-hidden relative group">
           <div className="max-w-xl z-10">
             <div className="flex items-center gap-2 mb-4">
@@ -296,7 +339,7 @@ export default function EsperiaLanding() {
               </span>
             </div>
 
-            <h2 
+            <h2
               className="text-3xl sm:text-5xl lg:text-[60px] font-bold text-[#0A0A0A] tracking-tight leading-[1.12] mb-6 font-parkinsans"
             >
               Human <span className="text-gradient-ingenuity">Ingenuity</span><span className="text-[#C5445A]">.</span> <br />
@@ -307,7 +350,7 @@ export default function EsperiaLanding() {
               We connect AI, data, cloud, and digital design to unlock business transformation — enabling organisations to innovate with purpose and scale with agility.
             </p>
 
-            <a 
+            <a
               href="#services"
               className="inline-flex items-center gap-3 border-2 border-slate-800 text-slate-900 hover:border-[#C5445A] hover:bg-[#C5445A] hover:text-white text-xs uppercase font-bold tracking-wider px-8 py-4 rounded-full transition-all duration-300 shadow-sm group/btn"
             >
@@ -319,8 +362,8 @@ export default function EsperiaLanding() {
           {/* Colossal Framed Visual */}
           <div className="w-full lg:w-[560px] rounded-3xl overflow-hidden relative shadow-2xl group-hover:shadow-3xl transition duration-500">
             <div className="absolute inset-0 bg-gradient-to-tr from-[#3EA594]/20 to-transparent z-10 pointer-events-none" />
-            <img 
-              src="/assets/figma/eeb3da2613b28f8116f8bfb9beda3c0e7bee3d5d.png" 
+            <img
+              src="/assets/figma/eeb3da2613b28f8116f8bfb9beda3c0e7bee3d5d.png"
               alt="Human Ingenuity & Intelligent Systems"
               className="w-full h-auto object-cover rounded-3xl hover:scale-105 transition-transform duration-700"
             />
@@ -331,7 +374,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 5. OUR PRODUCTS: WHAT WE HAVE BUILT (COLOSSAL SHOWCASE)                   */}
       {/* ========================================================================= */}
-      <section id="our-works" className="py-24 px-6 max-w-7xl mx-auto">
+      <section id="our-works" data-header-theme="light" className="py-24 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16">
           <div>
             <div className="flex items-center gap-2 mb-3">
@@ -341,7 +384,7 @@ export default function EsperiaLanding() {
               </span>
             </div>
 
-            <h2 
+            <h2
               className="text-4xl sm:text-6xl font-bold text-[#0A0A0A] tracking-tight font-parkinsans"
             >
               What We have Built.
@@ -351,8 +394,8 @@ export default function EsperiaLanding() {
             </p>
           </div>
 
-          <a 
-            href="#all-products" 
+          <a
+            href="#all-products"
             className="mt-6 sm:mt-0 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-900 hover:text-[#C5445A] transition-colors py-2"
           >
             <span>View All Products</span>
@@ -363,8 +406,8 @@ export default function EsperiaLanding() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Colossal Product Card 1 */}
           <div className="colossal-card group relative rounded-[36px] overflow-hidden shadow-colossal-dark bg-[#0F172A] text-white flex flex-col justify-end min-h-[520px] p-8 sm:p-12 border border-slate-800">
-            <img 
-              src="/assets/figma/bb9dd026594ae371c3f28fc99578043dbe6c0457.png" 
+            <img
+              src="/assets/figma/bb9dd026594ae371c3f28fc99578043dbe6c0457.png"
               alt="XConnect Platform"
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 opacity-70"
             />
@@ -407,8 +450,8 @@ export default function EsperiaLanding() {
             </div>
 
             <div className="colossal-image-container rounded-2xl overflow-hidden border border-slate-200/80 shadow-inner bg-slate-50 flex items-center justify-center p-6 group-hover:border-[#C5445A]/30 transition-colors">
-              <img 
-                src="/assets/figma/c7142bdad8a3d4fe3fc369f54b60a66a9dc47a6c.png" 
+              <img
+                src="/assets/figma/c7142bdad8a3d4fe3fc369f54b60a66a9dc47a6c.png"
                 alt="Product Interface Preview"
                 className="w-full h-auto object-contain rounded-xl"
               />
@@ -420,7 +463,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 6. WHY ESPERIA: ENTERPRISE DELIVERY MODEL (COLOSSAL BANNER)               */}
       {/* ========================================================================= */}
-      <section id="why-esperia" className="py-16 px-6 max-w-7xl mx-auto">
+      <section id="why-esperia" data-header-theme="light" className="py-16 px-6 max-w-7xl mx-auto">
         <div className="rounded-[40px] bg-enterprise-banner text-white p-8 sm:p-14 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-2xl overflow-hidden relative group">
           <div className="max-w-xl z-10">
             <div className="flex items-center gap-2 mb-4">
@@ -430,7 +473,7 @@ export default function EsperiaLanding() {
               </span>
             </div>
 
-            <h2 
+            <h2
               className="text-3xl sm:text-5xl lg:text-[56px] font-bold tracking-tight leading-[1.14] mb-6 font-parkinsans"
             >
               Enterprise Delivery Model
@@ -447,8 +490,8 @@ export default function EsperiaLanding() {
 
           <div className="w-full lg:w-[480px] flex justify-center lg:justify-end relative">
             <div className="relative animate-float-slow">
-              <img 
-                src="/assets/figma/2007eccd674cd45280b84a0c5e53c6f8ab9f5331.png" 
+              <img
+                src="/assets/figma/2007eccd674cd45280b84a0c5e53c6f8ab9f5331.png"
                 alt="Enterprise Delivery Architecture"
                 className="w-full max-w-[420px] h-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.45)] hover:scale-105 transition-transform duration-500"
               />
@@ -460,7 +503,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 7. CLIENTS & PARTNERS (INFINITE SMOOTH MARQUEE ANIMATION)                  */}
       {/* ========================================================================= */}
-      <section className="py-20 border-y border-slate-200/80 bg-white overflow-hidden">
+      <section data-header-theme="white" className="py-20 border-y border-slate-200/80 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 mb-10 text-center">
           <div className="inline-flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C5445A]" />
@@ -487,9 +530,9 @@ export default function EsperiaLanding() {
               { src: "/assets/figma/e18508e228ae5c36dec20a02fa235cdb1e3ef48a.png", alt: "Circle" }
             ].map((logo, index) => (
               <div key={index} className="h-14 flex items-center justify-center shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 hover:scale-110">
-                <img 
-                  src={logo.src} 
-                  alt={logo.alt} 
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
                   className="h-10 sm:h-12 w-auto object-contain"
                 />
               </div>
@@ -501,7 +544,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 8. TESTIMONIALS (MASONRY WITH ELEVATION & HOVER ANIMATIONS)               */}
       {/* ========================================================================= */}
-      <section className="py-28 px-6 max-w-7xl mx-auto relative">
+      <section data-header-theme="light" className="py-28 px-6 max-w-7xl mx-auto relative">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="flex justify-center gap-2 mb-5 text-[#ECB22E] animate-bounce" style={{ animationDuration: '3s' }}>
             {[...Array(5)].map((_, i) => (
@@ -511,7 +554,7 @@ export default function EsperiaLanding() {
             ))}
           </div>
 
-          <h2 
+          <h2
             className="text-4xl sm:text-6xl font-normal text-[#0A0A0A] tracking-tight leading-tight font-parkinsans"
           >
             Hear what leaders love about our work
@@ -542,7 +585,7 @@ export default function EsperiaLanding() {
               quote: "The colossal improvements in our user adoption metrics speak for themselves. Esperia doesn't just build software — they craft category leaders."
             }
           ].map((t, idx) => (
-            <div 
+            <div
               key={idx}
               className="colossal-card bg-white border border-[#E9E5E5] rounded-[30px] p-8 flex flex-col justify-between shadow-colossal hover:border-[#C5445A]/30 transition-all duration-300 min-h-[320px]"
             >
@@ -572,7 +615,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 9. OUR WORKS: DIGITAL PRODUCTS (COLOSSAL REAL IMPACT)                     */}
       {/* ========================================================================= */}
-      <section className="py-16 px-6 max-w-7xl mx-auto">
+      <section data-header-theme="light" className="py-16 px-6 max-w-7xl mx-auto">
         <div className="rounded-[40px] bg-white border border-slate-200/90 p-8 sm:p-14 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-colossal overflow-hidden relative group">
           <div className="max-w-xl z-10">
             <div className="flex items-center gap-2 mb-4">
@@ -582,7 +625,7 @@ export default function EsperiaLanding() {
               </span>
             </div>
 
-            <h2 
+            <h2
               className="text-3xl sm:text-5xl lg:text-[60px] font-bold text-[#0A0A0A] tracking-tight leading-[1.12] mb-6 font-parkinsans"
             >
               Digital Products. <br />
@@ -599,8 +642,8 @@ export default function EsperiaLanding() {
           </div>
 
           <div className="w-full lg:w-[560px] rounded-3xl overflow-hidden relative shadow-2xl">
-            <img 
-              src="/assets/figma/05374688e501fdf82b849f5015dccfde45156e56.png" 
+            <img
+              src="/assets/figma/05374688e501fdf82b849f5015dccfde45156e56.png"
               alt="Digital Products Real Impact"
               className="w-full h-auto object-cover rounded-3xl hover:scale-105 transition-transform duration-700"
             />
@@ -611,7 +654,7 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 10. BLOGS & NEWSLETTERS                                                   */}
       {/* ========================================================================= */}
-      <section id="blogs" className="py-24 px-6 max-w-7xl mx-auto">
+      <section id="blogs" data-header-theme="light" className="py-24 px-6 max-w-7xl mx-auto">
         <div className="max-w-2xl mb-14">
           <div className="flex items-center gap-2 mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C5445A]" />
@@ -620,7 +663,7 @@ export default function EsperiaLanding() {
             </span>
           </div>
 
-          <h2 
+          <h2
             className="text-3xl sm:text-5xl font-bold text-[#0A0A0A] tracking-tight leading-tight font-parkinsans"
           >
             Insights at the Edge of Design, AI, and Enterprise
@@ -651,15 +694,15 @@ export default function EsperiaLanding() {
               date: "2 Jan 2025 / John Doe"
             }
           ].map((post, i) => (
-            <article 
-              key={i} 
+            <article
+              key={i}
               className="colossal-card group cursor-pointer bg-white border border-slate-200/90 rounded-3xl overflow-hidden shadow-colossal hover:shadow-2xl hover:border-[#C5445A]/30 transition-all duration-500 flex flex-col justify-between"
             >
               <div>
                 <div className="colossal-image-container w-full h-72 sm:h-80 overflow-hidden relative bg-slate-900">
-                  <img 
-                    src={post.img} 
-                    alt={post.title} 
+                  <img
+                    src={post.img}
+                    alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -669,7 +712,7 @@ export default function EsperiaLanding() {
                   <span className="text-xs font-bold uppercase tracking-wider text-[#9E1C34] mb-3 block">
                     {post.tag}
                   </span>
-                  <h3 
+                  <h3
                     className="text-xl font-bold text-[#0A0A0A] group-hover:text-[#C5445A] transition-colors leading-snug mb-3 font-parkinsans"
                   >
                     {post.title}
@@ -690,12 +733,12 @@ export default function EsperiaLanding() {
       {/* ========================================================================= */}
       {/* 11. CONTACT CTA & FOOTER                                                  */}
       {/* ========================================================================= */}
-      <section id="contact" className="relative bg-[#1A1A1A] text-white pt-28 pb-16 overflow-hidden">
+      <section id="contact" data-header-theme="dark" className="relative bg-[#1A1A1A] text-white pt-28 pb-16 overflow-hidden">
         {/* Ambient Overlay */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <img 
-            src="/assets/figma/b39e95a77eb26884c9d041d8589fa21e78323b6b.png" 
-            alt="Footer Texture" 
+          <img
+            src="/assets/figma/b39e95a77eb26884c9d041d8589fa21e78323b6b.png"
+            alt="Footer Texture"
             className="w-full h-full object-cover"
           />
         </div>
@@ -711,7 +754,7 @@ export default function EsperiaLanding() {
                 </span>
               </div>
 
-              <h2 
+              <h2
                 className="text-4xl sm:text-6xl lg:text-[68px] font-bold tracking-tight text-white leading-tight font-parkinsans"
               >
                 Ready to <span className="text-gradient-transform">transform</span> <br />
@@ -719,7 +762,7 @@ export default function EsperiaLanding() {
               </h2>
             </div>
 
-            <a 
+            <a
               href="mailto:contact@esperia.io"
               className="bg-talk-button hover:brightness-110 text-[#1C1C1C] font-bold text-sm uppercase tracking-wider px-12 py-5 rounded-full transition-all duration-300 shadow-2xl shadow-rose-900/40 shrink-0 hover:scale-105"
             >
@@ -733,9 +776,9 @@ export default function EsperiaLanding() {
           <footer className="grid grid-cols-1 md:grid-cols-12 gap-10 text-sm text-slate-300">
             <div className="md:col-span-5">
               <div className="mb-4">
-                <img 
-                  src="/assets/figma/esperia_footer_logo.svg" 
-                  alt="ESPERIA QUANTUM" 
+                <img
+                  src="/assets/figma/esperia_footer_logo.svg"
+                  alt="ESPERIA QUANTUM"
                   className="h-12 w-auto object-contain"
                 />
               </div>
@@ -746,13 +789,13 @@ export default function EsperiaLanding() {
               {/* Social Media Vector Icons */}
               <div className="flex items-center gap-4 text-white">
                 <a href="#" aria-label="Facebook" className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C5445A] flex items-center justify-center transition">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                 </a>
                 <a href="#" aria-label="Twitter / X" className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C5445A] flex items-center justify-center transition">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
                 </a>
                 <a href="#" aria-label="LinkedIn" className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C5445A] flex items-center justify-center transition">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
                 </a>
                 <a href="#" aria-label="Website" className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C5445A] flex items-center justify-center transition">
                   <Globe className="w-4 h-4" />
