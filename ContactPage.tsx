@@ -241,7 +241,7 @@ export default function ContactPage({ onNavigateToHome }: ContactPageProps) {
 
             {/* Left Column: Headline & Studio Locations (Figma Node #88:215, width: 778px) */}
             <div className="lg:col-span-7 flex flex-col">
-              <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-[#0D0D0D] font-parkinsans leading-[1.15] tracking-tight mb-4 max-w-xl">
+              <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-[#0D0D0D] font-parkinsans leading-[1.35] lg:leading-[64px] tracking-tight mb-6 max-w-xl">
                 We are always ready to <span className="text-[#C5445A]">help you</span> and answer your questions
               </h2>
 
