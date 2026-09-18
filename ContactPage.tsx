@@ -13,6 +13,7 @@ import {
 interface ContactPageProps {
   onNavigateToHome: (sectionId?: string) => void;
   onNavigateToWorks?: () => void;
+  onNavigateToWhatWeDo?: () => void;
 }
 
 function EsperiaEmblem({
@@ -43,7 +44,11 @@ function EsperiaEmblem({
   );
 }
 
-export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: ContactPageProps) {
+export default function ContactPage({
+  onNavigateToHome,
+  onNavigateToWorks,
+  onNavigateToWhatWeDo
+}: ContactPageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -65,9 +70,9 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
       {/* ========================================================================= */}
       {/* 1. HERO & NAVIGATION BANNER (FIGMA NODE #88:165 - #88:188)                */}
       {/* ========================================================================= */}
-      <div className="relative overflow-hidden rounded-b-[30px] bg-[radial-gradient(circle_at_76%_59%,_#1F3B39_0%,_#072826_45%,_#020F0F_100%)] text-white min-h-[515px]">
-        {/* Subtle Ambient Wave Graphic Texture Overlay (Figma Node #88:172) */}
-        <div className="absolute inset-0 opacity-40 pointer-events-none overflow-hidden rounded-b-[30px]">
+      <div className="relative overflow-hidden rounded-b-[24px] bg-[radial-gradient(circle_at_76%_59%,_#1F3B39_0%,_#072826_45%,_#020F0F_100%)] text-white">
+        {/* Subtle Ambient Wave Graphic Texture Overlay (Starts after the header) */}
+        <div className="absolute top-20 sm:top-24 bottom-0 left-0 right-0 opacity-40 pointer-events-none overflow-hidden rounded-b-[24px]">
           <img
             src="/assets/figma/b39e95a77eb26884c9d041d8589fa21e78323b6b.png"
             alt="Fluid Waves Texture"
@@ -76,7 +81,7 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
         </div>
 
         {/* Giant Teal Geometric Watermark Emblem (Figma Node #88:184) */}
-        <div className="absolute right-0 sm:right-6 lg:right-12 top-[-10px] w-[420px] sm:w-[560px] lg:w-[678px] pointer-events-none select-none z-0">
+        <div className="absolute right-0 sm:right-6 lg:right-12 top-[-10px] w-[260px] sm:w-[340px] lg:w-[420px] pointer-events-none select-none z-0">
           <EsperiaEmblem
             className="w-full h-auto"
             fill="rgba(33, 85, 78, 0.65)"
@@ -85,9 +90,9 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
           />
         </div>
 
-        {/* Top Navigation Bar (Figma Node #88:188, h: 106px) */}
-        <header className="relative z-20 border-b border-white/10">
-          <div className="max-w-[1440px] mx-auto px-6 sm:px-10 h-[106px] flex items-center justify-between">
+        {/* Top Navigation Bar - Fixed to Top */}
+        <header className="fixed top-0 left-0 right-0 z-50 bg-[#072826]/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+          <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 h-20 sm:h-24 flex items-center justify-between">
             <button
               type="button"
               onClick={() => onNavigateToHome()}
@@ -96,15 +101,15 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
               <img
                 src="/assets/figma/esperia_footer_logo.svg"
                 alt="ESPERIA QUANTUM"
-                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />
             </button>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-8 text-[12px] font-light text-white/95">
+            <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-white/95">
               <button
                 type="button"
-                onClick={() => onNavigateToHome('what-we-do')}
+                onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')}
                 className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
               >
                 What We Do
@@ -153,7 +158,8 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                 type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  onNavigateToHome('what-we-do');
+                  if (onNavigateToWhatWeDo) onNavigateToWhatWeDo();
+                  else onNavigateToHome('what-we-do');
                 }}
                 className="text-left text-white hover:text-[#73A7A3]"
               >
@@ -198,25 +204,25 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
         </header>
 
         {/* Hero Headline Content (Figma Node #88:173 - #88:183) */}
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 pt-10 pb-20 sm:pt-14 sm:pb-24">
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pt-28 sm:pt-32 pb-12 sm:pb-16">
           {/* Back Button Pill (Figma Node #88:174) */}
           <button
             type="button"
             onClick={() => onNavigateToHome('blogs')}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/20 hover:bg-black/35 text-[#E5E7EB] text-xs font-semibold tracking-wide transition-all duration-300 hover:-translate-x-1 mb-8 cursor-pointer group"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/20 hover:bg-black/35 text-[#E5E7EB] text-xs font-semibold tracking-wide transition-all duration-300 hover:-translate-x-1 mb-6 cursor-pointer group"
           >
             <ChevronLeft size={16} className="text-white/80 group-hover:text-white transition-colors" />
             <span>Back to Blogs &amp; Newsletters</span>
           </button>
 
-          <div className="flex flex-col gap-2.5 max-w-2xl">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E5E7EB]/90">
+          <div className="flex flex-col gap-2 max-w-2xl">
+            <span className="text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.2em] text-[#E5E7EB]/90">
               Blogs
             </span>
-            <h1 className="text-4xl sm:text-6xl lg:text-[64px] font-semibold text-white tracking-tight leading-[1.08] font-parkinsans">
+            <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-bold text-white tracking-tight leading-[1.1] font-parkinsans">
               Connect with us
             </h1>
-            <p className="text-white/90 text-base sm:text-[18px] font-normal mt-2 font-manrope">
+            <p className="text-white/85 text-sm sm:text-base font-normal mt-1 font-manrope">
               Let&apos;s build something enduring.
             </p>
           </div>
@@ -228,64 +234,64 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
       {/* Figma Node #88:214                                                        */}
       {/* ========================================================================= */}
       <main className="relative overflow-hidden w-full flex-1 bg-white">
-        {/* Giant Rose/Pink Geometric Watermark Emblem (Figma Node #88:285) */}
-        <div className="absolute right-[-40px] sm:right-[-10px] lg:right-6 bottom-[-40px] sm:bottom-[-20px] lg:bottom-0 w-[460px] sm:w-[580px] lg:w-[693px] pointer-events-none select-none z-0">
+        {/* Rose/Pink Geometric Watermark Emblem (Figma Node #88:285) */}
+        <div className="absolute right-[-30px] sm:right-[-10px] lg:right-6 bottom-[-30px] sm:bottom-[-10px] lg:bottom-0 w-[360px] sm:w-[460px] lg:w-[560px] pointer-events-none select-none z-0">
           <EsperiaEmblem
             className="w-full h-auto"
-            fill="rgba(245, 111, 106, 0.18)"
-            stroke="rgba(245, 111, 106, 0.3)"
+            fill="rgba(245, 111, 106, 0.15)"
+            stroke="rgba(245, 111, 106, 0.25)"
             strokeWidth={0.4}
           />
         </div>
 
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 py-16 lg:py-24 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 py-12 sm:py-16 lg:py-20 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
-            {/* Left Column: Headline & Studio Locations (Figma Node #88:215, width: 778px) */}
+            {/* Left Column: Headline & Studio Locations (Figma Node #88:215) */}
             <div className="lg:col-span-7 flex flex-col">
-              <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-[#0D0D0D] font-parkinsans leading-[1.35] lg:leading-[64px] tracking-tight mb-6 max-w-xl">
+              <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-bold text-[#0D0D0D] font-parkinsans leading-[1.25] lg:leading-[50px] tracking-tight mb-4 max-w-xl">
                 We are always ready to <span className="text-[#C5445A]">help you</span> and answer your questions
               </h2>
 
-              <p className="text-[#6B7280] text-base sm:text-base font-manrope leading-relaxed mb-10 max-w-xl">
+              <p className="text-[#6B7280] text-sm sm:text-[15px] font-manrope leading-relaxed mb-8 max-w-xl">
                 Pacific hake false trevally queen parrotfish black prickleback mosshead warbonnet sweeper! Greenling sleeper.
               </p>
 
               {/* Studio Cards Grid (Figma Nodes #88:223 - #88:240) */}
-              <div className="flex flex-col gap-6 max-w-2xl">
+              <div className="flex flex-col gap-4 sm:gap-5 max-w-2xl">
                 {/* Row 1: US & Malaysia (2 cards) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                   {/* United States */}
-                  <div className="bg-[#FAFAFA] rounded-[30px] p-[30px] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between border border-transparent hover:border-[#C5445A]/20">
+                  <div className="bg-[#FAFAFA] rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between border border-slate-100/80 hover:border-[#C5445A]/30 group">
                     <div>
-                      <span className="text-[14px] font-medium uppercase text-[#333333] block mb-2 font-manrope">
+                      <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B7280] block mb-2 font-manrope">
                         UNITED STATES - HEAD QUARTERS
                       </span>
-                      <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-snug">
+                      <h3 className="text-[17px] font-bold text-[#111111] font-manrope leading-snug group-hover:text-[#C5445A] transition-colors">
                         Esperia LLC <br />
                         Wyoming, United States
                       </h3>
                     </div>
 
-                    <div className="pt-5 mt-4 text-[14px] font-medium text-[#333333] font-manrope leading-[30px]">
+                    <div className="pt-4 mt-3 text-[13px] font-medium text-[#4B5563] font-manrope leading-[24px]">
                       <div>hello@esperia.me</div>
                       <div>+91-123 456 765</div>
                     </div>
                   </div>
 
                   {/* Malaysia */}
-                  <div className="bg-[#FAFAFA] rounded-[30px] p-[30px] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between border border-transparent hover:border-[#C5445A]/20">
+                  <div className="bg-[#FAFAFA] rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between border border-slate-100/80 hover:border-[#C5445A]/30 group">
                     <div>
-                      <span className="text-[14px] font-medium uppercase text-[#333333] block mb-2 font-manrope">
+                      <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B7280] block mb-2 font-manrope">
                         MALAYSIA
                       </span>
-                      <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-snug">
+                      <h3 className="text-[17px] font-bold text-[#111111] font-manrope leading-snug group-hover:text-[#C5445A] transition-colors">
                         Esperia Quantum Sdn Bhd <br />
                         Kuala Lumpur, Malaysia
                       </h3>
                     </div>
 
-                    <div className="pt-5 mt-4 text-[14px] font-medium text-[#333333] font-manrope leading-[30px]">
+                    <div className="pt-4 mt-3 text-[13px] font-medium text-[#4B5563] font-manrope leading-[24px]">
                       <div>hello@esperia.me</div>
                       <div>+91-123 456 765</div>
                     </div>
@@ -293,17 +299,17 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                 </div>
 
                 {/* Row 2: India Hub (Figma Node #88:235) */}
-                <div className="bg-[#FAFAFA] rounded-[30px] p-[30px] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border border-transparent hover:border-[#C5445A]/20">
+                <div className="bg-[#FAFAFA] rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-slate-100/80 hover:border-[#C5445A]/30 group">
                   <div>
-                    <span className="text-[14px] font-medium uppercase text-[#333333] block mb-2 font-manrope">
+                    <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B7280] block mb-1.5 font-manrope">
                       INDIA
                     </span>
-                    <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-snug">
+                    <h3 className="text-[17px] font-bold text-[#111111] font-manrope leading-snug group-hover:text-[#C5445A] transition-colors">
                       Esperia Studio
                     </h3>
                   </div>
 
-                  <div className="text-[14px] font-medium text-[#333333] font-manrope leading-[30px]">
+                  <div className="text-[13px] font-medium text-[#4B5563] font-manrope leading-[24px]">
                     <div>hello@esperia.me</div>
                     <div>+91-123 456 765</div>
                   </div>
@@ -311,12 +317,12 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
               </div>
             </div>
 
-            {/* Right Column: Dark Modern Form Card (Figma Node #88:241 - #88:282, w: 481px, h: 518px) */}
+            {/* Right Column: Dark Modern Form Card (Figma Node #88:241 - #88:282) */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="w-full max-w-[481px] min-h-[518px] rounded-[32px] bg-[radial-gradient(circle_at_27%_23%,_rgba(86,86,86,1)_0%,_rgba(29,31,30,1)_100%)] p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden flex flex-col justify-between">
-                
+              <div className="w-full max-w-[430px] rounded-2xl bg-[radial-gradient(circle_at_27%_23%,_rgba(86,86,86,1)_0%,_rgba(29,31,30,1)_100%)] p-6 sm:p-8 text-white shadow-xl relative overflow-hidden flex flex-col justify-between border border-white/10">
+
                 <div>
-                  <h3 className="text-[32px] font-bold text-white font-parkinsans tracking-tight mb-6 leading-tight">
+                  <h3 className="text-2xl sm:text-[26px] font-bold text-white font-parkinsans tracking-tight mb-5 leading-tight">
                     Get in Touch
                   </h3>
 
@@ -341,10 +347,10 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                       </button>
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-5 relative z-10">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 relative z-10">
                       {/* Full Name */}
                       <div className="flex flex-col gap-1">
-                        <label htmlFor="fullName" className="text-[14px] font-normal text-[#898989] font-manrope">
+                        <label htmlFor="fullName" className="text-[13px] font-normal text-[#ADADAD] font-manrope">
                           Full name
                         </label>
                         <input
@@ -353,13 +359,13 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                           required
                           value={formData.fullName}
                           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-2 text-white text-[14px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
+                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-1.5 text-white text-[13px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
                         />
                       </div>
 
                       {/* Email */}
                       <div className="flex flex-col gap-1">
-                        <label htmlFor="email" className="text-[14px] font-normal text-[#898989] font-manrope">
+                        <label htmlFor="email" className="text-[13px] font-normal text-[#ADADAD] font-manrope">
                           Email
                         </label>
                         <input
@@ -368,13 +374,13 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                           required
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-2 text-white text-[14px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
+                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-1.5 text-white text-[13px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
                         />
                       </div>
 
                       {/* Subject */}
                       <div className="flex flex-col gap-1">
-                        <label htmlFor="subject" className="text-[14px] font-normal text-[#898989] font-manrope">
+                        <label htmlFor="subject" className="text-[13px] font-normal text-[#ADADAD] font-manrope">
                           Subject
                         </label>
                         <input
@@ -382,13 +388,13 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                           type="text"
                           value={formData.subject}
                           onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-2 text-white text-[14px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
+                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-1.5 text-white text-[13px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors"
                         />
                       </div>
 
                       {/* Message */}
                       <div className="flex flex-col gap-1">
-                        <label htmlFor="message" className="text-[14px] font-normal text-[#898989] font-manrope">
+                        <label htmlFor="message" className="text-[13px] font-normal text-[#ADADAD] font-manrope">
                           Message
                         </label>
                         <textarea
@@ -397,7 +403,7 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                           rows={3}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-2 text-white text-[14px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors resize-none"
+                          className="w-full bg-transparent border-b border-[#ADADAD]/40 pb-1.5 text-white text-[13px] font-manrope focus:outline-none focus:border-[#F56F6A] transition-colors resize-none"
                         />
                       </div>
 
@@ -405,7 +411,7 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                       <div className="flex justify-end pt-2">
                         <button
                           type="submit"
-                          className="inline-flex items-center gap-2 bg-gradient-to-r from-[#F56F6A] to-[#C5445A] hover:brightness-110 text-white text-[14px] font-semibold px-6 py-2 rounded-[100px] shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer font-manrope"
+                          className="inline-flex items-center gap-2 bg-gradient-to-r from-[#F56F6A] to-[#C5445A] hover:brightness-110 text-white text-[13px] font-semibold px-5 py-2 rounded-full shadow-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer font-manrope"
                         >
                           <span>Send</span>
                           <Send size={14} />
@@ -426,7 +432,7 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
       {/* 3. LIGHT FOOTER (FIGMA NODE #88:289 - #88:364)                            */}
       {/* ========================================================================= */}
       <footer className="bg-[#F7F7F5] border-t border-slate-200/80 pt-14 pb-12 w-full">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-24">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14">
             {/* Column 1: Brand (Figma Node #88:291) */}
             <div className="lg:col-span-4 flex flex-col items-start">
@@ -500,7 +506,7 @@ export default function ContactPage({ onNavigateToHome, onNavigateToWorks }: Con
                 <li>
                   <button
                     type="button"
-                    onClick={() => onNavigateToHome('what-we-do')}
+                    onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')}
                     className="hover:text-[#C5445A] transition-colors"
                   >
                     What We do

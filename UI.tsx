@@ -14,9 +14,14 @@ import {
 interface EsperiaLandingProps {
   onNavigateToContact?: () => void;
   onNavigateToWorks?: () => void;
+  onNavigateToWhatWeDo?: () => void;
 }
 
-export default function EsperiaLanding({ onNavigateToContact, onNavigateToWorks }: EsperiaLandingProps = {}) {
+export default function EsperiaLanding({
+  onNavigateToContact,
+  onNavigateToWorks,
+  onNavigateToWhatWeDo
+}: EsperiaLandingProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -34,7 +39,13 @@ export default function EsperiaLanding({ onNavigateToContact, onNavigateToWorks 
           </a>
 
           <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-white/90">
-            <a href="#what-we-do" className="hover:text-[#73A7A3] transition-colors duration-200">What We Do</a>
+            <button
+              type="button"
+              onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : (window.location.hash = '#what-we-do')}
+              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+            >
+              What We Do
+            </button>
             <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
             <button
               type="button"

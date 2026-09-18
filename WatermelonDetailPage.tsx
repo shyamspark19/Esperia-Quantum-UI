@@ -1,0 +1,551 @@
+import React, { useState } from 'react';
+import {
+  ChevronLeft,
+  Menu,
+  X,
+  Play,
+  ArrowUp,
+  Linkedin,
+  Twitter,
+  Instagram,
+  ArrowRight
+} from 'lucide-react';
+
+interface WatermelonDetailPageProps {
+  onBack: () => void;
+  onNavigateToHome: (sectionId?: string) => void;
+  onNavigateToContact: () => void;
+  onNavigateToWhatWeDo?: () => void;
+}
+
+export default function WatermelonDetailPage({
+  onBack,
+  onNavigateToHome,
+  onNavigateToContact,
+  onNavigateToWhatWeDo
+}: WatermelonDetailPageProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isPlayingVideo, setIsPlayingVideo] = useState(false);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white flex flex-col justify-between">
+      
+      {/* ========================================================================= */}
+      {/* HEADER NAVIGATION                                                         */}
+      {/* ========================================================================= */}
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-black/[0.06] transition-all duration-300">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 h-20 sm:h-24 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => onNavigateToHome()}
+            className="focus:outline-none flex items-center group cursor-pointer"
+          >
+            <img
+              src="/assets/figma/esperia_header_logo.svg"
+              alt="ESPERIA QUANTUM"
+              className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </button>
+
+          {/* Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-[#4A4A4A]">
+            <button
+              type="button"
+              onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')}
+              className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
+            >
+              What We Do
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigateToHome('why-esperia')}
+              className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
+            >
+              Why Esperia
+            </button>
+
+            {/* Our Works / Our Products - Active Red with subtle indicator */}
+            <button
+              type="button"
+              onClick={onBack}
+              className="relative text-[#C5445A] font-semibold transition-colors duration-200 cursor-pointer flex flex-col items-center"
+            >
+              <span>Our Products</span>
+              <span className="w-1 h-1 rounded-full bg-[#C5445A] mt-0.5"></span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onNavigateToHome('blogs')}
+              className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
+            >
+              Blogs &amp; Newsletters
+            </button>
+            <button
+              type="button"
+              onClick={onNavigateToContact}
+              className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
+            >
+              Contact Us
+            </button>
+          </nav>
+
+          {/* Mobile Menu Hamburger */}
+          <button
+            type="button"
+            aria-label="Toggle navigation menu"
+            className="md:hidden text-[#0A0A0A] p-2 hover:bg-slate-100 rounded-lg transition"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Nav Flyout */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white border-b border-black/[0.08] px-6 py-6 flex flex-col gap-4 relative z-50 shadow-xl animate-in slide-in-from-top duration-300">
+            <button
+              type="button"
+              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onNavigateToWhatWeDo) onNavigateToWhatWeDo();
+                else onNavigateToHome('what-we-do');
+              }}
+            >
+              What We Do
+            </button>
+            <button
+              type="button"
+              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onNavigateToHome('why-esperia');
+              }}
+            >
+              Why Esperia
+            </button>
+            <button
+              type="button"
+              className="text-left text-[#C5445A] font-semibold text-sm py-1"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onBack();
+              }}
+            >
+              Our Products
+            </button>
+            <button
+              type="button"
+              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onNavigateToHome('blogs');
+              }}
+            >
+              Blogs &amp; Newsletters
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onNavigateToContact();
+              }}
+              className="text-left text-[#C5445A] font-semibold pt-3 border-t border-slate-100 cursor-pointer text-sm"
+            >
+              Contact Us
+            </button>
+          </div>
+        )}
+      </header>
+
+      {/* ========================================================================= */}
+      {/* MAIN DETAIL CONTENT                                                       */}
+      {/* ========================================================================= */}
+      <main className="flex-1 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pt-6 pb-20">
+        
+        {/* Back Link Button */}
+        <div className="mb-8 sm:mb-12">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-wider text-[#111111] hover:text-[#C5445A] transition-colors cursor-pointer group"
+          >
+            <ChevronLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-1" />
+            <span>BACK</span>
+          </button>
+        </div>
+
+        {/* Hero Section: Title & Mockup */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-12 sm:mb-16">
+          {/* Left Column: Heading & Subtitle */}
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold font-['Parkinsans',sans-serif] tracking-tight text-[#0A0A0A] uppercase leading-[1.08] mb-4 sm:mb-5">
+              WATERMELON
+            </h1>
+            <p className="text-[#555555] text-sm sm:text-base lg:text-[17px] font-normal leading-relaxed max-w-lg font-['Manrope',sans-serif]">
+              AI Drive Enterprise platform for building resilient and intelligent digital ecosystem.
+            </p>
+          </div>
+
+          {/* Right Column: High Quality Mockup */}
+          <div className="lg:col-span-6 flex justify-center lg:justify-end">
+            <div className="w-full max-w-[620px] transition-transform duration-500 hover:scale-[1.02]">
+              <img
+                src="/assets/figma/watermelon_detail_mockup_hq.png"
+                alt="Watermelon Reliability Platform"
+                className="w-full h-auto object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.08)]"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Video / Visual Media Container */}
+        <section className="mb-16 sm:mb-20">
+          <div className="relative w-full aspect-[16/9] sm:aspect-[2.15/1] bg-[#0A0A0A] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center group cursor-pointer border border-neutral-900">
+            <img
+              src="/assets/figma/watermelon_video_bg.png"
+              alt="Video presentation"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* Ambient subtle gradient */}
+            <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+
+            {/* Centered Play Button */}
+            <button
+              type="button"
+              onClick={() => setIsPlayingVideo(!isPlayingVideo)}
+              aria-label="Play video demonstration"
+              className="relative z-10 w-16 h-12 sm:w-20 sm:h-14 rounded-xl sm:rounded-2xl bg-white/20 hover:bg-white/35 backdrop-blur-md flex items-center justify-center border border-white/25 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 group-hover:scale-110 cursor-pointer"
+            >
+              <div className="w-0 h-0 border-t-[8px] sm:border-t-[10px] border-t-transparent border-l-[14px] sm:border-l-[18px] border-l-white border-b-[8px] sm:border-b-[10px] border-b-transparent ml-1" />
+            </button>
+          </div>
+        </section>
+
+        {/* Three Case Study Content Sections */}
+        <section className="space-y-12 sm:space-y-16 max-w-5xl mb-24">
+          
+          {/* Section 1: Business Challenges & Opportunities */}
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold font-['Parkinsans',sans-serif] text-[#0A0A0A] mb-4">
+              Business Challenges &amp; Opportunities
+            </h2>
+            <div className="space-y-4 text-[#555555] text-[14px] sm:text-[15px] font-normal font-['Manrope',sans-serif] leading-[1.8]">
+              <p>
+                Lorem ipsum dolor sit amet consectetur. Pellentesque sem elementum id dui condimentum adipiscing dui arcu tristique. Odio diam ornare mi amet ut scelerisque. Tristique velit tempus sit aenean mi egestas viverra eleifend. A interdum eget pellentesque aenean et hendrerit sapien pellentesque. Faucibus risus feugiat auctor aliquam lacus. Quam cras vel sed eget erat cum. Nascetur mi lacinia posuere vitae egestas quisque scelerisque. Non quam fermentum dolor sagittis gravida cursus amet rhoncus sem.
+              </p>
+              <p>
+                Etiam morbi eleifend rhoncus felis vivamus amet mi convallis. Nibh habitant dignissim elementum purus a. Sit libero parturient dis quam. Dictum tortor posuere dolor in sed semper turpis. A quem erat eros felis risus eget tempor interdum nam vestibulum. Sodales tempor velit metus ac commodo fusce. Consequat non odio a feugiat mi tristique magna libero sollicitudin.
+              </p>
+              <p>
+                Tortor egestas praesent est ut. Pulvinar pretium dui amet nullam commodo integer velit. Non cursus volutpat pellentesque magna mauris aliquam ut odio. Nullam at viverra velit sagittis ut enim quam consectetur. Eu nullam massa condimentum scelerisque ut molestie rutrum. Turpis vulputate massa ornare id elit mattis nisl.
+              </p>
+            </div>
+          </div>
+
+          {/* Section 2: Product Vision & Goals */}
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold font-['Parkinsans',sans-serif] text-[#0A0A0A] mb-4">
+              Product Vision &amp; Goals
+            </h2>
+            <div className="space-y-4 text-[#555555] text-[14px] sm:text-[15px] font-normal font-['Manrope',sans-serif] leading-[1.8]">
+              <p>
+                Lorem ipsum dolor sit amet consectetur. Pellentesque sem elementum id dui condimentum adipiscing dui arcu tristique. Odio diam ornare mi amet ut scelerisque. Tristique velit tempus sit aenean mi egestas viverra eleifend. A interdum eget pellentesque aenean et hendrerit sapien pellentesque. Faucibus risus feugiat auctor aliquam lacus. Quam cras vel sed eget erat cum. Nascetur mi lacinia posuere vitae egestas quisque scelerisque. Non quam fermentum dolor sagittis gravida cursus amet rhoncus sem.
+              </p>
+              <p>
+                Etiam morbi eleifend rhoncus felis vivamus amet mi convallis. Nibh habitant dignissim elementum purus a. Sit libero parturient dis quam. Dictum tortor posuere dolor in sed semper turpis. A quem erat eros felis risus eget tempor interdum nam vestibulum. Sodales tempor velit metus ac commodo fusce. Consequat non odio a feugiat mi tristique magna libero sollicitudin.
+              </p>
+            </div>
+          </div>
+
+          {/* Section 3: Our Approach */}
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold font-['Parkinsans',sans-serif] text-[#0A0A0A] mb-4">
+              Our Approach
+            </h2>
+            <div className="text-[#555555] text-[14px] sm:text-[15px] font-normal font-['Manrope',sans-serif] leading-[1.8]">
+              <p>
+                Lorem ipsum dolor sit amet consectetur. Pellentesque sem elementum id dui condimentum adipiscing dui arcu tristique. Odio diam ornare mi amet ut scelerisque. Tristique velit tempus sit aenean mi egestas viverra eleifend. A interdum eget pellentesque aenean et hendrerit sapien pellentesque. Faucibus risus feugiat auctor aliquam lacus. Quam cras vel sed eget erat cum. Nascetur mi lacinia posuere vitae egestas quisque scelerisque. Non quam fermentum dolor sagittis gravida cursus amet rhoncus sem.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        {/* ======================================================================= */}
+        {/* OTHER WORKS SECTION                                                     */}
+        {/* ======================================================================= */}
+        <section className="mb-20">
+          <h2 className="text-2xl sm:text-3xl font-bold font-['Parkinsans',sans-serif] text-[#0A0A0A] mb-8">
+            Other Works
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            {/* Card 1: TASConnect */}
+            <div className="bg-[#F4F4F1] rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+              <div className="bg-white rounded-xl overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center mb-4 border border-slate-100/80">
+                <img
+                  src="/assets/figma/other_works_tasconnect_hq.png"
+                  alt="TASConnect"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex items-center justify-between pt-1">
+                <span className="font-bold text-[15px] text-[#0A0A0A] font-['Parkinsans',sans-serif]">
+                  TASConnect
+                </span>
+                <button
+                  type="button"
+                  onClick={onBack}
+                  className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors cursor-pointer"
+                >
+                  <span>View Details</span>
+                  <span className="text-xs">&gt;</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Card 2: Watermelon */}
+            <div className="bg-[#F4F4F1] rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group ring-1 ring-[#C5445A]/20">
+              <div className="bg-white rounded-xl overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center mb-4 border border-slate-100/80">
+                <img
+                  src="/assets/figma/other_works_watermelon_hq.png"
+                  alt="Watermelon"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex items-center justify-between pt-1">
+                <span className="font-bold text-[15px] text-[#0A0A0A] font-['Parkinsans',sans-serif]">
+                  Watermelon
+                </span>
+                <button
+                  type="button"
+                  onClick={scrollToTop}
+                  className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors cursor-pointer"
+                >
+                  <span>View Details</span>
+                  <span className="text-xs">&gt;</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Card 3: Young Genius Program */}
+            <div className="bg-[#F4F4F1] rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+              <div className="bg-white rounded-xl overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center mb-4 border border-slate-100/80">
+                <img
+                  src="/assets/figma/other_works_young_genius_hq.png"
+                  alt="Young Genius Program"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex items-center justify-between pt-1">
+                <span className="font-bold text-[15px] text-[#0A0A0A] font-['Parkinsans',sans-serif] truncate pr-2">
+                  Young Genius Program
+                </span>
+                <button
+                  type="button"
+                  onClick={onBack}
+                  className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors cursor-pointer shrink-0"
+                >
+                  <span>View Details</span>
+                  <span className="text-xs">&gt;</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Card 4: IRIS HR System */}
+            <div className="bg-[#F4F4F1] rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+              <div className="bg-white rounded-xl overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center mb-4 border border-slate-100/80">
+                <img
+                  src="/assets/figma/exact_iris_hr_hq.png"
+                  alt="IRIS HR System"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex items-center justify-between pt-1">
+                <span className="font-bold text-[15px] text-[#0A0A0A] font-['Parkinsans',sans-serif]">
+                  IRIS HR System
+                </span>
+                <button
+                  type="button"
+                  onClick={onBack}
+                  className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors cursor-pointer"
+                >
+                  <span>View Details</span>
+                  <span className="text-xs">&gt;</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </main>
+
+      {/* ========================================================================= */}
+      {/* FOOTER                                                                    */}
+      {/* ========================================================================= */}
+      <footer className="bg-[#F7F7F5] border-t border-slate-200/80 pt-14 pb-12 w-full">
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14">
+            
+            {/* Column 1: Brand */}
+            <div className="lg:col-span-4 flex flex-col items-start">
+              <button
+                type="button"
+                onClick={() => onNavigateToHome()}
+                className="focus:outline-none cursor-pointer"
+              >
+                <img
+                  src="/assets/figma/esperia_header_logo.svg"
+                  alt="ESPERIA QUANTUM"
+                  className="h-10 w-auto object-contain"
+                />
+              </button>
+              <p className="text-[12px] text-[#000000] font-medium mt-4 max-w-[184px] leading-[19.5px] font-manrope">
+                Digital experience &amp; technology consultancy.
+              </p>
+            </div>
+
+            {/* Column 2: Services */}
+            <div className="lg:col-span-3">
+              <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
+                Services
+              </h4>
+              <ul className="space-y-3 text-[14px] text-[#333333] font-manrope font-normal">
+                <li>Human-Centric Design</li>
+                <li>AI &amp; Product Development</li>
+                <li>Engineering &amp; Cloud</li>
+                <li>Data &amp; Digital Transformation</li>
+              </ul>
+            </div>
+
+            {/* Column 3: Company */}
+            <div className="lg:col-span-3">
+              <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
+                Company
+              </h4>
+              <ul className="space-y-3 text-[14px] text-[#333333] font-manrope font-normal">
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')}
+                    className="hover:text-[#C5445A] transition cursor-pointer"
+                  >
+                    What We Do
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => onNavigateToHome('why-esperia')}
+                    className="hover:text-[#C5445A] transition cursor-pointer"
+                  >
+                    Why Esperia
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={onBack}
+                    className="hover:text-[#C5445A] transition cursor-pointer"
+                  >
+                    Our Products
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => onNavigateToHome('blogs')}
+                    className="hover:text-[#C5445A] transition cursor-pointer"
+                  >
+                    Blogs &amp; Newsletters
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={onNavigateToContact}
+                    className="hover:text-[#C5445A] transition cursor-pointer"
+                  >
+                    Contact Us
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Connect & Scroll to Top */}
+            <div className="lg:col-span-2 flex flex-col justify-between">
+              <div>
+                <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
+                  Connect
+                </h4>
+                <div className="flex items-center gap-3">
+                  <a
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Esperia on LinkedIn"
+                    className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-[#C5445A] hover:text-white hover:border-[#C5445A] transition-all"
+                  >
+                    <Linkedin size={14} />
+                  </a>
+                  <a
+                    href="https://twitter.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Esperia on Twitter"
+                    className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-[#C5445A] hover:text-white hover:border-[#C5445A] transition-all"
+                  >
+                    <Twitter size={14} />
+                  </a>
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Esperia on Instagram"
+                    className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-[#C5445A] hover:text-white hover:border-[#C5445A] transition-all"
+                  >
+                    <Instagram size={14} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Scroll to Top Circle Button */}
+              <div className="mt-8 flex flex-col items-center sm:items-start">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6B7280] mb-2 font-manrope">
+                  Scroll to Top
+                </span>
+                <button
+                  type="button"
+                  onClick={scrollToTop}
+                  aria-label="Scroll back to top"
+                  className="w-11 h-11 rounded-full border border-slate-300 hover:border-[#C5445A] hover:bg-[#C5445A] hover:text-white flex items-center justify-center text-slate-700 transition-all duration-300 cursor-pointer shadow-sm group"
+                >
+                  <ArrowUp size={18} className="transition-transform duration-300 group-hover:-translate-y-0.5" />
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Copyright & Legal */}
+          <div className="pt-8 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between text-[12px] text-[#777777] font-manrope gap-4">
+            <p>© 2025 Esperia. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-black transition">Privacy Policy</a>
+              <a href="#" className="hover:text-black transition">Terms of Service</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  );
+}
