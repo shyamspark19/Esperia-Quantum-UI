@@ -13,9 +13,10 @@ import {
 
 interface EsperiaLandingProps {
   onNavigateToContact?: () => void;
+  onNavigateToWorks?: () => void;
 }
 
-export default function EsperiaLanding({ onNavigateToContact }: EsperiaLandingProps = {}) {
+export default function EsperiaLanding({ onNavigateToContact, onNavigateToWorks }: EsperiaLandingProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -35,7 +36,13 @@ export default function EsperiaLanding({ onNavigateToContact }: EsperiaLandingPr
           <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-white/90">
             <a href="#what-we-do" className="hover:text-[#73A7A3] transition-colors duration-200">What We Do</a>
             <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
-            <a href="#our-works" className="hover:text-[#73A7A3] transition-colors duration-200">Our Works</a>
+            <button
+              type="button"
+              onClick={() => onNavigateToWorks ? onNavigateToWorks() : (window.location.hash = '#our-works')}
+              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+            >
+              Our Works
+            </button>
             <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200">Blogs &amp; Newsletters</a>
             <button
               type="button"
@@ -61,7 +68,17 @@ export default function EsperiaLanding({ onNavigateToContact }: EsperiaLandingPr
           <div className="md:hidden bg-[#0A111A] border-b border-white/10 px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300">
             <a href="#what-we-do" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
             <a href="#why-esperia" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
-            <a href="#our-works" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Our Works</a>
+            <button
+              type="button"
+              className="text-left text-white hover:text-[#73A7A3] cursor-pointer"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onNavigateToWorks) onNavigateToWorks();
+                else window.location.hash = '#our-works';
+              }}
+            >
+              Our Works
+            </button>
             <a href="#blogs" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
             <button
               type="button"
