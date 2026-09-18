@@ -17,6 +17,20 @@ interface ContactPageProps {
   onNavigateToHome: (sectionId?: string) => void;
 }
 
+function EsperiaEmblem({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 42 48"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M20.9796 47.9998C20.7283 47.9998 20.4787 47.9352 20.2525 47.806L0.72709 36.5334C0.278271 36.2731 0 35.7938 0 35.2749V12.7281C0 12.2092 0.276476 11.7299 0.72709 11.4696L20.2525 0.195236C20.7013 -0.0650788 21.2561 -0.0650788 21.7049 0.195236L41.2303 11.4696C41.6791 11.7299 41.9574 12.2092 41.9574 12.7281V17.2863C41.9574 17.8051 41.6809 18.2844 41.2303 18.5447L21.7049 29.8173C21.2561 30.0776 20.7013 30.0776 20.2525 29.8173L16.3047 27.5391C15.8559 27.2788 15.5776 26.7994 15.5776 26.2806V21.7224C15.5776 21.2036 15.8541 20.7242 16.3047 20.4639L25.8627 14.9452L20.9778 12.1248L10.6945 18.0618V29.9376L20.9778 35.8764L39.7779 25.0221C40.2268 24.7618 40.7815 24.7618 41.2303 25.0221C41.6791 25.2824 41.9574 25.7618 41.9574 26.2806V35.2749C41.9574 35.7938 41.6809 36.2731 41.2303 36.5334L21.7049 47.806C21.4805 47.9352 21.2291 47.9998 20.9778 47.9998H20.9796ZM2.90655 34.4365L20.9796 44.8707L39.0526 34.4365V28.7976L21.7049 38.8134C21.2561 39.0737 20.7013 39.0737 20.2525 38.8134L8.51499 32.0363C8.06617 31.7759 7.78791 31.2966 7.78791 30.7778V17.2252C7.78791 16.7064 8.06438 16.227 8.51499 15.9667L20.2525 9.18957C20.7013 8.92925 21.2561 8.92925 21.7049 9.18957L29.4946 13.6867C29.9434 13.947 30.2217 14.4264 30.2217 14.9452C30.2217 15.4641 29.9452 15.9434 29.4946 16.2037L18.4842 22.5608V25.4404L20.9796 26.8802L39.0526 16.4461V13.5664L20.9796 3.13051L2.90655 13.5664V34.4365Z" />
+    </svg>
+  );
+}
+
 export default function ContactPage({ onNavigateToHome }: ContactPageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -40,13 +54,18 @@ export default function ContactPage({ onNavigateToHome }: ContactPageProps) {
       {/* 1. HERO & NAVIGATION BANNER (FIGMA NODE #88:165 - #88:188)                */}
       {/* ========================================================================= */}
       <div className="relative overflow-hidden rounded-b-[32px] bg-[radial-gradient(circle_at_76%_59%,_#1F3B39_0%,_#072826_45%,_#020F0F_100%)] text-white">
-        {/* Subtle Ambient Texture Overlay */}
-        <div className="absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay">
+        {/* Subtle Ambient Wave Graphic Texture Overlay (Figma Node #88:172) */}
+        <div className="absolute inset-0 opacity-40 pointer-events-none mix-blend-screen overflow-hidden">
           <img
             src="/assets/figma/b39e95a77eb26884c9d041d8589fa21e78323b6b.png"
-            alt="Texture"
-            className="w-full h-full object-cover rounded-b-[32px]"
+            alt="Fluid Waves Texture"
+            className="w-full h-full object-cover object-bottom"
           />
+        </div>
+
+        {/* Giant Teal Geometric Watermark Emblem (Figma Node #88:184) */}
+        <div className="absolute right-[-40px] sm:right-6 lg:right-16 top-[-30px] sm:top-[-10px] w-[380px] sm:w-[540px] lg:w-[680px] pointer-events-none select-none z-0 text-[#25524B]/50 drop-shadow-sm">
+          <EsperiaEmblem className="w-full h-auto" />
         </div>
 
         {/* Ambient Glow Orbs */}
@@ -194,8 +213,14 @@ export default function ContactPage({ onNavigateToHome }: ContactPageProps) {
       {/* 2. MAIN SPLIT CONTENT (OFFICE HUBS & GET IN TOUCH FORM)                   */}
       {/* Figma Node #88:214                                                        */}
       {/* ========================================================================= */}
-      <main className="max-w-7xl mx-auto px-6 py-20 lg:py-28 w-full flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <main className="relative overflow-hidden w-full flex-1">
+        {/* Giant Rose/Pink Geometric Watermark Emblem (Figma Node #88:285) */}
+        <div className="absolute right-[-60px] sm:right-[-20px] lg:right-6 bottom-[-60px] sm:bottom-[-40px] lg:bottom-[-20px] w-[450px] sm:w-[600px] lg:w-[720px] pointer-events-none select-none z-0 text-[#F56F6A]/20">
+          <EsperiaEmblem className="w-full h-auto" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 py-20 lg:py-28 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
           {/* Left Column: Headline & Studio Locations (Figma Node #88:215) */}
           <div className="lg:col-span-7 flex flex-col">
@@ -404,7 +429,8 @@ export default function ContactPage({ onNavigateToHome }: ContactPageProps) {
             </div>
           </div>
         </div>
-      </main>
+      </div>
+    </main>
 
       {/* ========================================================================= */}
       {/* 3. LIGHT FOOTER (FIGMA NODE #88:289 - #88:364)                            */}
