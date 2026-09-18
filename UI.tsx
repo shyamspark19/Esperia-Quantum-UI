@@ -17,6 +17,47 @@ export default function EsperiaLanding() {
   return (
     <div className="min-h-screen bg-[#F6F6F3] text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white">
 
+      {/* Locked / Sticky Navigation Bar */}
+      <header className="sticky top-0 z-50 bg-[#0A111A]/95 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-6 h-20 sm:h-24 flex items-center justify-between">
+          <a href="#" className="focus:outline-none flex items-center group">
+            <img 
+              src="/assets/figma/esperia_header_logo.svg" 
+              alt="ESPERIA QUANTUM" 
+              className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </a>
+
+          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-white/90">
+            <a href="#what-we-do" className="hover:text-[#73A7A3] transition-colors duration-200">What We Do</a>
+            <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
+            <a href="#our-works" className="hover:text-[#73A7A3] transition-colors duration-200">Our Works</a>
+            <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200">Blogs &amp; Newsletters</a>
+            <a href="#contact" className="hover:text-[#73A7A3] transition-colors duration-200">Contact Us</a>
+          </nav>
+
+          <button 
+            type="button"
+            aria-label="Toggle navigation menu"
+            className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Nav Flyout */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-[#0A111A] border-b border-white/10 px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300">
+            <a href="#what-we-do" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
+            <a href="#why-esperia" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
+            <a href="#our-works" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Our Works</a>
+            <a href="#blogs" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
+            <a href="#contact" className="text-[#FF7E8B] font-semibold pt-2 border-t border-white/10" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
+          </div>
+        )}
+      </header>
+
       {/* ========================================================================= */}
       {/* 1. HERO SECTION (COLOSSAL 3D VISUALS & DYNAMIC GLOW ANIMATION)            */}
       {/* ========================================================================= */}
@@ -24,47 +65,6 @@ export default function EsperiaLanding() {
         {/* Animated Ambient Radial Lighting */}
         <div className="absolute top-0 right-1/4 w-[650px] h-[650px] bg-[#3EA594]/20 rounded-full blur-[150px] pointer-events-none animate-pulse-glow" />
         <div className="absolute bottom-1/4 right-1/12 w-[520px] h-[520px] bg-[#C5465B]/20 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: '2.5s' }} />
-
-        {/* Navigation Bar */}
-        <header className="bg-[#0A111A]/90 backdrop-blur-md border-b border-white/10 relative z-30 transition-all duration-300">
-          <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-            <a href="#" className="focus:outline-none flex items-center group">
-              <img 
-                src="/assets/figma/esperia_header_logo.svg" 
-                alt="ESPERIA QUANTUM" 
-                className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-              />
-            </a>
-
-            <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-white/90">
-              <a href="#what-we-do" className="hover:text-[#73A7A3] transition-colors duration-200">What We Do</a>
-              <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
-              <a href="#our-works" className="hover:text-[#73A7A3] transition-colors duration-200">Our Works</a>
-              <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200">Blogs &amp; Newsletters</a>
-              <a href="#contact" className="hover:text-[#73A7A3] transition-colors duration-200">Contact Us</a>
-            </nav>
-
-            <button 
-              type="button"
-              aria-label="Toggle navigation menu"
-              className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          {/* Mobile Nav Flyout */}
-          {mobileMenuOpen && (
-            <div className="md:hidden bg-[#0A111A] border-b border-white/10 px-6 py-6 flex flex-col gap-4 relative z-30 shadow-2xl animate-in slide-in-from-top duration-300">
-              <a href="#what-we-do" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
-              <a href="#why-esperia" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
-              <a href="#our-works" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Our Works</a>
-              <a href="#blogs" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
-              <a href="#contact" className="text-[#FF7E8B] font-semibold pt-2 border-t border-white/10" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
-            </div>
-          )}
-        </header>
 
         {/* Hero Body Grid */}
         <div className="max-w-7xl mx-auto px-6 pt-12 lg:pt-20 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
