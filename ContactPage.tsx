@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ChevronLeft,
   Send,
@@ -312,7 +312,7 @@ export default function ContactPage({ onNavigateToHome }: ContactPageProps) {
             {/* Right Column: Dark Modern Form Card (Figma Node #88:241 - #88:282, w: 481px, h: 518px) */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="w-full max-w-[481px] min-h-[518px] rounded-[32px] bg-[radial-gradient(circle_at_27%_23%,_rgba(86,86,86,1)_0%,_rgba(29,31,30,1)_100%)] p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden flex flex-col justify-between">
-                
+
                 <div>
                   <h3 className="text-[32px] font-bold text-white font-parkinsans tracking-tight mb-6 leading-tight">
                     Get in Touch
