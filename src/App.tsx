@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import EsperiaLanding from './UI';
-import ContactPage from './ContactPage';
-import OurWorksPage from './OurWorksPage';
-import WatermelonDetailPage from './WatermelonDetailPage';
-import WhatWeDoPage from './WhatWeDoPage';
+import {
+  LandingPage,
+  ContactPage,
+  OurWorksPage,
+  WatermelonDetailPage,
+  WhatWeDoPage,
+  BlogsPage,
+  WhyEsperiaPage,
+} from './pages';
+import type { PageType } from './types';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'contact' | 'works' | 'watermelon' | 'what-we-do'>(() => {
+  const [currentPage, setCurrentPage] = useState<PageType>(() => {
     const hash = window.location.hash;
+    if (hash === '#why-esperia') return 'why-esperia';
     if (hash === '#what-we-do' || hash === '#services') return 'what-we-do';
     if (hash === '#contact-us' || hash === '#contact') return 'contact';
     if (hash === '#watermelon' || hash === '#our-works/watermelon') return 'watermelon';
     if (hash === '#our-works' || hash === '#works') return 'works';
+    if (hash === '#blogs' || hash === '#blogs-and-newsletters' || hash === '#newsletters') return 'blogs';
     return 'home';
   });
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash === '#what-we-do' || hash === '#services') {
+      if (hash === '#why-esperia') {
+        setCurrentPage('why-esperia');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#what-we-do' || hash === '#services') {
         setCurrentPage('what-we-do');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash === '#contact-us' || hash === '#contact') {
@@ -30,6 +40,9 @@ export default function App() {
       } else if (hash === '#our-works' || hash === '#works') {
         setCurrentPage('works');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#blogs' || hash === '#blogs-and-newsletters' || hash === '#newsletters') {
+        setCurrentPage('blogs');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         setCurrentPage('home');
       }
@@ -38,6 +51,12 @@ export default function App() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
+  const navigateToWhyEsperia = () => {
+    window.location.hash = '#why-esperia';
+    setCurrentPage('why-esperia');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const navigateToWhatWeDo = () => {
     window.location.hash = '#what-we-do';
@@ -63,7 +82,21 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navigateToBlogs = () => {
+    window.location.hash = '#blogs';
+    setCurrentPage('blogs');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const navigateToHome = (sectionId?: string) => {
+    if (sectionId === 'why-esperia') {
+      navigateToWhyEsperia();
+      return;
+    }
+    if (sectionId === 'blogs' || sectionId === 'newsletters') {
+      navigateToBlogs();
+      return;
+    }
     setCurrentPage('home');
     if (sectionId) {
       window.location.hash = `#${sectionId}`;
@@ -83,23 +116,45 @@ export default function App() {
 
   return (
     <>
-      {currentPage === 'what-we-do' ? (
+      {currentPage === 'why-esperia' ? (
+        <WhyEsperiaPage
+          onNavigateToHome={navigateToHome}
+          onNavigateToWorks={navigateToWorks}
+          onNavigateToContact={navigateToContact}
+          onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+        />
+      ) : currentPage === 'blogs' ? (
+        <BlogsPage
+          onNavigateToHome={navigateToHome}
+          onNavigateToWorks={navigateToWorks}
+          onNavigateToContact={navigateToContact}
+          onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
+        />
+      ) : currentPage === 'what-we-do' ? (
         <WhatWeDoPage
           onNavigateToHome={navigateToHome}
           onNavigateToWorks={navigateToWorks}
           onNavigateToContact={navigateToContact}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
         />
       ) : currentPage === 'contact' ? (
         <ContactPage
           onNavigateToHome={navigateToHome}
           onNavigateToWorks={navigateToWorks}
           onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
         />
       ) : currentPage === 'works' ? (
         <OurWorksPage
           onNavigateToHome={navigateToHome}
           onNavigateToContact={navigateToContact}
           onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
           onViewWatermelon={navigateToWatermelon}
         />
       ) : currentPage === 'watermelon' ? (
@@ -108,15 +163,19 @@ export default function App() {
           onNavigateToHome={navigateToHome}
           onNavigateToContact={navigateToContact}
           onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
         />
       ) : (
-        <EsperiaLanding
+        <LandingPage
+          onNavigateToHome={navigateToHome}
           onNavigateToContact={navigateToContact}
           onNavigateToWorks={navigateToWorks}
           onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
         />
       )}
     </>
   );
 }
-

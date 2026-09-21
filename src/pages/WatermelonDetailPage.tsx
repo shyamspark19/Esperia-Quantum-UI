@@ -10,19 +10,24 @@ import {
   Instagram,
   ArrowRight
 } from 'lucide-react';
+import Footer from '../components/Footer';
 
 interface WatermelonDetailPageProps {
   onBack: () => void;
   onNavigateToHome: (sectionId?: string) => void;
   onNavigateToContact: () => void;
   onNavigateToWhatWeDo?: () => void;
+  onNavigateToBlogs?: () => void;
+  onNavigateToWhyEsperia?: () => void;
 }
 
 export default function WatermelonDetailPage({
   onBack,
   onNavigateToHome,
   onNavigateToContact,
-  onNavigateToWhatWeDo
+  onNavigateToWhatWeDo,
+  onNavigateToBlogs,
+  onNavigateToWhyEsperia
 }: WatermelonDetailPageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPlayingVideo, setIsPlayingVideo] = useState(false);
@@ -33,7 +38,7 @@ export default function WatermelonDetailPage({
 
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white flex flex-col justify-between">
-      
+
       {/* ========================================================================= */}
       {/* HEADER NAVIGATION                                                         */}
       {/* ========================================================================= */}
@@ -167,7 +172,7 @@ export default function WatermelonDetailPage({
       {/* MAIN DETAIL CONTENT                                                       */}
       {/* ========================================================================= */}
       <main className="flex-1 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pt-6 pb-20">
-        
+
         {/* Back Link Button */}
         <div className="mb-8 sm:mb-12">
           <button
@@ -229,7 +234,7 @@ export default function WatermelonDetailPage({
 
         {/* Three Case Study Content Sections */}
         <section className="space-y-12 sm:space-y-16 max-w-5xl mb-24">
-          
+
           {/* Section 1: Business Challenges & Opportunities */}
           <div>
             <h2 className="text-xl sm:text-2xl font-bold font-['Parkinsans',sans-serif] text-[#0A0A0A] mb-4">
@@ -286,7 +291,7 @@ export default function WatermelonDetailPage({
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
+
             {/* Card 1: TASConnect */}
             <div className="bg-[#F4F4F1] rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
               <div className="bg-white rounded-xl overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center mb-4 border border-slate-100/80">
@@ -389,162 +394,17 @@ export default function WatermelonDetailPage({
       </main>
 
       {/* ========================================================================= */}
-      {/* FOOTER                                                                    */}
+      {/* FOOTER (SHARED BRAND COMPONENT)                                            */}
       {/* ========================================================================= */}
-      <footer className="bg-[#F7F7F5] border-t border-slate-200/80 pt-14 pb-12 w-full">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14">
-            
-            {/* Column 1: Brand */}
-            <div className="lg:col-span-4 flex flex-col items-start">
-              <button
-                type="button"
-                onClick={() => onNavigateToHome()}
-                className="focus:outline-none cursor-pointer"
-              >
-                <img
-                  src="/assets/figma/esperia_header_logo.svg"
-                  alt="ESPERIA QUANTUM"
-                  className="h-10 w-auto object-contain"
-                />
-              </button>
-              <p className="text-[12px] text-[#000000] font-medium mt-4 max-w-[184px] leading-[19.5px] font-manrope">
-                Digital experience &amp; technology consultancy.
-              </p>
-            </div>
-
-            {/* Column 2: Services */}
-            <div className="lg:col-span-3">
-              <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-                Services
-              </h4>
-              <ul className="space-y-3 text-[14px] text-[#333333] font-manrope font-normal">
-                <li>Human-Centric Design</li>
-                <li>AI &amp; Product Development</li>
-                <li>Engineering &amp; Cloud</li>
-                <li>Data &amp; Digital Transformation</li>
-              </ul>
-            </div>
-
-            {/* Column 3: Company */}
-            <div className="lg:col-span-3">
-              <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-                Company
-              </h4>
-              <ul className="space-y-3 text-[14px] text-[#333333] font-manrope font-normal">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')}
-                    className="hover:text-[#C5445A] transition cursor-pointer"
-                  >
-                    What We Do
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToHome('why-esperia')}
-                    className="hover:text-[#C5445A] transition cursor-pointer"
-                  >
-                    Why Esperia
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={onBack}
-                    className="hover:text-[#C5445A] transition cursor-pointer"
-                  >
-                    Our Products
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToHome('blogs')}
-                    className="hover:text-[#C5445A] transition cursor-pointer"
-                  >
-                    Blogs &amp; Newsletters
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={onNavigateToContact}
-                    className="hover:text-[#C5445A] transition cursor-pointer"
-                  >
-                    Contact Us
-                  </button>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 4: Connect & Scroll to Top */}
-            <div className="lg:col-span-2 flex flex-col justify-between">
-              <div>
-                <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-                  Connect
-                </h4>
-                <div className="flex items-center gap-3">
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Esperia on LinkedIn"
-                    className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-[#C5445A] hover:text-white hover:border-[#C5445A] transition-all"
-                  >
-                    <Linkedin size={14} />
-                  </a>
-                  <a
-                    href="https://twitter.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Esperia on Twitter"
-                    className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-[#C5445A] hover:text-white hover:border-[#C5445A] transition-all"
-                  >
-                    <Twitter size={14} />
-                  </a>
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Esperia on Instagram"
-                    className="w-8 h-8 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-[#C5445A] hover:text-white hover:border-[#C5445A] transition-all"
-                  >
-                    <Instagram size={14} />
-                  </a>
-                </div>
-              </div>
-
-              {/* Scroll to Top Circle Button */}
-              <div className="mt-8 flex flex-col items-center sm:items-start">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6B7280] mb-2 font-manrope">
-                  Scroll to Top
-                </span>
-                <button
-                  type="button"
-                  onClick={scrollToTop}
-                  aria-label="Scroll back to top"
-                  className="w-11 h-11 rounded-full border border-slate-300 hover:border-[#C5445A] hover:bg-[#C5445A] hover:text-white flex items-center justify-center text-slate-700 transition-all duration-300 cursor-pointer shadow-sm group"
-                >
-                  <ArrowUp size={18} className="transition-transform duration-300 group-hover:-translate-y-0.5" />
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Bottom Copyright & Legal */}
-          <div className="pt-8 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between text-[12px] text-[#777777] font-manrope gap-4">
-            <p>© 2025 Esperia. All rights reserved.</p>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-black transition">Privacy Policy</a>
-              <a href="#" className="hover:text-black transition">Terms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer
+        activePage="watermelon"
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWorks={onBack}
+        onNavigateToContact={onNavigateToContact}
+        onNavigateToWhatWeDo={onNavigateToWhatWeDo}
+        onNavigateToBlogs={onNavigateToBlogs}
+        onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+      />
 
     </div>
   );

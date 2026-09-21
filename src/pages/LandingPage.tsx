@@ -10,17 +10,24 @@ import {
   Globe,
   TrendingUp
 } from 'lucide-react';
+import Footer from '../components/Footer';
 
 interface EsperiaLandingProps {
+  onNavigateToHome?: (sectionId?: string) => void;
   onNavigateToContact?: () => void;
   onNavigateToWorks?: () => void;
   onNavigateToWhatWeDo?: () => void;
+  onNavigateToBlogs?: () => void;
+  onNavigateToWhyEsperia?: () => void;
 }
 
 export default function EsperiaLanding({
+  onNavigateToHome,
   onNavigateToContact,
   onNavigateToWorks,
-  onNavigateToWhatWeDo
+  onNavigateToWhatWeDo,
+  onNavigateToBlogs,
+  onNavigateToWhyEsperia
 }: EsperiaLandingProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -46,7 +53,13 @@ export default function EsperiaLanding({
             >
               What We Do
             </button>
-            <a href="#why-esperia" className="hover:text-[#73A7A3] transition-colors duration-200">Why Esperia</a>
+            <button
+              type="button"
+              onClick={() => onNavigateToWhyEsperia ? onNavigateToWhyEsperia() : (window.location.hash = '#why-esperia')}
+              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+            >
+              Why Esperia
+            </button>
             <button
               type="button"
               onClick={() => onNavigateToWorks ? onNavigateToWorks() : (window.location.hash = '#our-works')}
@@ -54,7 +67,13 @@ export default function EsperiaLanding({
             >
               Our Works
             </button>
-            <a href="#blogs" className="hover:text-[#73A7A3] transition-colors duration-200">Blogs &amp; Newsletters</a>
+            <button
+              type="button"
+              onClick={() => onNavigateToBlogs ? onNavigateToBlogs() : (window.location.hash = '#blogs')}
+              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+            >
+              Blogs &amp; Newsletters
+            </button>
             <button
               type="button"
               onClick={() => onNavigateToContact ? onNavigateToContact() : (window.location.hash = '#contact-us')}
@@ -78,7 +97,17 @@ export default function EsperiaLanding({
         {mobileMenuOpen && (
           <div className="md:hidden bg-[#0A111A] border-b border-white/10 px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300">
             <a href="#what-we-do" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
-            <a href="#why-esperia" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Why Esperia</a>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onNavigateToWhyEsperia) onNavigateToWhyEsperia();
+                else window.location.hash = '#why-esperia';
+              }}
+              className="text-left text-white hover:text-[#73A7A3] cursor-pointer"
+            >
+              Why Esperia
+            </button>
             <button
               type="button"
               className="text-left text-white hover:text-[#73A7A3] cursor-pointer"
@@ -90,7 +119,17 @@ export default function EsperiaLanding({
             >
               Our Works
             </button>
-            <a href="#blogs" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>Blogs &amp; Newsletters</a>
+            <button
+              type="button"
+              className="text-left text-white hover:text-[#73A7A3] cursor-pointer"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onNavigateToBlogs) onNavigateToBlogs();
+                else window.location.hash = '#blogs';
+              }}
+            >
+              Blogs &amp; Newsletters
+            </button>
             <button
               type="button"
               onClick={() => {
@@ -487,7 +526,11 @@ export default function EsperiaLanding({
               It’s how we do it. Many agencies check the same capability boxes. What separates Esperia is the discipline we bring to execution — and the ambition we bring to outcomes.
             </p>
 
-            <button className="bg-[#E3866F] hover:bg-[#f3957f] text-[#48180E] font-extrabold text-xs uppercase tracking-wider px-9 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+            <button
+              type="button"
+              onClick={() => onNavigateToWhyEsperia ? onNavigateToWhyEsperia() : (window.location.hash = '#why-esperia')}
+              className="bg-[#E3866F] hover:bg-[#f3957f] text-[#48180E] font-extrabold text-xs uppercase tracking-wider px-9 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 cursor-pointer"
+            >
               Know More
             </button>
           </div>
@@ -640,7 +683,11 @@ export default function EsperiaLanding({
               We partner with businesses and organizations to design, build and scale digital solutions that solve complex challenges and create meaningful outcomes.
             </p>
 
-            <button className="border-2 border-slate-900 text-slate-900 hover:border-[#C5445A] hover:bg-[#C5445A] hover:text-white font-bold text-xs uppercase tracking-wider px-9 py-4 rounded-full transition-all duration-300 shadow-sm hover:scale-105">
+            <button
+              type="button"
+              onClick={() => onNavigateToWorks ? onNavigateToWorks() : (window.location.hash = '#our-works')}
+              className="border-2 border-slate-900 text-slate-900 hover:border-[#C5445A] hover:bg-[#C5445A] hover:text-white font-bold text-xs uppercase tracking-wider px-9 py-4 rounded-full transition-all duration-300 shadow-sm hover:scale-105 cursor-pointer"
+            >
               See Our Works
             </button>
           </div>
@@ -659,22 +706,34 @@ export default function EsperiaLanding({
       {/* 10. BLOGS & NEWSLETTERS                                                   */}
       {/* ========================================================================= */}
       <section id="blogs" className="py-24 px-6 max-w-7xl mx-auto">
-        <div className="max-w-2xl mb-14">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C5445A]" />
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6B6B6B]">
-              Blogs &amp; Newsletters
-            </span>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-14">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C5445A]" />
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6B6B6B]">
+                Blogs &amp; Newsletters
+              </span>
+            </div>
+
+            <h2
+              className="text-3xl sm:text-5xl font-bold text-[#0A0A0A] tracking-tight leading-tight font-parkinsans"
+            >
+              Insights at the Edge of Design, AI, and Enterprise
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base mt-4 leading-relaxed font-manrope">
+              It&apos;s how we do it. Many agencies check the same capability boxes. What separates Esperia is the discipline we bring to execution — and the ambition we bring to outcomes.
+            </p>
           </div>
 
-          <h2
-            className="text-3xl sm:text-5xl font-bold text-[#0A0A0A] tracking-tight leading-tight font-parkinsans"
-          >
-            Insights at the Edge of Design, AI, and Enterprise
-          </h2>
-          <p className="text-slate-600 text-sm sm:text-base mt-4 leading-relaxed font-manrope">
-            It&apos;s how we do it. Many agencies check the same capability boxes. What separates Esperia is the discipline we bring to execution — and the ambition we bring to outcomes.
-          </p>
+          <div className="shrink-0 flex items-center">
+            <button
+              type="button"
+              onClick={() => onNavigateToBlogs ? onNavigateToBlogs() : (window.location.hash = '#blogs')}
+              className="border-2 border-slate-900 text-slate-900 hover:border-[#C5445A] hover:bg-[#C5445A] hover:text-white font-bold text-xs uppercase tracking-wider px-9 py-4 rounded-full transition-all duration-300 shadow-sm hover:scale-105 cursor-pointer"
+            >
+              SEE ALL BLOGS
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -774,85 +833,19 @@ export default function EsperiaLanding({
               Let’s Talk
             </button>
           </div>
-
-          <div className="w-full h-px bg-white/10 mb-16" />
-
-          {/* Footer Grid */}
-          <footer className="grid grid-cols-1 md:grid-cols-12 gap-10 text-sm text-slate-300">
-            <div className="md:col-span-5">
-              <div className="mb-4">
-                <img
-                  src="/assets/figma/esperia_footer_logo.svg"
-                  alt="ESPERIA QUANTUM"
-                  className="h-12 w-auto object-contain"
-                />
-              </div>
-              <p className="text-xs text-slate-300 font-medium leading-relaxed max-w-sm mb-6">
-                Digital experience &amp; quantum technology consultancy. Engineering colossal products with unprecedented velocity.
-              </p>
-
-              {/* Social Media Vector Icons */}
-              <div className="flex items-center gap-4 text-white">
-                <a href="#" aria-label="Facebook" className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C5445A] flex items-center justify-center transition">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-                </a>
-                <a href="#" aria-label="Twitter / X" className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C5445A] flex items-center justify-center transition">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-                </a>
-                <a href="#" aria-label="LinkedIn" className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C5445A] flex items-center justify-center transition">
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
-                </a>
-                <a href="#" aria-label="Website" className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C5445A] flex items-center justify-center transition">
-                  <Globe className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-
-            <div className="md:col-span-3 md:col-start-7">
-              <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4 font-parkinsans">
-                Services
-              </h4>
-              <ul className="space-y-2.5 text-xs text-slate-300">
-                <li><a href="#what-we-do" className="hover:text-white transition">Human-Centered Design</a></li>
-                <li><a href="#what-we-do" className="hover:text-white transition">AI-Powered Development</a></li>
-                <li><a href="#what-we-do" className="hover:text-white transition">Engineering &amp; Cloud</a></li>
-                <li><a href="#what-we-do" className="hover:text-white transition">Data &amp; Digital Transformation</a></li>
-              </ul>
-            </div>
-
-            <div className="md:col-span-3">
-              <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-4 font-parkinsans">
-                Company
-              </h4>
-              <ul className="space-y-2.5 text-xs text-slate-300">
-                <li><a href="#what-we-do" className="hover:text-white transition">What We do</a></li>
-                <li><a href="#why-esperia" className="hover:text-white transition">Why Esperia</a></li>
-                <li><a href="#our-works" className="hover:text-white transition">Our Products</a></li>
-                <li><a href="#blogs" className="hover:text-white transition">Blogs &amp; Newsletters</a></li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToContact ? onNavigateToContact() : (window.location.hash = '#contact-us')}
-                    className="hover:text-white transition cursor-pointer"
-                  >
-                    Contact Us
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </footer>
-
-          <div className="w-full h-px bg-white/10 my-10" />
-
-          <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-            <p>© 2025 Esperia. All rights reserved.</p>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition">Terms of Service</a>
-            </div>
-          </div>
         </div>
       </section>
+
+      {/* Shared Unified Brand Footer */}
+      <Footer
+        activePage="home"
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWorks={onNavigateToWorks}
+        onNavigateToContact={onNavigateToContact}
+        onNavigateToWhatWeDo={onNavigateToWhatWeDo}
+        onNavigateToBlogs={onNavigateToBlogs}
+        onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+      />
 
     </div>
   );

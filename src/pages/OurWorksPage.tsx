@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Menu, X, Twitter, Linkedin, Github } from 'lucide-react';
+import Footer from '../components/Footer';
 
 interface OurWorksPageProps {
   onNavigateToHome: (sectionId?: string) => void;
   onNavigateToContact: () => void;
   onNavigateToWhatWeDo?: () => void;
+  onNavigateToBlogs?: () => void;
+  onNavigateToWhyEsperia?: () => void;
   onViewWatermelon?: () => void;
 }
 
@@ -12,6 +15,8 @@ export default function OurWorksPage({
   onNavigateToHome,
   onNavigateToContact,
   onNavigateToWhatWeDo,
+  onNavigateToBlogs,
+  onNavigateToWhyEsperia,
   onViewWatermelon
 }: OurWorksPageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -346,171 +351,17 @@ export default function OurWorksPage({
 
 
       {/* ========================================================================= */}
-      {/* 3. LIGHT FOOTER (FIGMA NODE #88:289 - #88:364 - Matching Contact Page)    */}
+      {/* 3. LIGHT FOOTER (SHARED BRAND COMPONENT)                                  */}
       {/* ========================================================================= */}
-      <footer className="bg-[#F7F7F5] border-t border-slate-200/80 pt-14 pb-12 w-full">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14">
-            {/* Column 1: Brand (Figma Node #88:291) */}
-            <div className="lg:col-span-4 flex flex-col items-start">
-              <button
-                type="button"
-                onClick={() => onNavigateToHome()}
-                className="focus:outline-none cursor-pointer"
-              >
-                <img
-                  src="/assets/figma/esperia_header_logo.svg"
-                  alt="ESPERIA QUANTUM"
-                  className="h-10 w-auto object-contain"
-                />
-              </button>
-              <p className="text-[12px] text-[#000000] font-medium mt-4 max-w-[184px] leading-[19.5px] font-manrope">
-                Digital experience &amp; technology consultancy.
-              </p>
-            </div>
-
-            {/* Column 2: Services (Figma Node #88:314) */}
-            <div className="lg:col-span-3">
-              <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-                Services
-              </h4>
-              <ul className="space-y-2.5 text-[12px] text-[#000000] font-normal font-manrope">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToHome('what-we-do')}
-                    className="hover:text-[#C5445A] transition-colors cursor-pointer"
-                  >
-                    Human-Centered Design
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToHome('what-we-do')}
-                    className="hover:text-[#C5445A] transition-colors cursor-pointer"
-                  >
-                    AI-Powered Development
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToHome('our-works')}
-                    className="hover:text-[#C5445A] transition-colors cursor-pointer"
-                  >
-                    Engineering &amp; Cloud
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToHome('our-works')}
-                    className="hover:text-[#C5445A] transition-colors cursor-pointer"
-                  >
-                    Data &amp; Digital Transformation
-                  </button>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 3: Company (Figma Node #88:326) */}
-            <div className="lg:col-span-3">
-              <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-                Company
-              </h4>
-              <ul className="space-y-2.5 text-[12px] text-[#000000] font-normal font-manrope">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')}
-                    className="hover:text-[#C5445A] transition-colors cursor-pointer"
-                  >
-                    What We do
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToHome('why-esperia')}
-                    className="hover:text-[#C5445A] transition-colors cursor-pointer"
-                  >
-                    Why Esperia
-                  </button>
-                </li>
-                <li>
-                  <span className="text-[#C5445A] font-semibold">
-                    Our Works
-                  </span>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToHome('blogs')}
-                    className="hover:text-[#C5445A] transition-colors cursor-pointer"
-                  >
-                    Blogs &amp; Newsletters
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={onNavigateToContact}
-                    className="hover:text-[#C5445A] transition-colors cursor-pointer"
-                  >
-                    Contact Us
-                  </button>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 4: Connect (Figma Node #88:340) */}
-            <div className="lg:col-span-2">
-              <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-                Connect
-              </h4>
-              <div className="flex items-center gap-3 pt-1">
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Twitter"
-                  className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-slate-800 hover:text-white hover:bg-[#C5445A] hover:border-[#C5445A] transition-all duration-300 cursor-pointer"
-                >
-                  <Twitter size={13} />
-                </a>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="LinkedIn"
-                  className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-slate-800 hover:text-white hover:bg-[#C5445A] hover:border-[#C5445A] transition-all duration-300 cursor-pointer"
-                >
-                  <Linkedin size={13} />
-                </a>
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="GitHub"
-                  className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-slate-800 hover:text-white hover:bg-[#C5445A] hover:border-[#C5445A] transition-all duration-300 cursor-pointer"
-                >
-                  <Github size={13} />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Copyright Bar (Figma Node #88:357) */}
-          <div className="pt-6 border-t border-black/[0.07] flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-[#000000] font-normal font-manrope">
-            <p>&copy; 2025 Esperia. All rights reserved.</p>
-            <div className="flex items-center gap-6">
-              <a href="#privacy" className="hover:text-slate-700 transition-colors">Privacy Policy</a>
-              <a href="#terms" className="hover:text-slate-700 transition-colors">Terms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer
+        activePage="works"
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWorks={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onNavigateToContact={onNavigateToContact}
+        onNavigateToWhatWeDo={onNavigateToWhatWeDo}
+        onNavigateToBlogs={onNavigateToBlogs}
+        onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+      />
     </div>
   );
 }
