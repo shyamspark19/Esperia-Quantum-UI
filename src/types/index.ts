@@ -3,8 +3,12 @@ export type PageType =
   | 'contact'
   | 'works'
   | 'watermelon'
+  | 'young-genius'
+  | 'iris-hr'
+  | 'tas-connect'
   | 'what-we-do'
   | 'blogs'
+  | 'blog-detail'
   | 'why-esperia';
 
 export interface BasePageProps {

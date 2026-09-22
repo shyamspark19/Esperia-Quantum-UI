@@ -68,9 +68,25 @@ export default function ContactPage({
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] font-manrope antialiased selection:bg-[#C5445A] selection:text-white flex flex-col justify-between">
       {/* ========================================================================= */}
-      {/* 1. HERO & NAVIGATION BANNER (#3019:1169)                                  */}
+      {/* 1. STICKY HEADER (outside overflow-hidden section)                        */}
       {/* ========================================================================= */}
-      <div className="w-full bg-white px-0 sm:px-4 lg:px-8 pt-0 sm:pt-4">
+      <Header
+        activePage="contact"
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWhatWeDo={onNavigateToWhatWeDo}
+        onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+        onNavigateToWorks={onNavigateToWorks}
+        onNavigateToBlogs={onNavigateToBlogs}
+        onNavigateToContact={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        scrolledBg="bg-[#072826]/95 shadow-xl backdrop-blur-md"
+        mobileBg="bg-[#072826]"
+        className="-mb-20 sm:-mb-24"
+      />
+
+      {/* ========================================================================= */}
+      {/* 2. HERO & NAVIGATION BANNER (#3019:1169)                                  */}
+      {/* ========================================================================= */}
+      <div className="w-full bg-white px-0 sm:px-4 lg:px-8">
         <section className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden bg-[#072826] min-h-[515px]">
           {/* Exact Radial Gradient Background (#3019:1173) */}
           <div
@@ -99,25 +115,14 @@ export default function ContactPage({
             />
           </div>
 
-          {/* Navigation Header */}
-          <Header
-            activePage="contact"
-            onNavigateToHome={onNavigateToHome}
-            onNavigateToWhatWeDo={onNavigateToWhatWeDo}
-            onNavigateToWhyEsperia={onNavigateToWhyEsperia}
-            onNavigateToWorks={onNavigateToWorks}
-            onNavigateToBlogs={onNavigateToBlogs}
-            onNavigateToContact={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          />
-
           {/* Hero Headline Content (#3019:1177) */}
-          <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-10 pb-16 lg:pt-14 lg:pb-24">
+          <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-28 sm:pt-32 lg:pt-36 pb-16 lg:pb-24">
             <div className="max-w-[862px] flex flex-col gap-4 sm:gap-5">
-              {/* Back Button (#3019:1178) */}
+              {/* Home Button */}
               <div>
                 <button
                   type="button"
-                  onClick={() => (onNavigateToBlogs ? onNavigateToBlogs() : onNavigateToHome('blogs'))}
+                  onClick={() => onNavigateToHome()}
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-black/20 hover:bg-black/30 text-[#E5E7EB] text-[12px] font-manrope font-semibold transition-all duration-200 cursor-pointer border border-white/5"
                 >
                   <img
@@ -125,13 +130,8 @@ export default function ContactPage({
                     alt=""
                     className="w-4 h-4 object-contain"
                   />
-                  <span>Back to Blogs &amp; Newsletters</span>
+                  <span>Home</span>
                 </button>
-              </div>
-
-              {/* Category Label (#3019:1183) */}
-              <div className="text-[12px] font-manrope font-semibold text-[#E5E7EB] tracking-wide mt-1">
-                Blogs
               </div>
 
               {/* Headline (#3019:1185) */}

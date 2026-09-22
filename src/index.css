@@ -117,6 +117,8 @@ body {
   }
 }
 
+
+
 @keyframes float-reverse {
 
   0%,
@@ -316,4 +318,14 @@ body {
 
 .animate-subtle-float {
   animation: subtleFloat 6s ease-in-out infinite;
+}
+
+@keyframes heroProgress {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
 }

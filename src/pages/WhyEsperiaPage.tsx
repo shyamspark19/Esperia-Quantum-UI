@@ -72,9 +72,22 @@ export default function WhyEsperiaPage({
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] font-sans antialiased flex flex-col selection:bg-[#C5445A] selection:text-white">
       {/* ============================================================ */}
-      {/* 1. HERO SECTION (EXACT FIGMA 2990:3929)                      */}
+      {/* 1. STICKY HEADER (outside overflow-hidden section)            */}
       {/* ============================================================ */}
-      <div className="w-full bg-white px-0 sm:px-4 lg:px-8 pt-0 sm:pt-4">
+      <Header
+        activePage="why-esperia"
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWhatWeDo={onNavigateToWhatWeDo}
+        onNavigateToWorks={onNavigateToWorks}
+        onNavigateToBlogs={onNavigateToBlogs}
+        onNavigateToContact={onNavigateToContact}
+        className="-mb-20 sm:-mb-24"
+      />
+
+      {/* ============================================================ */}
+      {/* 2. HERO SECTION (EXACT FIGMA 2990:3929)                      */}
+      {/* ============================================================ */}
+      <div className="w-full bg-white px-0 sm:px-4 lg:px-8">
         <section
           className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden min-h-[560px] lg:h-[594px] flex flex-col justify-between"
           style={{
@@ -103,24 +116,23 @@ export default function WhyEsperiaPage({
             />
           </div>
 
-          {/* Navigation Header */}
-          <Header
-            activePage="why-esperia"
-            onNavigateToHome={onNavigateToHome}
-            onNavigateToWhatWeDo={onNavigateToWhatWeDo}
-            onNavigateToWorks={onNavigateToWorks}
-            onNavigateToBlogs={onNavigateToBlogs}
-            onNavigateToContact={onNavigateToContact}
-          />
-
           {/* Hero Content Area */}
-          <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 pt-8 pb-14 sm:pb-20 flex-1 flex flex-col justify-center">
-            <div className="max-w-[760px]">
-              {/* Category Tag */}
-              <div className="mb-4">
-                <span className="text-[12px] font-manrope font-semibold text-[#E5E7EB] uppercase tracking-[0.08em]">
-                  why esperia
-                </span>
+          <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-32 pb-14 sm:pb-20 flex-1 flex flex-col justify-center">
+            <div className="max-w-[760px] flex flex-col gap-4 sm:gap-5">
+              {/* Home Button */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => onNavigateToHome()}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-black/20 hover:bg-black/30 text-[#E5E7EB] text-[12px] font-manrope font-semibold transition-all duration-200 cursor-pointer border border-white/5"
+                >
+                  <img
+                    src="/assets/figma/icon_chevron_left.svg"
+                    alt=""
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span>Home</span>
+                </button>
               </div>
 
               {/* Main Headline */}

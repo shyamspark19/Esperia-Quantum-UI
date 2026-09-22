@@ -4,20 +4,36 @@ import {
   ContactPage,
   OurWorksPage,
   WatermelonDetailPage,
+  YoungGeniusDetailPage,
+  IrisHrDetailPage,
+  TasConnectDetailPage,
   WhatWeDoPage,
   BlogsPage,
+  BlogDetailPage,
   WhyEsperiaPage,
 } from './pages';
 import type { PageType } from './types';
 
 export default function App() {
+  const [selectedBlogId, setSelectedBlogId] = useState<string>(() => {
+    const hash = window.location.hash;
+    if (hash.startsWith('#blog/')) {
+      return hash.replace('#blog/', '') || 'ai-creativity';
+    }
+    return 'ai-creativity';
+  });
+
   const [currentPage, setCurrentPage] = useState<PageType>(() => {
     const hash = window.location.hash;
     if (hash === '#why-esperia') return 'why-esperia';
     if (hash === '#what-we-do' || hash === '#services') return 'what-we-do';
     if (hash === '#contact-us' || hash === '#contact') return 'contact';
     if (hash === '#watermelon' || hash === '#our-works/watermelon') return 'watermelon';
+    if (hash === '#young-genius') return 'young-genius';
+    if (hash === '#iris-hr') return 'iris-hr';
+    if (hash === '#tas-connect') return 'tas-connect';
     if (hash === '#our-works' || hash === '#works') return 'works';
+    if (hash.startsWith('#blog/')) return 'blog-detail';
     if (hash === '#blogs' || hash === '#blogs-and-newsletters' || hash === '#newsletters') return 'blogs';
     return 'home';
   });
@@ -37,8 +53,22 @@ export default function App() {
       } else if (hash === '#watermelon' || hash === '#our-works/watermelon') {
         setCurrentPage('watermelon');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#young-genius') {
+        setCurrentPage('young-genius');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#iris-hr') {
+        setCurrentPage('iris-hr');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#tas-connect') {
+        setCurrentPage('tas-connect');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash === '#our-works' || hash === '#works') {
         setCurrentPage('works');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash.startsWith('#blog/')) {
+        const bId = hash.replace('#blog/', '');
+        setSelectedBlogId(bId || 'ai-creativity');
+        setCurrentPage('blog-detail');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash === '#blogs' || hash === '#blogs-and-newsletters' || hash === '#newsletters') {
         setCurrentPage('blogs');
@@ -82,9 +112,34 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navigateToYoungGenius = () => {
+    window.location.hash = '#young-genius';
+    setCurrentPage('young-genius');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToIrisHr = () => {
+    window.location.hash = '#iris-hr';
+    setCurrentPage('iris-hr');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToTasConnect = () => {
+    window.location.hash = '#tas-connect';
+    setCurrentPage('tas-connect');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const navigateToBlogs = () => {
     window.location.hash = '#blogs';
     setCurrentPage('blogs');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToBlog = (blogId: string) => {
+    window.location.hash = `#blog/${blogId}`;
+    setSelectedBlogId(blogId);
+    setCurrentPage('blog-detail');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -131,6 +186,18 @@ export default function App() {
           onNavigateToContact={navigateToContact}
           onNavigateToWhatWeDo={navigateToWhatWeDo}
           onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onSelectBlog={navigateToBlog}
+        />
+      ) : currentPage === 'blog-detail' ? (
+        <BlogDetailPage
+          blogId={selectedBlogId}
+          onBack={navigateToBlogs}
+          onSelectBlog={navigateToBlog}
+          onNavigateToHome={navigateToHome}
+          onNavigateToWorks={navigateToWorks}
+          onNavigateToContact={navigateToContact}
+          onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
         />
       ) : currentPage === 'what-we-do' ? (
         <WhatWeDoPage
@@ -156,6 +223,9 @@ export default function App() {
           onNavigateToBlogs={navigateToBlogs}
           onNavigateToWhyEsperia={navigateToWhyEsperia}
           onViewWatermelon={navigateToWatermelon}
+          onViewYoungGenius={navigateToYoungGenius}
+          onViewIrisHr={navigateToIrisHr}
+          onViewTasConnect={navigateToTasConnect}
         />
       ) : currentPage === 'watermelon' ? (
         <WatermelonDetailPage
@@ -165,6 +235,42 @@ export default function App() {
           onNavigateToWhatWeDo={navigateToWhatWeDo}
           onNavigateToBlogs={navigateToBlogs}
           onNavigateToWhyEsperia={navigateToWhyEsperia}
+        />
+      ) : currentPage === 'young-genius' ? (
+        <YoungGeniusDetailPage
+          onBack={navigateToWorks}
+          onNavigateToHome={navigateToHome}
+          onNavigateToContact={navigateToContact}
+          onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onViewWatermelon={navigateToWatermelon}
+          onViewIrisHr={navigateToIrisHr}
+          onViewTasConnect={navigateToTasConnect}
+        />
+      ) : currentPage === 'iris-hr' ? (
+        <IrisHrDetailPage
+          onBack={navigateToWorks}
+          onNavigateToHome={navigateToHome}
+          onNavigateToContact={navigateToContact}
+          onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onViewWatermelon={navigateToWatermelon}
+          onViewYoungGenius={navigateToYoungGenius}
+          onViewTasConnect={navigateToTasConnect}
+        />
+      ) : currentPage === 'tas-connect' ? (
+        <TasConnectDetailPage
+          onBack={navigateToWorks}
+          onNavigateToHome={navigateToHome}
+          onNavigateToContact={navigateToContact}
+          onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onViewWatermelon={navigateToWatermelon}
+          onViewYoungGenius={navigateToYoungGenius}
+          onViewIrisHr={navigateToIrisHr}
         />
       ) : (
         <LandingPage

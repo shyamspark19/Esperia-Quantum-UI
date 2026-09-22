@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Menu, X, Twitter, Linkedin, Github } from 'lucide-react';
+import React from 'react';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 interface OurWorksPageProps {
   onNavigateToHome: (sectionId?: string) => void;
@@ -9,6 +9,9 @@ interface OurWorksPageProps {
   onNavigateToBlogs?: () => void;
   onNavigateToWhyEsperia?: () => void;
   onViewWatermelon?: () => void;
+  onViewYoungGenius?: () => void;
+  onViewIrisHr?: () => void;
+  onViewTasConnect?: () => void;
 }
 
 export default function OurWorksPage({
@@ -17,176 +20,107 @@ export default function OurWorksPage({
   onNavigateToWhatWeDo,
   onNavigateToBlogs,
   onNavigateToWhyEsperia,
-  onViewWatermelon
+  onViewWatermelon,
+  onViewYoungGenius,
+  onViewIrisHr,
+  onViewTasConnect,
 }: OurWorksPageProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white flex flex-col justify-between">
-      {/* ========================================================================= */}
-      {/* 1. TOP NAVIGATION BAR (Exact Figma Light Navigation with Active Dot)      */}
-      {/* ========================================================================= */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-black/[0.04] transition-all duration-300">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 h-20 sm:h-24 flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => onNavigateToHome()}
-            className="flex items-center gap-3 group focus:outline-none cursor-pointer"
-          >
+    <div className="min-h-screen bg-white text-[#0A0A0A] font-sans antialiased flex flex-col justify-between selection:bg-[#C5445A] selection:text-white">
+      {/* ============================================================ */}
+      {/* 1. STICKY HEADER (outside overflow-hidden hero section)       */}
+      {/* ============================================================ */}
+      <Header
+        activePage="works"
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWhatWeDo={onNavigateToWhatWeDo}
+        onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+        onNavigateToWorks={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onNavigateToBlogs={onNavigateToBlogs}
+        onNavigateToContact={onNavigateToContact}
+        className="-mb-20 sm:-mb-24"
+      />
+
+      {/* ============================================================ */}
+      {/* 2. HERO SECTION (EXACT SAME THEME AS WHY ESPERIA PAGE)        */}
+      {/* ============================================================ */}
+      <div className="w-full bg-white px-0 sm:px-4 lg:px-8">
+        <section
+          className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden min-h-[560px] lg:h-[594px] flex flex-col justify-between"
+          style={{
+            background:
+              'radial-gradient(circle at 75% 45%, #17382B 0%, #0E241B 55%, #081711 100%)',
+          }}
+        >
+          {/* Subtle Ambient Radial Glow */}
+          <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-[#1A382B]/30 rounded-full blur-[120px] pointer-events-none z-0" />
+
+          {/* Geometric Ribbon Emblem Watermark (Right side of Hero) */}
+          <div className="absolute top-0 right-0 w-[550px] sm:w-[680px] h-full pointer-events-none z-[1] overflow-hidden flex items-center justify-end">
             <img
-              src="/assets/figma/esperia_header_logo.svg"
-              alt="ESPERIA QUANTUM"
-              className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              src="/assets/figma/blog_hero_ribbon.png"
+              alt=""
+              className="w-full h-auto max-w-none opacity-[0.22] mix-blend-screen translate-x-[8%] -translate-y-[2%]"
             />
-          </button>
-
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-9 text-[13px] font-medium text-[#2A2A2A]">
-            <button
-              type="button"
-              onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')}
-              className="text-[#4A4A4A] hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
-            >
-              What We Do
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigateToHome('why-esperia')}
-              className="text-[#4A4A4A] hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
-            >
-              Why Esperia
-            </button>
-
-            {/* Our Works - ACTIVE STATE WITH FIGMA RED COLOR */}
-            <button
-              type="button"
-              className="text-[#C5445A] font-semibold transition-colors duration-200 cursor-pointer"
-            >
-              Our Works
-            </button>
-
-            <button
-              type="button"
-              onClick={() => onNavigateToHome('blogs')}
-              className="text-[#4A4A4A] hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
-            >
-              Blogs &amp; Newsletters
-            </button>
-            <button
-              type="button"
-              onClick={onNavigateToContact}
-              className="text-[#4A4A4A] hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
-            >
-              Contact Us
-            </button>
-          </nav>
-
-          {/* Mobile Menu Hamburger */}
-          <button
-            type="button"
-            aria-label="Toggle navigation menu"
-            className="md:hidden text-[#0A0A0A] p-2 hover:bg-slate-100 rounded-lg transition"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Nav Flyout */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-black/[0.08] px-6 py-6 flex flex-col gap-4 relative z-50 shadow-xl animate-in slide-in-from-top duration-300">
-            <button
-              type="button"
-              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                if (onNavigateToWhatWeDo) onNavigateToWhatWeDo();
-                else onNavigateToHome('what-we-do');
-              }}
-            >
-              What We Do
-            </button>
-            <button
-              type="button"
-              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onNavigateToHome('why-esperia');
-              }}
-            >
-              Why Esperia
-            </button>
-            <button
-              type="button"
-              className="text-left text-[#C5445A] font-semibold text-sm py-1"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Our Works
-            </button>
-            <button
-              type="button"
-              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onNavigateToHome('blogs');
-              }}
-            >
-              Blogs &amp; Newsletters
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onNavigateToContact();
-              }}
-              className="text-left text-[#C5445A] font-semibold pt-3 border-t border-slate-100 cursor-pointer text-sm"
-            >
-              Contact Us
-            </button>
           </div>
-        )}
-      </header>
 
-      {/* ========================================================================= */}
-      {/* 2. MAIN CONTENT (Exact Figma Node #99:1588)                                */}
-      {/* ========================================================================= */}
-      <main className="flex-1 w-full overflow-hidden">
-        {/* ======================================================================= */}
-        {/* HERO SECTION                                                            */}
-        {/* ======================================================================= */}
-        <section className="pt-12 sm:pt-16 pb-16 sm:pb-24 max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left: Heading & Kicker */}
-            <div className="lg:col-span-6 xl:col-span-7">
-              {/* Kicker tag with dash */}
-              <div className="flex items-center gap-2.5 mb-5 sm:mb-6">
-                <span className="w-3 h-0.5 bg-[#C5445A] rounded-full inline-block" />
-                <span className="text-[11px] sm:text-[12px] font-semibold uppercase tracking-[0.2em] text-[#6B7280]">
-                  OUR WORKS
-                </span>
+          {/* 3D Isometric Platform Graphic (Right side of Hero) */}
+          <div className="hidden md:block absolute right-2 lg:right-10 top-[85px] lg:top-[95px] w-[460px] lg:w-[580px] h-auto z-20 drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
+            <img
+              src="/assets/figma/exact_hero_3d_hq.png"
+              alt="AI & Cloud Solutions Ecosystem"
+              className="w-full h-auto object-contain select-none cursor-pointer transform-gpu transition-transform duration-500 ease-out hover:scale-105 active:scale-100 will-change-transform"
+            />
+          </div>
+
+          {/* Hero Content Area */}
+          <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-32 pb-14 sm:pb-20 flex-1 flex flex-col justify-center">
+            <div className="max-w-[760px] flex flex-col gap-4 sm:gap-5">
+              {/* Home Button */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => onNavigateToHome()}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-black/20 hover:bg-black/30 text-[#E5E7EB] text-[12px] font-manrope font-semibold transition-all duration-200 cursor-pointer border border-white/5"
+                >
+                  <img
+                    src="/assets/figma/icon_chevron_left.svg"
+                    alt=""
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span>Home</span>
+                </button>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold font-['Parkinsans',sans-serif] tracking-[-0.03em] leading-[1.08] text-[#0A0A0A]">
-                Solutions that
-                <br />
-                <span className="text-[#C5445A]">Empower</span> Industries
+              <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-semibold text-white font-parkinsans leading-[1.08] tracking-tight mb-4 sm:mb-6">
+                Solutions that <br />
+                <span className="font-playball text-[#91CBA6] font-normal italic tracking-normal inline-block ml-1">Empower</span>
+                <span className="font-parkinsans font-semibold text-white ml-2">Industries</span>
               </h1>
+
+              {/* Subtitle Description */}
+              <p className="text-[16px] sm:text-[18px] text-[#FFFFFF]/85 font-manrope font-normal leading-[1.6] max-w-[560px]">
+                We partner with high-growth startups and global enterprises to design, engineer, and scale transformative digital products that redefine entire industries.
+              </p>
             </div>
 
-            {/* Right: 3D Isometric Platform Graphic with Floating Animation */}
-            <div className="lg:col-span-6 xl:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative max-w-[540px] w-full animate-float-slow">
-                <div className="absolute -inset-6 bg-gradient-to-tr from-[#C5445A]/15 via-transparent to-[#3EA594]/10 rounded-full blur-3xl -z-10 animate-pulse-glow" />
-                <img
-                  src="/assets/figma/exact_hero_3d_hq.png"
-                  alt="AI & Cloud Solutions Ecosystem"
-                  className="w-full h-auto object-contain drop-shadow-[0_20px_40px_rgba(197,68,90,0.15)] transition-transform duration-700 hover:scale-105"
-                />
-              </div>
+            {/* Mobile-only 3D artwork display */}
+            <div className="md:hidden mt-8 w-full max-w-[340px] mx-auto">
+              <img
+                src="/assets/figma/exact_hero_3d_hq.png"
+                alt="AI & Cloud Solutions Ecosystem"
+                className="w-full h-auto object-contain select-none cursor-pointer transform-gpu transition-transform duration-500 ease-out hover:scale-105 will-change-transform"
+              />
             </div>
           </div>
         </section>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 3. MAIN CONTENT (CASE STUDIES)                                            */}
+      {/* ========================================================================= */}
+      <main className="flex-1 w-full overflow-hidden pt-12 sm:pt-20">
 
         {/* ======================================================================= */}
         {/* CASE STUDIES SECTION (Alternating Overlapping Card Layout)              */}
@@ -246,7 +180,7 @@ export default function OurWorksPage({
                 </p>
                 <button
                   type="button"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={() => onViewYoungGenius ? onViewYoungGenius() : undefined}
                   className="group/btn inline-flex items-center gap-2 text-[15px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors duration-200 cursor-pointer"
                 >
                   <span>View Details</span>
@@ -295,7 +229,7 @@ export default function OurWorksPage({
                 </p>
                 <button
                   type="button"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={() => onViewIrisHr ? onViewIrisHr() : undefined}
                   className="group/btn inline-flex items-center gap-2 text-[15px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors duration-200 cursor-pointer"
                 >
                   <span>View Details</span>
@@ -322,7 +256,7 @@ export default function OurWorksPage({
                 </p>
                 <button
                   type="button"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={() => onViewTasConnect ? onViewTasConnect() : undefined}
                   className="group/btn inline-flex items-center gap-2 text-[15px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors duration-200 cursor-pointer"
                 >
                   <span>View Details</span>

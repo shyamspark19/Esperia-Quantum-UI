@@ -24,9 +24,24 @@ export default function WhatWeDoPage({
   return (
     <div className="min-h-screen bg-[#F6F6F3] text-[#0A0A0A] font-sans antialiased flex flex-col selection:bg-[#C5445A] selection:text-white">
       {/* ============================================================ */}
-      {/* 1. HERO SECTION (EXACT ATTACHED THEME BACKGROUND)             */}
+      {/* 1. STICKY HEADER (outside overflow-hidden section)            */}
       {/* ============================================================ */}
-      <div className="w-full bg-[#F6F6F3] px-0 sm:px-4 lg:px-8 pt-0 sm:pt-4">
+      <Header
+        activePage="what-we-do"
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWhatWeDo={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+        onNavigateToWorks={onNavigateToWorks}
+        onNavigateToBlogs={onNavigateToBlogs}
+        onNavigateToContact={onNavigateToContact}
+        scrolledBg="bg-[#071F1A]/95 shadow-xl backdrop-blur-md"
+        className="-mb-20 sm:-mb-24"
+      />
+
+      {/* ============================================================ */}
+      {/* 2. HERO SECTION (EXACT ATTACHED THEME BACKGROUND)             */}
+      {/* ============================================================ */}
+      <div className="w-full bg-[#F6F6F3] px-0 sm:px-4 lg:px-8">
         <section className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] bg-[#071F1A]">
           {/* Exact Hero Theme Background Image */}
           <div className="absolute inset-0 z-0 pointer-events-none">
@@ -49,25 +64,26 @@ export default function WhatWeDoPage({
           {/* Ambient Top Glow */}
           <div className="absolute top-0 left-1/4 w-[500px] h-[300px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none z-0" />
 
-          {/* Navigation Header */}
-          <Header
-            activePage="what-we-do"
-            onNavigateToHome={onNavigateToHome}
-            onNavigateToWhatWeDo={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            onNavigateToWhyEsperia={onNavigateToWhyEsperia}
-            onNavigateToWorks={onNavigateToWorks}
-            onNavigateToBlogs={onNavigateToBlogs}
-            onNavigateToContact={onNavigateToContact}
-          />
-
           {/* Hero Content Area */}
-          <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pt-12 sm:pt-16 lg:pt-20 pb-16 sm:pb-24 lg:pb-28">
+          <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 lg:pb-28">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
               {/* Left Headline & Pitch */}
               <div className="lg:col-span-6 flex flex-col items-start text-left">
-                <span className="text-[11px] sm:text-[12px] font-semibold tracking-[0.25em] text-white/55 uppercase mb-4 sm:mb-6 font-manrope">
-                  WHAT WE DO
-                </span>
+                {/* Home Button */}
+                <div className="mb-4 sm:mb-6">
+                  <button
+                    type="button"
+                    onClick={() => onNavigateToHome()}
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-black/20 hover:bg-black/30 text-[#E5E7EB] text-[12px] font-manrope font-semibold transition-all duration-200 cursor-pointer border border-white/5"
+                  >
+                    <img
+                      src="/assets/figma/icon_chevron_left.svg"
+                      alt=""
+                      className="w-4 h-4 object-contain"
+                    />
+                    <span>Home</span>
+                  </button>
+                </div>
 
                 <h1 className="text-4xl sm:text-5xl lg:text-[60px] xl:text-[66px] font-bold text-white tracking-tight leading-[1.08] font-sans">
                   Human Ingenuity.
@@ -93,7 +109,7 @@ export default function WhatWeDoPage({
                   <img
                     src="/assets/figma/whatwedo_hero_exact.png"
                     alt="Esperia Intelligent Systems Platform"
-                    className="relative z-10 w-full h-auto object-contain max-h-[480px] drop-shadow-[0_25px_60px_rgba(0,0,0,0.45)] hover:scale-[1.02] transition-transform duration-700 ease-out"
+                    className="relative z-10 w-full h-auto object-contain max-h-[480px] drop-shadow-[0_25px_60px_rgba(0,0,0,0.45)] hover:scale-105 transition-transform duration-500 ease-out cursor-pointer"
                   />
                 </div>
               </div>
@@ -117,7 +133,7 @@ export default function WhatWeDoPage({
               <img
                 src="/assets/figma/whatwedo_card1_exact.png"
                 alt="01 Engineering & Platforms"
-                className="w-full max-w-[360px] h-auto object-contain rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:scale-[1.01] transition-transform duration-300"
+                className="w-full max-w-[360px] h-auto object-contain rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:scale-105 transition-transform duration-500 ease-out cursor-pointer"
               />
             </div>
 
@@ -193,7 +209,7 @@ export default function WhatWeDoPage({
               <img
                 src="/assets/figma/whatwedo_card2_exact.png"
                 alt="02 AI & Data Automation"
-                className="w-full max-w-[360px] h-auto object-contain rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:scale-[1.01] transition-transform duration-300"
+                className="w-full max-w-[360px] h-auto object-contain rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:scale-105 transition-transform duration-500 ease-out cursor-pointer"
               />
             </div>
           </div>
@@ -209,7 +225,7 @@ export default function WhatWeDoPage({
               <img
                 src="/assets/figma/whatwedo_card3_exact.png"
                 alt="03 Government Services"
-                className="w-full max-w-[360px] h-auto object-contain rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:scale-[1.01] transition-transform duration-300"
+                className="w-full max-w-[360px] h-auto object-contain rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:scale-105 transition-transform duration-500 ease-out cursor-pointer"
               />
             </div>
 
@@ -294,7 +310,7 @@ export default function WhatWeDoPage({
               <img
                 src="/assets/figma/whatwedo_card4_exact.png"
                 alt="04 Human & AI Experience Design"
-                className="w-full max-w-[360px] h-auto object-contain rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:scale-[1.01] transition-transform duration-300"
+                className="w-full max-w-[360px] h-auto object-contain rounded-[28px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:scale-105 transition-transform duration-500 ease-out cursor-pointer"
               />
             </div>
           </div>

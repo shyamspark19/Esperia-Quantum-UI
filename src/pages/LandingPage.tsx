@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ArrowRight,
   Menu,
@@ -21,6 +21,125 @@ interface EsperiaLandingProps {
   onNavigateToWhyEsperia?: () => void;
 }
 
+// Hero Carousel Slides Configuration (Figma Website UI 5, UI 6, UI 7)
+const heroSlides = [
+  {
+    id: 'website-ui-5',
+    name: 'Website UI 5',
+    bgStyle: `
+      radial-gradient(circle at 85% 45%, rgba(20, 80, 75, 0.35) 0%, transparent 60%),
+      radial-gradient(circle at 15% 85%, rgba(10, 40, 38, 0.4) 0%, transparent 50%),
+      linear-gradient(135deg, #051413 0%, #071D1B 45%, #051513 100%)
+    `,
+    bgImage: '',
+    scrolledHeaderBg: 'bg-[#051413]/95 shadow-xl backdrop-blur-md',
+    mobileMenuBg: 'bg-[#071D1B]',
+    renderHeading: () => (
+      <>
+        <span className="text-[#73A7A3] block">Cloud-Native.</span>
+        <span className="bg-gradient-to-r from-[#F26E65] via-[#E2857E] to-[#73A7A3] bg-clip-text text-transparent block">
+          AI-Driven.
+        </span>
+      </>
+    ),
+    descriptionText:
+      'From modern cloud architecture to AI-powered experiences, we engineer digital products that are scalable, secure, resilient, and built to move fast.',
+    descClass: 'text-[#73A7A3]/90',
+    buttonClass:
+      'border border-white hover:bg-white/10 text-white',
+    imageSrc: '/assets/figma/hero_slide1_cubes_3d.png',
+    imageAlt: 'Cloud-Native AI Digital Engineering 3D Crystals',
+    imageWrapperClass: 'max-w-[620px] lg:max-w-[720px] xl:max-w-[780px]',
+    statIconClass: 'text-[#F26E65]',
+    statNumberClass: 'text-[#F26E65]',
+    statLabelClass: 'text-[#73A7A3]',
+    statDividerClass: 'border-[#73A7A3]/25'
+  },
+  {
+    id: 'website-ui-6',
+    name: 'Website UI 6',
+    bgStyle: `
+      radial-gradient(circle at 10% 90%, rgba(224, 105, 90, 0.45) 0%, transparent 45%),
+      radial-gradient(circle at 90% 15%, rgba(135, 20, 36, 0.35) 0%, transparent 45%),
+      linear-gradient(135deg, #B5223C 0%, #BA2845 38%, #A21F36 72%, #8E172B 100%)
+    `,
+    bgImage: '',
+    scrolledHeaderBg: 'bg-[#9E1D34]/95 shadow-xl backdrop-blur-md',
+    mobileMenuBg: 'bg-[#8E172B]',
+    renderHeading: () => (
+      <>
+        <span className="text-white block">Cloud-Native.</span>
+        <span className="text-white block">AI-Driven.</span>
+      </>
+    ),
+    descriptionText:
+      'From modern cloud architecture to AI-powered experiences, we engineer digital products that are scalable, secure, resilient, and built to move fast.',
+    descClass: 'text-white/85',
+    buttonClass:
+      'border border-white hover:bg-white/10 text-white',
+    imageSrc: '/assets/figma/hero_slide2_cloud_infra.png',
+    imageAlt: 'Cloud-Native AI Digital Engineering Cloud Architecture',
+    imageWrapperClass: 'max-w-[640px] lg:max-w-[760px] xl:max-w-[820px]',
+    statIconClass: 'text-white',
+    statNumberClass: 'text-white',
+    statLabelClass: 'text-white/80',
+    statDividerClass: 'border-white/25'
+  },
+  {
+    id: 'website-ui-7',
+    name: 'Website UI 7',
+    bgStyle: `
+      radial-gradient(circle at 80% 65%, rgba(235, 95, 55, 0.18) 0%, transparent 48%),
+      radial-gradient(circle at 20% 25%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+      linear-gradient(135deg, rgb(26, 28, 31) 0%, rgb(19, 20, 22) 55%, rgb(11, 12, 14) 100%)
+    `,
+    bgImage: '/assets/figma/ui7_hero_bg.png',
+    scrolledHeaderBg: 'bg-[#141618]/95 shadow-xl backdrop-blur-md',
+    mobileMenuBg: 'bg-[#181B1E]',
+    renderHeading: () => (
+      <>
+        <span className="text-white block">Cloud-Native.</span>
+        <span className="text-white block">AI-Driven.</span>
+      </>
+    ),
+    descriptionText:
+      'From modern cloud architecture to AI-powered experiences, we engineer digital products that are scalable, secure, resilient, and built to move fast.',
+    descClass: 'text-white/75',
+    buttonClass:
+      'border border-white hover:bg-white/10 text-white',
+    imageSrc: '',
+    imageAlt: 'Neural Topography Digital Landscape',
+    imageWrapperClass: 'max-w-[640px] lg:max-w-[760px] xl:max-w-[820px]',
+    statIconClass: 'text-white',
+    statNumberClass: 'text-white',
+    statLabelClass: 'text-white/70',
+    statDividerClass: 'border-white/20'
+  }
+];
+
+const statsItems = [
+  {
+    icon: Users2,
+    value: '150+',
+    label: 'YEARS OF COLLECTIVE EXPERIENCE'
+  },
+  {
+    icon: Monitor,
+    value: '50+',
+    label: 'PROJECT DELIVERED'
+  },
+  {
+    icon: Target,
+    value: '100%',
+    label: 'SUCCESS RATE'
+  },
+  {
+    icon: Globe,
+    value: '03',
+    label: 'GLOBAL OFFICES'
+  }
+];
+
 export default function EsperiaLanding({
   onNavigateToHome,
   onNavigateToContact,
@@ -30,54 +149,101 @@ export default function EsperiaLanding({
   onNavigateToWhyEsperia
 }: EsperiaLandingProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  // Auto-advance carousel in a continuous loop every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const goToPrevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
+  const goToNextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (diff > 50) {
+      goToNextSlide();
+    } else if (diff < -50) {
+      goToPrevSlide();
+    }
+    setTouchStartX(null);
+  };
+
+  // Track window scroll to smoothly adapt header over light sections
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const currentSlideConfig = heroSlides[currentSlide];
 
   return (
     <div className="min-h-screen bg-[#F6F6F3] text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white">
 
-      {/* Locked / Sticky Navigation Bar */}
-      <header className="sticky top-0 z-50 bg-[#0A111A]/95 backdrop-blur-md border-b border-white/10 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-6 h-20 sm:h-24 flex items-center justify-between">
+      {/* Sticky Navigation Bar */}
+      <header className={`sticky top-0 z-50 transition-all duration-500 -mb-20 sm:-mb-24 ${isScrolled ? currentSlideConfig.scrolledHeaderBg : 'bg-transparent'
+        }`}>
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 h-20 sm:h-24 flex items-center justify-between">
           <a href="#" className="focus:outline-none flex items-center group">
             <img
-              src="/assets/figma/esperia_header_logo.svg"
+              src="/assets/figma/esperia_logo_white.svg"
               alt="ESPERIA QUANTUM"
-              className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
           </a>
 
-          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-white/90">
+          <nav className="hidden md:flex items-center gap-8 lg:gap-10 text-[13px] font-medium text-white">
             <button
               type="button"
               onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : (window.location.hash = '#what-we-do')}
-              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+              className="hover:text-white/80 transition-colors duration-200 cursor-pointer"
             >
               What We Do
             </button>
             <button
               type="button"
               onClick={() => onNavigateToWhyEsperia ? onNavigateToWhyEsperia() : (window.location.hash = '#why-esperia')}
-              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+              className="hover:text-white/80 transition-colors duration-200 cursor-pointer"
             >
               Why Esperia
             </button>
             <button
               type="button"
               onClick={() => onNavigateToWorks ? onNavigateToWorks() : (window.location.hash = '#our-works')}
-              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+              className="hover:text-white/80 transition-colors duration-200 cursor-pointer"
             >
               Our Works
             </button>
             <button
               type="button"
               onClick={() => onNavigateToBlogs ? onNavigateToBlogs() : (window.location.hash = '#blogs')}
-              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+              className="hover:text-white/80 transition-colors duration-200 cursor-pointer"
             >
               Blogs &amp; Newsletters
             </button>
             <button
               type="button"
               onClick={() => onNavigateToContact ? onNavigateToContact() : (window.location.hash = '#contact-us')}
-              className="hover:text-[#73A7A3] transition-colors duration-200 cursor-pointer"
+              className="hover:text-white/80 transition-colors duration-200 cursor-pointer"
             >
               Contact Us
             </button>
@@ -95,8 +261,8 @@ export default function EsperiaLanding({
 
         {/* Mobile Nav Flyout */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#0A111A] border-b border-white/10 px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300">
-            <a href="#what-we-do" className="text-white hover:text-[#73A7A3]" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
+          <div className={`md:hidden ${currentSlideConfig.mobileMenuBg} px-6 py-6 flex flex-col gap-4 relative z-50 shadow-2xl animate-in slide-in-from-top duration-300`}>
+            <a href="#what-we-do" className="text-white hover:text-white/80" onClick={() => setMobileMenuOpen(false)}>What We Do</a>
             <button
               type="button"
               onClick={() => {
@@ -104,13 +270,13 @@ export default function EsperiaLanding({
                 if (onNavigateToWhyEsperia) onNavigateToWhyEsperia();
                 else window.location.hash = '#why-esperia';
               }}
-              className="text-left text-white hover:text-[#73A7A3] cursor-pointer"
+              className="text-left text-white hover:text-white/80 cursor-pointer"
             >
               Why Esperia
             </button>
             <button
               type="button"
-              className="text-left text-white hover:text-[#73A7A3] cursor-pointer"
+              className="text-left text-white hover:text-white/80 cursor-pointer"
               onClick={() => {
                 setMobileMenuOpen(false);
                 if (onNavigateToWorks) onNavigateToWorks();
@@ -121,7 +287,7 @@ export default function EsperiaLanding({
             </button>
             <button
               type="button"
-              className="text-left text-white hover:text-[#73A7A3] cursor-pointer"
+              className="text-left text-white hover:text-white/80 cursor-pointer"
               onClick={() => {
                 setMobileMenuOpen(false);
                 if (onNavigateToBlogs) onNavigateToBlogs();
@@ -137,7 +303,7 @@ export default function EsperiaLanding({
                 if (onNavigateToContact) onNavigateToContact();
                 else window.location.hash = '#contact-us';
               }}
-              className="text-left text-[#FF7E8B] font-semibold pt-2 border-t border-white/10 cursor-pointer"
+              className="text-left text-white font-semibold pt-2 border-t border-white/20 cursor-pointer"
             >
               Contact Us
             </button>
@@ -146,105 +312,155 @@ export default function EsperiaLanding({
       </header>
 
       {/* ========================================================================= */}
-      {/* 1. HERO SECTION (COLOSSAL 3D VISUALS & DYNAMIC GLOW ANIMATION)            */}
+      {/* 1. HERO SECTION (CONTINUOUS LOOPING CAROUSEL: FIGMA UI 5, 6, 7)           */}
       {/* ========================================================================= */}
-      <section className="relative bg-hero-gradient text-white overflow-hidden">
-        {/* Animated Ambient Radial Lighting */}
-        <div className="absolute top-0 right-1/4 w-[650px] h-[650px] bg-[#3EA594]/20 rounded-full blur-[150px] pointer-events-none animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/12 w-[520px] h-[520px] bg-[#C5465B]/20 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" style={{ animationDelay: '2.5s' }} />
-
-        {/* Hero Body Grid */}
-        <div className="max-w-7xl mx-auto px-6 pt-12 lg:pt-20 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-          <div className="lg:col-span-6">
-            <h1
-              className="text-5xl sm:text-7xl lg:text-[96px] font-bold tracking-[-0.03em] leading-[1.03] mb-6 font-sora"
+      <section
+        className="relative text-white overflow-hidden select-none"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Dynamic Atmospheric Background Cross-fade Layers */}
+        {heroSlides.map((slide, index) => {
+          const isActive = currentSlide === index;
+          return (
+            <div
+              key={`bg-${slide.id}`}
+              className={`absolute inset-0 transition-opacity duration-[1400ms] ease-in-out pointer-events-none overflow-hidden ${
+                isActive ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
+              }`}
+              style={{ background: slide.bgStyle }}
             >
-              <span className="text-[#73A7A3]">Cloud-Native.</span><br />
-              <span className="text-gradient-ai">AI-Driven.</span>
-            </h1>
+              {slide.bgImage && (
+                <img
+                  src={slide.bgImage}
+                  alt=""
+                  className="absolute right-0 bottom-0 w-full h-full object-cover object-right-bottom pointer-events-none select-none"
+                />
+              )}
+            </div>
+          );
+        })}
 
-            <p className="text-[#9DB0AF] text-base sm:text-[18px] leading-[1.8] max-w-xl mb-10 font-manrope">
+        {/* Ambient subtle light glow that moves softly */}
+        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-white/[0.03] rounded-full blur-[140px] pointer-events-none z-[2]" />
+
+        {/* Main Hero Stage (Stable, unified layout with zero text jitter) */}
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 pt-32 sm:pt-36 lg:pt-40 pb-8 sm:pb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+          
+          {/* Left Column: Heading, description, button */}
+          <div className="lg:col-span-6 z-10">
+            {/* Seamless Heading Cross-Dissolve */}
+            <div className="relative mb-7">
+              {/* UI 5 Style: Metallic Teal + Coral to Teal Gradient */}
+              <h1
+                className={`text-5xl sm:text-7xl lg:text-[84px] xl:text-[92px] font-bold tracking-[-0.03em] leading-[1.04] font-sora transition-opacity duration-1000 ease-in-out ${
+                  currentSlide === 0
+                    ? 'opacity-100 pointer-events-auto'
+                    : 'opacity-0 pointer-events-none absolute inset-0'
+                }`}
+              >
+                <span className="text-[#73A7A3] block">Cloud-Native.</span>
+                <span className="bg-gradient-to-r from-[#F26E65] via-[#E2857E] to-[#73A7A3] bg-clip-text text-transparent block">
+                  AI-Driven.
+                </span>
+              </h1>
+
+              {/* UI 6 & 7 Style: Solid White */}
+              <h1
+                className={`text-5xl sm:text-7xl lg:text-[84px] xl:text-[92px] font-bold tracking-[-0.03em] leading-[1.04] font-sora text-white transition-opacity duration-1000 ease-in-out ${
+                  currentSlide !== 0
+                    ? 'opacity-100 pointer-events-auto'
+                    : 'opacity-0 pointer-events-none absolute inset-0'
+                }`}
+              >
+                <span className="block">Cloud-Native.</span>
+                <span className="block">AI-Driven.</span>
+              </h1>
+            </div>
+
+            {/* Description Text with Smooth Color Palette Adaptation */}
+            <p
+              className={`text-base sm:text-[17px] leading-[1.75] max-w-[490px] mb-10 font-manrope font-normal transition-colors duration-1000 ease-in-out ${currentSlideConfig.descClass}`}
+            >
               From modern cloud architecture to AI-powered experiences, we engineer digital products that are scalable, secure, resilient, and built to move fast.
             </p>
 
+            {/* CTA Button with Smooth Color & Border Transition */}
             <div>
               <a
                 href="#our-works"
-                className="group inline-flex items-center gap-2.5 border-2 border-[#73A7A3] text-[#73A7A3] hover:bg-[#73A7A3] hover:text-[#041B19] font-semibold text-base px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-[#73A7A3]/10"
+                onClick={(e) => {
+                  if (onNavigateToWorks) {
+                    e.preventDefault();
+                    onNavigateToWorks();
+                  }
+                }}
+                className={`inline-flex items-center justify-center font-medium text-sm sm:text-base px-8 py-3 rounded-full border border-white hover:border-white hover:bg-white/10 text-white transition-all duration-1000 ease-in-out cursor-pointer shadow-sm ${currentSlideConfig.buttonClass}`}
               >
-                <span>See our works</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+                See our works
               </a>
             </div>
           </div>
 
-          {/* Colossal Hero Figma 3D Visual Art Asset with Aura and Float Animation */}
+          {/* Right Column: 3D Visual Centerpiece */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end relative">
-            {/* Colossal Floating Visual Platform */}
-            <div className="relative w-full max-w-[620px] lg:max-w-[680px]">
-              <div className="absolute -inset-4 bg-gradient-to-tr from-[#3EA594]/25 via-transparent to-[#C5465B]/25 rounded-3xl blur-2xl animate-pulse-glow" />
-
-              <div className="relative z-10 animate-float-slow">
-                <img
-                  src="/assets/figma/e1bbc92e17afb48e5c127448f1d2bab209e43e66.png"
-                  alt="Cloud-Native AI Digital Engineering Architecture"
-                  className="w-full h-auto object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)] hover:scale-105 transition-transform duration-700 ease-out cursor-pointer"
-                />
-              </div>
+            <div className="relative w-full max-w-[640px] lg:max-w-[760px] xl:max-w-[820px] -mr-4 lg:-mr-12 xl:-mr-16 min-h-[380px] sm:min-h-[460px] lg:min-h-[520px] flex items-center justify-center lg:justify-end">
+              {heroSlides.map((slide, index) => {
+                const isActive = currentSlide === index;
+                if (!slide.imageSrc) return null;
+                return (
+                  <div
+                    key={slide.id}
+                    className={`absolute inset-0 flex items-center justify-center lg:justify-end transition-opacity duration-1000 ease-in-out ${
+                      isActive ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none z-0'
+                    }`}
+                  >
+                    <img
+                      src={slide.imageSrc}
+                      alt={slide.imageAlt}
+                      className="w-full h-auto max-h-[540px] object-contain select-none pointer-events-none drop-shadow-[0_24px_48px_rgba(0,0,0,0.35)]"
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
+
         </div>
 
-        {/* Ruled Stats Strip */}
-        <div className="border-t border-[#73A7A3]/25 bg-black/20 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="flex items-center gap-4 pr-6 md:border-r border-[#73A7A3]/20 group">
-              <Users2 className="text-[#73A7A3] shrink-0 group-hover:scale-110 transition-transform duration-300" size={30} />
-              <div>
-                <span className="text-3xl sm:text-5xl font-extrabold text-gradient-stats font-manrope block leading-tight">
-                  150+
-                </span>
-                <span className="text-[11px] font-bold tracking-[0.2em] text-[#73A7A3] uppercase mt-1 block">
-                  Years collective experience
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 pr-6 md:border-r border-[#73A7A3]/20 group">
-              <Monitor className="text-[#73A7A3] shrink-0 group-hover:scale-110 transition-transform duration-300" size={30} />
-              <div>
-                <span className="text-3xl sm:text-5xl font-extrabold text-gradient-stats font-manrope block leading-tight">
-                  50+
-                </span>
-                <span className="text-[11px] font-bold tracking-[0.2em] text-[#73A7A3] uppercase mt-1 block">
-                  Projects Delivered
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 pr-6 md:border-r border-[#73A7A3]/20 group">
-              <Target className="text-[#73A7A3] shrink-0 group-hover:scale-110 transition-transform duration-300" size={30} />
-              <div>
-                <span className="text-3xl sm:text-5xl font-extrabold text-gradient-stats font-manrope block leading-tight">
-                  100%
-                </span>
-                <span className="text-[11px] font-bold tracking-[0.2em] text-[#73A7A3] uppercase mt-1 block">
-                  Success Rate
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 group">
-              <Globe className="text-[#73A7A3] shrink-0 group-hover:scale-110 transition-transform duration-300" size={30} />
-              <div>
-                <span className="text-3xl sm:text-5xl font-extrabold text-gradient-stats font-manrope block leading-tight">
-                  03
-                </span>
-                <span className="text-[11px] font-bold tracking-[0.2em] text-[#73A7A3] uppercase mt-1 block">
-                  Global Offices
-                </span>
-              </div>
-            </div>
+        {/* Hero Stats Strip - Seamlessly adapting colors with active slide (No horizontal lines, no black backdrop) */}
+        <div className="relative z-20 pb-12 sm:pb-16 pt-2">
+          <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
+            {statsItems.map((stat, idx) => {
+              const Icon = stat.icon;
+              const isFirst = idx === 0;
+              const isLast = idx === statsItems.length - 1;
+              return (
+                <div
+                  key={stat.label}
+                  className={`flex flex-col transition-colors duration-1000 ease-in-out ${
+                    !isLast ? `pr-6 md:pr-8 lg:pr-12 md:border-r ${currentSlideConfig.statDividerClass}` : ''
+                  } ${!isFirst ? 'md:pl-6 lg:pl-10' : ''}`}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <Icon
+                      size={24}
+                      className={`shrink-0 transition-colors duration-1000 ease-in-out ${currentSlideConfig.statIconClass}`}
+                    />
+                    <span
+                      className={`text-3xl sm:text-4xl lg:text-[42px] font-bold font-manrope leading-none tracking-tight transition-colors duration-1000 ease-in-out ${currentSlideConfig.statNumberClass}`}
+                    >
+                      {stat.value}
+                    </span>
+                  </div>
+                  <span
+                    className={`text-[10.5px] sm:text-[11.5px] font-bold tracking-[0.18em] uppercase font-manrope transition-colors duration-1000 ease-in-out ${currentSlideConfig.statLabelClass}`}
+                  >
+                    {stat.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -297,7 +513,7 @@ export default function EsperiaLanding({
                 <img
                   src="/assets/figma/93db253d9a77bca6768960eed7492c046fe70768.png"
                   alt="Esperia Intelligent Vision"
-                  className="w-72 sm:w-96 lg:w-[420px] h-auto object-contain animate-float transition-transform duration-700 ease-out group-hover:scale-110 group-hover:-translate-y-3 group-hover:rotate-2"
+                  className="w-72 sm:w-96 lg:w-[420px] h-auto object-contain transition-transform duration-500 ease-out group-hover:scale-105"
                 />
               </div>
             </div>
@@ -536,11 +752,11 @@ export default function EsperiaLanding({
           </div>
 
           <div className="w-full lg:w-[480px] flex justify-center lg:justify-end relative">
-            <div className="relative animate-float-slow">
+            <div className="relative">
               <img
                 src="/assets/figma/2007eccd674cd45280b84a0c5e53c6f8ab9f5331.png"
                 alt="Enterprise Delivery Architecture"
-                className="w-full max-w-[420px] h-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.45)] hover:scale-105 transition-transform duration-500"
+                className="w-full max-w-[420px] h-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.45)] hover:scale-105 transition-transform duration-500 ease-out cursor-pointer"
               />
             </div>
           </div>

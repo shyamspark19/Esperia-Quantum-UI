@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   activePage?: 'what-we-do' | 'why-esperia' | 'works' | 'blogs' | 'contact' | 'home';
@@ -8,6 +9,12 @@ interface HeaderProps {
   onNavigateToWorks?: () => void;
   onNavigateToBlogs?: () => void;
   onNavigateToContact?: () => void;
+  /** Override the scrolled-state background. Defaults to dark teal glass. */
+  scrolledBg?: string;
+  /** Override the mobile menu background. Defaults to dark teal. */
+  mobileBg?: string;
+  /** Extra classes applied to the outer <header> element (e.g. negative margin for overlay). */
+  className?: string;
 }
 
 export default function Header({
@@ -18,8 +25,18 @@ export default function Header({
   onNavigateToWorks,
   onNavigateToBlogs,
   onNavigateToContact,
+  scrolledBg = 'bg-[#051413]/95 shadow-xl backdrop-blur-md',
+  mobileBg = 'bg-[#071D1B]',
+  className = '',
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleHome = () => {
     if (onNavigateToHome) onNavigateToHome();
@@ -56,90 +73,73 @@ export default function Header({
     else window.location.hash = '#contact-us';
   };
 
+  const desktopLinkClass = (page: string) =>
+    activePage === page
+      ? 'text-[#F56F6A] font-semibold transition-colors duration-200 cursor-default'
+      : 'text-white font-medium hover:text-white/80 transition-colors duration-200 cursor-pointer';
+
+  const mobileLinkClass = (page: string) =>
+    `text-left py-2 transition-colors ${
+      activePage === page ? 'text-[#F56F6A] font-semibold' : 'text-white/90 hover:text-white'
+    }`;
+
   return (
-    <header className="relative z-20 border-b border-white/[0.07] w-full">
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 h-20 sm:h-[106px] flex items-center justify-between">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-500 ${isScrolled ? scrolledBg : 'bg-transparent'} ${className}`}
+    >
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 h-20 sm:h-24 flex items-center justify-between">
         {/* Logo */}
         <button
           type="button"
           onClick={handleHome}
-          className="focus:outline-none flex items-center group cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+          className="focus:outline-none flex items-center group cursor-pointer"
+          aria-label="Go to home"
         >
           <img
-            src="/assets/figma/esperia_footer_logo.svg"
+            src="/assets/figma/esperia_logo_white.svg"
             alt="ESPERIA QUANTUM"
-            className="h-8 sm:h-10 w-auto object-contain"
+            className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           />
         </button>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 lg:gap-10 text-[12px] font-manrope">
+        <nav className="hidden md:flex items-center gap-8 lg:gap-10 text-[13px] font-manrope">
           {activePage === 'what-we-do' ? (
-            <span className="text-[#F56F6A] font-semibold transition-colors duration-200 cursor-default">
-              What We Do
-            </span>
+            <span className={desktopLinkClass('what-we-do')}>What We Do</span>
           ) : (
-            <button
-              type="button"
-              onClick={handleWhatWeDo}
-              className="text-white font-light hover:text-white/80 transition-colors duration-200 cursor-pointer"
-            >
+            <button type="button" onClick={handleWhatWeDo} className={desktopLinkClass('what-we-do')}>
               What We Do
             </button>
           )}
 
           {activePage === 'why-esperia' ? (
-            <span className="text-[#F56F6A] font-semibold transition-colors duration-200 cursor-default">
-              Why Esperia
-            </span>
+            <span className={desktopLinkClass('why-esperia')}>Why Esperia</span>
           ) : (
-            <button
-              type="button"
-              onClick={handleWhyEsperia}
-              className="text-white font-light hover:text-white/80 transition-colors duration-200 cursor-pointer"
-            >
+            <button type="button" onClick={handleWhyEsperia} className={desktopLinkClass('why-esperia')}>
               Why Esperia
             </button>
           )}
 
           {activePage === 'works' ? (
-            <span className="text-[#F56F6A] font-semibold transition-colors duration-200 cursor-default">
-              Our Works
-            </span>
+            <span className={desktopLinkClass('works')}>Our Works</span>
           ) : (
-            <button
-              type="button"
-              onClick={handleWorks}
-              className="text-white font-light hover:text-white/80 transition-colors duration-200 cursor-pointer"
-            >
+            <button type="button" onClick={handleWorks} className={desktopLinkClass('works')}>
               Our Works
             </button>
           )}
 
           {activePage === 'blogs' ? (
-            <span className="text-[#F56F6A] font-semibold transition-colors duration-200 cursor-default">
-              Blogs &amp; Newsletters
-            </span>
+            <span className={desktopLinkClass('blogs')}>Blogs &amp; Newsletters</span>
           ) : (
-            <button
-              type="button"
-              onClick={handleBlogs}
-              className="text-white font-light hover:text-white/80 transition-colors duration-200 cursor-pointer"
-            >
+            <button type="button" onClick={handleBlogs} className={desktopLinkClass('blogs')}>
               Blogs &amp; Newsletters
             </button>
           )}
 
           {activePage === 'contact' ? (
-            <span className="text-[#F56F6A] font-semibold transition-colors duration-200 cursor-default">
-              Contact Us
-            </span>
+            <span className={desktopLinkClass('contact')}>Contact Us</span>
           ) : (
-            <button
-              type="button"
-              onClick={handleContact}
-              className="text-white font-light hover:text-white/80 transition-colors duration-200 cursor-pointer"
-            >
+            <button type="button" onClick={handleContact} className={desktopLinkClass('contact')}>
               Contact Us
             </button>
           )}
@@ -148,80 +148,51 @@ export default function Header({
         {/* Mobile Hamburger Button */}
         <button
           type="button"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-white hover:text-emerald-400 focus:outline-none cursor-pointer"
           aria-label="Toggle navigation menu"
+          className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition cursor-pointer"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {mobileMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#071F1A]/95 backdrop-blur-xl border-b border-white/10 px-6 py-6 flex flex-col gap-4 text-sm font-manrope">
+        <div
+          className={`md:hidden ${mobileBg} backdrop-blur-xl border-b border-white/10 px-6 py-6 flex flex-col gap-4 text-sm font-manrope shadow-2xl`}
+        >
           <button
             type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              handleWhatWeDo();
-            }}
-            className={`text-left py-2 transition-colors ${
-              activePage === 'what-we-do' ? 'text-[#F56F6A] font-semibold' : 'text-white/90 hover:text-emerald-400'
-            }`}
+            onClick={() => { setMobileMenuOpen(false); handleWhatWeDo(); }}
+            className={mobileLinkClass('what-we-do')}
           >
             What We Do
           </button>
           <button
             type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              handleWhyEsperia();
-            }}
-            className={`text-left py-2 transition-colors ${
-              activePage === 'why-esperia' ? 'text-[#F56F6A] font-semibold' : 'text-white/90 hover:text-emerald-400'
-            }`}
+            onClick={() => { setMobileMenuOpen(false); handleWhyEsperia(); }}
+            className={mobileLinkClass('why-esperia')}
           >
             Why Esperia
           </button>
           <button
             type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              handleWorks();
-            }}
-            className={`text-left py-2 transition-colors ${
-              activePage === 'works' ? 'text-[#F56F6A] font-semibold' : 'text-white/90 hover:text-emerald-400'
-            }`}
+            onClick={() => { setMobileMenuOpen(false); handleWorks(); }}
+            className={mobileLinkClass('works')}
           >
             Our Works
           </button>
           <button
             type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              handleBlogs();
-            }}
-            className={`text-left py-2 transition-colors ${
-              activePage === 'blogs' ? 'text-[#F56F6A] font-semibold' : 'text-white/90 hover:text-emerald-400'
-            }`}
+            onClick={() => { setMobileMenuOpen(false); handleBlogs(); }}
+            className={mobileLinkClass('blogs')}
           >
             Blogs &amp; Newsletters
           </button>
           <button
             type="button"
-            onClick={() => {
-              setMobileMenuOpen(false);
-              handleContact();
-            }}
-            className={`text-left py-2 transition-colors ${
-              activePage === 'contact' ? 'text-[#F56F6A] font-semibold' : 'text-white/90 hover:text-emerald-400'
-            }`}
+            onClick={() => { setMobileMenuOpen(false); handleContact(); }}
+            className={`${mobileLinkClass('contact')} pt-2 border-t border-white/20`}
           >
             Contact Us
           </button>
@@ -230,3 +201,4 @@ export default function Header({
     </header>
   );
 }
+
