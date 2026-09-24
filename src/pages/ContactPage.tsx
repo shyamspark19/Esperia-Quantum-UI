@@ -9,6 +9,8 @@ interface ContactPageProps {
   onNavigateToWhatWeDo?: () => void;
   onNavigateToBlogs?: () => void;
   onNavigateToWhyEsperia?: () => void;
+  onNavigateToPrivacy?: () => void;
+  onNavigateToTerms?: () => void;
 }
 
 function EsperiaEmblem({
@@ -45,25 +47,96 @@ export default function ContactPage({
   onNavigateToWhatWeDo,
   onNavigateToBlogs,
   onNavigateToWhyEsperia,
+  onNavigateToPrivacy,
+  onNavigateToTerms,
 }: ContactPageProps) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     subject: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName.trim() || !formData.email.trim() || !formData.message.trim()) return;
-    setIsSubmitted(true);
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    const submissionTime = new Date().toLocaleString();
+    const cleanName = formData.fullName.trim();
+    const cleanEmail = formData.email.trim();
+    const cleanSubject = formData.subject.trim() || 'General Inquiry';
+    const cleanMessage = formData.message.trim();
+
+    try {
+      // 1. Create standard FormData so FormSubmit parses all fields in the email body table
+      const formPayload = new FormData();
+      formPayload.append('name', cleanName);
+      formPayload.append('email', cleanEmail);
+      formPayload.append('subject', cleanSubject);
+      formPayload.append('message', cleanMessage);
+      formPayload.append('Full Name', cleanName);
+      formPayload.append('Email Address', cleanEmail);
+      formPayload.append('Inquiry Subject', cleanSubject);
+      formPayload.append('Message Content', cleanMessage);
+      formPayload.append('Date & Time', submissionTime);
+      formPayload.append('_replyto', cleanEmail);
+      formPayload.append(
+        '_subject',
+        `New Inquiry: ${cleanName} - ${cleanSubject}`
+      );
+      formPayload.append('_captcha', 'false');
+      formPayload.append('_template', 'table');
+
+      // 2. Generate Excel-compatible CSV file and attach directly to the email
+      const csvContent =
+        `"FIELD","SUBMISSION DETAILS"\r\n` +
+        `"Full Name","${cleanName.replace(/"/g, '""')}"\r\n` +
+        `"Email Address","${cleanEmail.replace(/"/g, '""')}"\r\n` +
+        `"Subject","${cleanSubject.replace(/"/g, '""')}"\r\n` +
+        `"Message","${cleanMessage.replace(/"/g, '""')}"\r\n` +
+        `"Submission Date","${submissionTime.replace(/"/g, '""')}"\r\n`;
+
+      const csvBlob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const safeFileName = `Inquiry_${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.csv`;
+      formPayload.append('attachment', csvBlob, safeFileName);
+
+      // Note: do not set Content-Type header so browser sets multipart/form-data boundary
+      const response = await fetch('https://formsubmit.co/ajax/nammatradeofficial@gmail.com', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: formPayload,
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok || data.success === 'true' || data.success === true) {
+        setIsSubmitted(true);
+        setFormData({ fullName: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error(data.message || 'Failed to submit form.');
+      }
+    } catch (err: any) {
+      console.error('Contact form submission error:', err);
+      setErrorMessage(
+        'Unable to send automatically right now. You can email us directly at nammatradeofficial@gmail.com'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] font-manrope antialiased selection:bg-[#C5445A] selection:text-white flex flex-col justify-between">
@@ -256,8 +329,8 @@ export default function ContactPage({
                     </h3>
 
                     {isSubmitted ? (
-                      <div className="py-16 text-center flex flex-col items-center gap-4 relative z-10 animate-in fade-in zoom-in duration-500">
-                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                      <div className="py-12 text-center flex flex-col items-center gap-4 relative z-10 animate-in fade-in zoom-in duration-500">
+                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 shadow-lg shadow-emerald-900/30">
                           <svg
                             className="w-8 h-8"
                             fill="none"
@@ -267,37 +340,55 @@ export default function ContactPage({
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              strokeWidth={2}
+                              strokeWidth={2.5}
                               d="M5 13l4 4L19 7"
                             />
                           </svg>
                         </div>
-                        <h4 className="text-xl font-bold font-parkinsans text-white">Message Received</h4>
-                        <p className="text-sm text-slate-300 max-w-xs font-manrope">
-                          Thank you for reaching out to Esperia. Our team will get back to you shortly.
+                        <h4 className="text-2xl font-bold font-parkinsans text-white tracking-tight">
+                          Message Sent!
+                        </h4>
+                        <p className="text-sm text-slate-300 max-w-xs font-manrope leading-relaxed">
+                          Thank you for reaching out. Your request has been dispatched to our team at{' '}
+                          <span className="text-white font-medium">nammatradeofficial@gmail.com</span>. We will respond promptly.
                         </p>
                         <button
                           type="button"
                           onClick={() => {
                             setIsSubmitted(false);
                             setFormData({ fullName: '', email: '', subject: '', message: '' });
+                            setErrorMessage(null);
                           }}
-                          className="mt-4 text-xs font-bold uppercase tracking-wider text-[#F56F6A] hover:underline cursor-pointer"
+                          className="mt-4 px-5 py-2 rounded-full border border-white/20 hover:border-white text-xs font-bold uppercase tracking-wider text-white hover:bg-white/10 transition-all cursor-pointer"
                         >
                           Send another message
                         </button>
                       </div>
                     ) : (
                       <form onSubmit={handleSubmit} className="flex flex-col gap-6 relative z-10">
+                        {errorMessage && (
+                          <div className="p-3.5 rounded-2xl bg-rose-950/60 border border-rose-500/30 text-rose-200 text-xs font-manrope leading-relaxed flex flex-col gap-1.5 animate-in fade-in">
+                            <span className="font-semibold">{errorMessage}</span>
+                            <a
+                              href={`mailto:nammatradeofficial@gmail.com?subject=${encodeURIComponent(formData.subject || 'Inquiry from Esperia Website')}&body=${encodeURIComponent(`Name: ${formData.fullName}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`}
+                              className="text-white underline hover:text-[#F56F6A] font-medium"
+                            >
+                              Click here to send email via your email app
+                            </a>
+                          </div>
+                        )}
+
                         {/* Full name Field */}
                         <div className="flex flex-col">
                           <input
                             type="text"
+                            name="name"
                             required
+                            disabled={isSubmitting}
                             value={formData.fullName}
                             onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                             placeholder="Full name"
-                            className="w-full bg-transparent border-b border-[#ADADAD] pb-2.5 text-[14px] font-normal font-manrope text-white placeholder:text-[#898989] focus:outline-none focus:border-[#F56F6A] transition-colors"
+                            className="w-full bg-transparent border-b border-[#ADADAD] pb-2.5 text-[14px] font-normal font-manrope text-white placeholder:text-[#898989] focus:outline-none focus:border-[#F56F6A] transition-colors disabled:opacity-50"
                           />
                         </div>
 
@@ -305,11 +396,13 @@ export default function ContactPage({
                         <div className="flex flex-col">
                           <input
                             type="email"
+                            name="email"
                             required
+                            disabled={isSubmitting}
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             placeholder="Email"
-                            className="w-full bg-transparent border-b border-[#ADADAD] pb-2.5 text-[14px] font-normal font-manrope text-white placeholder:text-[#898989] focus:outline-none focus:border-[#F56F6A] transition-colors"
+                            className="w-full bg-transparent border-b border-[#ADADAD] pb-2.5 text-[14px] font-normal font-manrope text-white placeholder:text-[#898989] focus:outline-none focus:border-[#F56F6A] transition-colors disabled:opacity-50"
                           />
                         </div>
 
@@ -317,10 +410,12 @@ export default function ContactPage({
                         <div className="flex flex-col">
                           <input
                             type="text"
+                            name="subject"
+                            disabled={isSubmitting}
                             value={formData.subject}
                             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                             placeholder="Subject"
-                            className="w-full bg-transparent border-b border-[#ADADAD] pb-2.5 text-[14px] font-normal font-manrope text-white placeholder:text-[#898989] focus:outline-none focus:border-[#F56F6A] transition-colors"
+                            className="w-full bg-transparent border-b border-[#ADADAD] pb-2.5 text-[14px] font-normal font-manrope text-white placeholder:text-[#898989] focus:outline-none focus:border-[#F56F6A] transition-colors disabled:opacity-50"
                           />
                         </div>
 
@@ -328,11 +423,13 @@ export default function ContactPage({
                         <div className="flex flex-col">
                           <textarea
                             rows={4}
+                            name="message"
                             required
+                            disabled={isSubmitting}
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                             placeholder="Message"
-                            className="w-full bg-transparent border-b border-[#ADADAD] pb-2.5 text-[14px] font-normal font-manrope text-white placeholder:text-[#898989] focus:outline-none focus:border-[#F56F6A] transition-colors resize-none leading-relaxed"
+                            className="w-full bg-transparent border-b border-[#ADADAD] pb-2.5 text-[14px] font-normal font-manrope text-white placeholder:text-[#898989] focus:outline-none focus:border-[#F56F6A] transition-colors resize-none leading-relaxed disabled:opacity-50"
                           />
                         </div>
 
@@ -340,21 +437,49 @@ export default function ContactPage({
                         <div className="flex justify-end pt-4">
                           <button
                             type="submit"
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#F56F6A] to-[#C5445A] text-white font-manrope font-semibold text-[14px] shadow-sm hover:shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
+                            disabled={isSubmitting}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#F56F6A] to-[#C5445A] text-white font-manrope font-semibold text-[14px] shadow-sm hover:shadow-md hover:brightness-105 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition-all cursor-pointer"
                           >
-                            <span>Send</span>
-                            <svg
-                              className="w-4 h-4 text-white"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <line x1="22" y1="2" x2="11" y2="13" />
-                              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                            </svg>
+                            {isSubmitting ? (
+                              <>
+                                <svg
+                                  className="animate-spin -ml-1 mr-1 h-4 w-4 text-white"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                  />
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  />
+                                </svg>
+                                <span>Sending...</span>
+                              </>
+                            ) : (
+                              <>
+                                <span>Send</span>
+                                <svg
+                                  className="w-4 h-4 text-white"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth={2}
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <line x1="22" y1="2" x2="11" y2="13" />
+                                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                                </svg>
+                              </>
+                            )}
                           </button>
                         </div>
                       </form>
@@ -378,6 +503,8 @@ export default function ContactPage({
         onNavigateToWhatWeDo={onNavigateToWhatWeDo}
         onNavigateToBlogs={onNavigateToBlogs}
         onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+        onNavigateToPrivacy={onNavigateToPrivacy}
+        onNavigateToTerms={onNavigateToTerms}
       />
     </div>
   );

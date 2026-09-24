@@ -9,7 +9,9 @@ export type PageType =
   | 'what-we-do'
   | 'blogs'
   | 'blog-detail'
-  | 'why-esperia';
+  | 'why-esperia'
+  | 'privacy'
+  | 'terms';
 
 export interface BasePageProps {
   onNavigateToHome: (sectionId?: string) => void;
@@ -18,4 +20,7 @@ export interface BasePageProps {
   onNavigateToWhatWeDo: () => void;
   onNavigateToBlogs?: () => void;
   onNavigateToWhyEsperia?: () => void;
+  onNavigateToPrivacy?: () => void;
+  onNavigateToTerms?: () => void;
 }
+

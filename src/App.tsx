@@ -11,6 +11,8 @@ import {
   BlogsPage,
   BlogDetailPage,
   WhyEsperiaPage,
+  PrivacyPolicyPage,
+  TermsOfServicePage,
 } from './pages';
 import type { PageType } from './types';
 
@@ -35,6 +37,8 @@ export default function App() {
     if (hash === '#our-works' || hash === '#works') return 'works';
     if (hash.startsWith('#blog/')) return 'blog-detail';
     if (hash === '#blogs' || hash === '#blogs-and-newsletters' || hash === '#newsletters') return 'blogs';
+    if (hash === '#privacy' || hash === '#privacy-policy') return 'privacy';
+    if (hash === '#terms' || hash === '#terms-of-service' || hash === '#terms-and-conditions') return 'terms';
     return 'home';
   });
 
@@ -72,6 +76,12 @@ export default function App() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (hash === '#blogs' || hash === '#blogs-and-newsletters' || hash === '#newsletters') {
         setCurrentPage('blogs');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#privacy' || hash === '#privacy-policy') {
+        setCurrentPage('privacy');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (hash === '#terms' || hash === '#terms-of-service' || hash === '#terms-and-conditions') {
+        setCurrentPage('terms');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         setCurrentPage('home');
@@ -140,6 +150,18 @@ export default function App() {
     window.location.hash = `#blog/${blogId}`;
     setSelectedBlogId(blogId);
     setCurrentPage('blog-detail');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToPrivacy = () => {
+    window.location.hash = '#privacy';
+    setCurrentPage('privacy');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToTerms = () => {
+    window.location.hash = '#terms';
+    setCurrentPage('terms');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -214,6 +236,8 @@ export default function App() {
           onNavigateToWhatWeDo={navigateToWhatWeDo}
           onNavigateToBlogs={navigateToBlogs}
           onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onNavigateToPrivacy={navigateToPrivacy}
+          onNavigateToTerms={navigateToTerms}
         />
       ) : currentPage === 'works' ? (
         <OurWorksPage
@@ -271,6 +295,28 @@ export default function App() {
           onViewWatermelon={navigateToWatermelon}
           onViewYoungGenius={navigateToYoungGenius}
           onViewIrisHr={navigateToIrisHr}
+        />
+      ) : currentPage === 'privacy' ? (
+        <PrivacyPolicyPage
+          onNavigateToHome={navigateToHome}
+          onNavigateToWorks={navigateToWorks}
+          onNavigateToContact={navigateToContact}
+          onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onNavigateToPrivacy={navigateToPrivacy}
+          onNavigateToTerms={navigateToTerms}
+        />
+      ) : currentPage === 'terms' ? (
+        <TermsOfServicePage
+          onNavigateToHome={navigateToHome}
+          onNavigateToWorks={navigateToWorks}
+          onNavigateToContact={navigateToContact}
+          onNavigateToWhatWeDo={navigateToWhatWeDo}
+          onNavigateToBlogs={navigateToBlogs}
+          onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onNavigateToPrivacy={navigateToPrivacy}
+          onNavigateToTerms={navigateToTerms}
         />
       ) : (
         <LandingPage

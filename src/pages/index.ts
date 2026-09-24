@@ -9,3 +9,5 @@ export { default as TasConnectDetailPage } from './TasConnectDetailPage';
 export { default as BlogsPage } from './BlogsPage';
 export { default as BlogDetailPage } from './BlogDetailPage';
 export { default as ContactPage } from './ContactPage';
+export { default as PrivacyPolicyPage } from './PrivacyPolicyPage';
+export { default as TermsOfServicePage } from './TermsOfServicePage';
