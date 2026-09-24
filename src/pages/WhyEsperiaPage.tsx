@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import EsperiaEmblem from '../components/EsperiaEmblem';
 
 interface WhyEsperiaPageProps {
   onNavigateToHome: (sectionId?: string) => void;
@@ -97,6 +98,14 @@ export default function WhyEsperiaPage({
         >
           {/* Subtle Ambient Radial Glow */}
           <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-[#1A382B]/30 rounded-full blur-[120px] pointer-events-none z-0" />
+
+          {/* Esperia Geometric Mark Watermark — right side */}
+          <div className="absolute top-0 right-0 bottom-0 w-[55%] sm:w-[50%] lg:w-[46%] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
+            <EsperiaEmblem
+              className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
+              fill="#1E4035"
+            />
+          </div>
 
 
 

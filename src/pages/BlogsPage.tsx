@@ -3,6 +3,7 @@ import { ArrowRight, Sparkles, Mail, CheckCircle2, Clock } from 'lucide-react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { BLOGS_DATA } from '../data/blogsData';
+import EsperiaEmblem from '../components/EsperiaEmblem';
 
 interface BlogsPageProps {
   onNavigateToHome: (sectionId?: string) => void;
@@ -77,6 +78,14 @@ export default function BlogsPage({
           </div>
 
 
+
+          {/* Esperia Geometric Mark Watermark — right side */}
+          <div className="absolute top-0 right-0 bottom-0 w-[55%] sm:w-[50%] lg:w-[46%] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
+            <EsperiaEmblem
+              className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
+              fill="#1E4035"
+            />
+          </div>
 
           {/* Ambient Top Glow */}
           <div className="absolute top-0 left-1/4 w-[450px] h-[260px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none z-0" />

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import EsperiaEmblem from '../components/EsperiaEmblem';
 
 interface ContactPageProps {
   onNavigateToHome: (sectionId?: string) => void;
@@ -13,33 +14,7 @@ interface ContactPageProps {
   onNavigateToTerms?: () => void;
 }
 
-function EsperiaEmblem({
-  className,
-  fill = 'currentColor',
-  stroke = 'none',
-  strokeWidth = 0,
-}: {
-  className?: string;
-  fill?: string;
-  stroke?: string;
-  strokeWidth?: number;
-}) {
-  return (
-    <svg
-      viewBox="0 0 42 48"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        d="M20.9796 47.9998C20.7283 47.9998 20.4787 47.9352 20.2525 47.806L0.72709 36.5334C0.278271 36.2731 0 35.7938 0 35.2749V12.7281C0 12.2092 0.276476 11.7299 0.72709 11.4696L20.2525 0.195236C20.7013 -0.0650788 21.2561 -0.0650788 21.7049 0.195236L41.2303 11.4696C41.6791 11.7299 41.9574 12.2092 41.9574 12.7281V17.2863C41.9574 17.8051 41.6809 18.2844 41.2303 18.5447L21.7049 29.8173C21.2561 30.0776 20.7013 30.0776 20.2525 29.8173L16.3047 27.5391C15.8559 27.2788 15.5776 26.7994 15.5776 26.2806V21.7224C15.5776 21.2036 15.8541 20.7242 16.3047 20.4639L25.8627 14.9452L20.9778 12.1248L10.6945 18.0618V29.9376L20.9778 35.8764L39.7779 25.0221C40.2268 24.7618 40.7815 24.7618 41.2303 25.0221C41.6791 25.2824 41.9574 25.7618 41.9574 26.2806V35.2749C41.9574 35.7938 41.6809 36.2731 41.2303 36.5334L21.7049 47.806C21.4805 47.9352 21.2291 47.9998 20.9778 47.9998H20.9796ZM2.90655 34.4365L20.9796 44.8707L39.0526 34.4365V28.7976L21.7049 38.8134C21.2561 39.0737 20.7013 39.0737 20.2525 38.8134L8.51499 32.0363C8.06617 31.7759 7.78791 31.2966 7.78791 30.7778V17.2252C7.78791 16.7064 8.06438 16.227 8.51499 15.9667L20.2525 9.18957C20.7013 8.92925 21.2561 8.92925 21.7049 9.18957L29.4946 13.6867C29.9434 13.947 30.2217 14.4264 30.2217 14.9452C30.2217 15.4641 29.9452 15.9434 29.4946 16.2037L18.4842 22.5608V25.4404L20.9796 26.8802L39.0526 16.4461V13.5664L20.9796 3.13051L2.90655 13.5664V34.4365Z"
-        fill={fill}
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-      />
-    </svg>
-  );
-}
+
 
 export default function ContactPage({
   onNavigateToHome,
@@ -169,12 +144,13 @@ export default function ContactPage({
                 'radial-gradient(circle at 76% 59%, rgba(31, 59, 57, 1) 0%, rgba(7, 40, 38, 1) 45%, rgba(2, 15, 15, 1) 100%)',
             }}
           />
-
-
-
-
-
-          {/* Hero Headline Content */}
+          {/* Esperia Geometric Mark Watermark — right side */}
+          <div className="absolute top-0 right-0 bottom-0 w-[55%] sm:w-[50%] lg:w-[46%] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
+            <EsperiaEmblem
+              className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
+              fill="#1E4035"
+            />
+          </div>
           <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-28 sm:pt-32 lg:pt-36 pb-16 lg:pb-24">
             <div className="max-w-[862px] flex flex-col gap-4 sm:gap-5">
               {/* Back Button */}
