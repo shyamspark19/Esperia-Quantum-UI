@@ -106,14 +106,7 @@ export default function TermsOfServicePage({
           {/* Ambient Glow */}
           <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-[#1A382B]/30 rounded-full blur-[120px] pointer-events-none z-0" />
 
-          {/* Ribbon Watermark */}
-          <div className="absolute top-0 right-0 w-[550px] sm:w-[680px] h-full pointer-events-none z-[1] overflow-hidden flex items-center justify-end">
-            <img
-              src="/assets/figma/blog_hero_ribbon.png"
-              alt=""
-              className="w-full h-auto max-w-none opacity-[0.20] mix-blend-screen translate-x-[8%] -translate-y-[2%]"
-            />
-          </div>
+
 
           {/* Hero Content */}
           <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-36 pb-14 sm:pb-20 flex-1 flex flex-col justify-center">

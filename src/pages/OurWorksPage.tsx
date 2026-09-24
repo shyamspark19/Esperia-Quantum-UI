@@ -55,14 +55,7 @@ export default function OurWorksPage({
           {/* Subtle Ambient Radial Glow */}
           <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-[#1A382B]/30 rounded-full blur-[120px] pointer-events-none z-0" />
 
-          {/* Geometric Ribbon Emblem Watermark (Right side of Hero) */}
-          <div className="absolute top-0 right-0 w-[550px] sm:w-[680px] h-full pointer-events-none z-[1] overflow-hidden flex items-center justify-end">
-            <img
-              src="/assets/figma/blog_hero_ribbon.png"
-              alt=""
-              className="w-full h-auto max-w-none opacity-[0.22] mix-blend-screen translate-x-[8%] -translate-y-[2%]"
-            />
-          </div>
+
 
           {/* 3D Isometric Platform Graphic (Right side of Hero) */}
           <div className="hidden md:block absolute right-2 lg:right-10 top-[85px] lg:top-[95px] w-[460px] lg:w-[580px] h-auto z-20 drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] pointer-events-auto">

@@ -19,10 +19,11 @@ interface FooterProps {
   onNavigateToWhyEsperia?: () => void;
   onNavigateToPrivacy?: () => void;
   onNavigateToTerms?: () => void;
+  hideCta?: boolean;
 }
 
 export default function Footer({
-  activePage = 'why-esperia',
+  activePage,
   onNavigateToHome,
   onNavigateToWorks,
   onNavigateToContact,
@@ -31,6 +32,7 @@ export default function Footer({
   onNavigateToWhyEsperia,
   onNavigateToPrivacy,
   onNavigateToTerms,
+  hideCta = false,
 }: FooterProps) {
   const handleHome = () => {
     if (onNavigateToHome) onNavigateToHome();
@@ -74,165 +76,103 @@ export default function Footer({
   };
 
   return (
-    <footer className="bg-[#F7F7F5] border-t border-slate-200/80 pt-14 pb-12 w-full mt-auto">
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14">
-          {/* Column 1: Logo & Tagline */}
-          <div className="lg:col-span-4 flex flex-col items-start">
+    <footer className="relative bg-[#2D2D2D] text-white w-full mt-auto overflow-hidden">
+
+
+      {/* Reusable SVG Gradient for Social Media Icons */}
+      <svg width="0" height="0" className="absolute pointer-events-none opacity-0" aria-hidden="true">
+        <defs>
+          <linearGradient id="footer-social-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#C5445A" />
+            <stop offset="100%" stopColor="#3EA594" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 relative z-10 pt-16 sm:pt-20 pb-10 sm:pb-12">
+        {/* ========================================================================= */}
+        {/* 1. TOP CTA SECTION ("Ready to transform your Business?")                  */}
+        {/* ========================================================================= */}
+        {!hideCta && (
+          <>
+            <div id="contact" className="pb-12 sm:pb-16">
+              {/* Category Tag */}
+              <div className="flex items-center gap-2 mb-4 sm:mb-6">
+                <span className="w-2 h-2 rounded-full bg-[#C5445A]" />
+                <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#A0A0A0] font-manrope">
+                  CONTACT US
+                </span>
+              </div>
+
+              {/* Title & "Let's Talk" Button */}
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-bold tracking-tight text-white leading-[1.14] font-parkinsans">
+                  Ready to <span className="text-gradient-transform">transform</span> <br />
+                  your Business?
+                </h2>
+
+                <button
+                  type="button"
+                  onClick={handleContact}
+                  className="px-8 py-3.5 rounded-full font-semibold text-xs sm:text-[13px] tracking-wide text-[#202020] bg-talk-button hover:brightness-105 hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg cursor-pointer shrink-0"
+                >
+                  Let's Talk
+                </button>
+              </div>
+            </div>
+
+            {/* Upper Divider */}
+            <div className="w-full border-t border-white/[0.12] mb-12 sm:mb-16" />
+          </>
+        )}
+
+        {/* ========================================================================= */}
+        {/* 2. MIDDLE BRAND & NAVIGATION SECTION                                      */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-8 pb-12 sm:pb-16">
+          {/* Brand, Tagline, & Social Icons */}
+          <div className="md:col-span-6 lg:col-span-6 flex flex-col items-start">
             <button
               type="button"
               onClick={handleHome}
               className="focus:outline-none cursor-pointer group transition-transform duration-300 hover:scale-[1.02]"
+              aria-label="ESPERIA QUANTUM Home"
             >
               <img
-                src="/assets/figma/esperia_header_logo.svg"
+                src="/assets/figma/esperia_footer_logo.svg"
                 alt="ESPERIA QUANTUM"
-                className="h-10 w-auto object-contain"
+                className="h-9 sm:h-10 w-auto object-contain"
               />
             </button>
-            <p className="text-[12px] text-[#000000] font-medium mt-4 max-w-[184px] leading-[19.5px] font-manrope">
+            <p className="text-[13px] text-[#A0A0A0] font-normal mt-4 leading-relaxed font-manrope max-w-[240px]">
               Digital experience &amp; technology consultancy.
             </p>
-          </div>
 
-          {/* Column 2: Services */}
-          <div className="lg:col-span-3">
-            <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-              Services
-            </h4>
-            <ul className="space-y-3 text-[14px] text-[#333333] font-manrope font-normal">
-              <li
-                onClick={handleWhatWeDo}
-                className="hover:text-[#E63956] transition-colors cursor-pointer"
+            {/* Row of 6 Social Media Icons (with Coral-to-Teal Gradient) */}
+            <div className="flex items-center gap-5 mt-6">
+              {/* Facebook */}
+              <a
+                href="https://facebook.com/esperia.quantum"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-all duration-300 hover:scale-110 opacity-85 hover:opacity-100 cursor-pointer"
+                aria-label="Facebook"
               >
-                Human-Centered Design
-              </li>
-              <li
-                onClick={handleWhatWeDo}
-                className="hover:text-[#E63956] transition-colors cursor-pointer"
-              >
-                AI-Powered Development
-              </li>
-              <li
-                onClick={handleWhatWeDo}
-                className="hover:text-[#E63956] transition-colors cursor-pointer"
-              >
-                Engineering &amp; Cloud
-              </li>
-              <li
-                onClick={handleWhatWeDo}
-                className="hover:text-[#E63956] transition-colors cursor-pointer"
-              >
-                Data &amp; Digital Transformation
-              </li>
-            </ul>
-          </div>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="url(#footer-social-gradient)">
+                  <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.52-.14-2.71-.14-2.8 0-4.79 1.71-4.79 4.93v2.57H7v4h3.01v10h3.99v-10z" />
+                </svg>
+              </a>
 
-          {/* Column 3: Company */}
-          <div className="lg:col-span-3">
-            <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-              Company
-            </h4>
-            <ul className="space-y-3 text-[14px] text-[#333333] font-manrope font-normal">
-              <li>
-                <button
-                  type="button"
-                  onClick={handleWhatWeDo}
-                  className={`hover:text-[#E63956] transition-colors cursor-pointer ${
-                    activePage === 'what-we-do'
-                      ? 'text-[#E63956] font-semibold'
-                      : ''
-                  }`}
-                >
-                  What We do
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={handleWhyEsperia}
-                  className={`hover:text-[#E63956] transition-colors cursor-pointer ${
-                    activePage === 'why-esperia'
-                      ? 'text-[#E63956] font-semibold'
-                      : ''
-                  }`}
-                >
-                  Why Esperia
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={handleWorks}
-                  className={`hover:text-[#E63956] transition-colors cursor-pointer ${
-                    activePage === 'works' || activePage === 'watermelon'
-                      ? 'text-[#E63956] font-semibold'
-                      : ''
-                  }`}
-                >
-                  Our Products
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={handleBlogs}
-                  className={`hover:text-[#E63956] transition-colors cursor-pointer ${
-                    activePage === 'blogs'
-                      ? 'text-[#E63956] font-semibold'
-                      : ''
-                  }`}
-                >
-                  Blogs &amp; Newsletters
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={handleContact}
-                  className={`hover:text-[#E63956] transition-colors cursor-pointer ${
-                    activePage === 'contact'
-                      ? 'text-[#E63956] font-semibold'
-                      : ''
-                  }`}
-                >
-                  Contact Us
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Connect */}
-          <div className="lg:col-span-2">
-            <h4 className="text-[12px] font-medium uppercase text-[#000000] mb-4 font-parkinsans">
-              Connect
-            </h4>
-            <div className="flex items-center gap-3 pt-2">
-              {/* Twitter / X */}
+              {/* X (Twitter) */}
               <a
                 href="https://x.com/esperia_quantum"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-slate-800 hover:bg-[#E63956] hover:text-white hover:border-[#E63956] transition-all cursor-pointer shadow-xs"
-                aria-label="X (Twitter) - @esperia_quantum"
-                title="Visit @esperia_quantum on X"
+                className="group transition-all duration-300 hover:scale-110 opacity-85 hover:opacity-100 cursor-pointer"
+                aria-label="X (Twitter)"
               >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="url(#footer-social-gradient)">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-
-              {/* LinkedIn */}
-              <a
-                href="https://www.linkedin.com/company/esperia-quantum"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-slate-800 hover:bg-[#E63956] hover:text-white hover:border-[#E63956] transition-all cursor-pointer shadow-xs"
-                aria-label="LinkedIn - esperia-quantum"
-                title="Visit Esperia Quantum on LinkedIn"
-              >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25c-.91 0-1.64.73-1.64 1.64 0 .9.73 1.63 1.64 1.63.91 0 1.63-.73 1.63-1.63 0-.91-.72-1.64-1.63-1.64z" />
                 </svg>
               </a>
 
@@ -241,27 +181,207 @@ export default function Footer({
                 href="https://www.instagram.com/esperia.quantum"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-slate-800 hover:bg-[#E63956] hover:text-white hover:border-[#E63956] transition-all cursor-pointer shadow-xs"
-                aria-label="Instagram - @esperia.quantum"
-                title="Visit @esperia.quantum on Instagram"
+                className="group transition-all duration-300 hover:scale-110 opacity-85 hover:opacity-100 cursor-pointer"
+                aria-label="Instagram"
               >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.449-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                <svg
+                  className="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="url(#footer-social-gradient)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+
+              {/* Dribbble */}
+              <a
+                href="https://dribbble.com/esperia_quantum"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-all duration-300 hover:scale-110 opacity-85 hover:opacity-100 cursor-pointer"
+                aria-label="Dribbble"
+              >
+                <svg
+                  className="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="url(#footer-social-gradient)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M19.13 5.09C15.22 9.14 10 10.44 2.25 10.94" />
+                  <path d="M21.75 12.84c-6.62-1.41-12.14 1-16.38 6.32" />
+                  <path d="M8.5 2.5c4.77 5.83 6.46 11.95 7.74 19.3" />
+                </svg>
+              </a>
+
+              {/* Behance */}
+              <a
+                href="https://behance.net/esperia_quantum"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-all duration-300 hover:scale-110 opacity-85 hover:opacity-100 cursor-pointer"
+                aria-label="Behance"
+              >
+                <svg className="w-5 h-4" viewBox="0 0 24 24" fill="url(#footer-social-gradient)">
+                  <path d="M7.8 12.3c.9-.4 1.5-1.2 1.5-2.3 0-1.8-1.4-2.8-3.4-2.8H1.5v10.5h4.6c2.2 0 3.8-1.2 3.8-3.1 0-1.1-.8-2-2.1-2.3zm-3.5-3.3h1.4c1 0 1.6.4 1.6 1.2 0 .9-.7 1.3-1.7 1.3H4.3V9zm1.6 6.9H4.3v-2.7h1.6c1.1 0 1.9.4 1.9 1.3 0 1-.8 1.4-1.9 1.4zm10.7-3.8c-1.9 0-3.3 1.4-3.3 3.5 0 2.2 1.4 3.6 3.5 3.6 1.5 0 2.7-.8 3.1-2h-1.6c-.3.5-.8.7-1.5.7-.9 0-1.7-.6-1.8-1.7h5.1c.1-2.4-1.5-4.1-3.5-4.1zm-1.6 2.8c.2-.9.8-1.4 1.6-1.4.8 0 1.4.5 1.5 1.4h-3.1zM14.4 7.6h4.5v1.2h-4.5V7.6z" />
+                </svg>
+              </a>
+
+              {/* Medium */}
+              <a
+                href="https://medium.com/@esperia_quantum"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group transition-all duration-300 hover:scale-110 opacity-85 hover:opacity-100 cursor-pointer"
+                aria-label="Medium"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24">
+                  <rect
+                    x="2"
+                    y="2"
+                    width="20"
+                    height="20"
+                    rx="4.5"
+                    fill="none"
+                    stroke="url(#footer-social-gradient)"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M6.5 16.5V7.5L10.5 13.5L14.5 7.5V16.5"
+                    fill="none"
+                    stroke="url(#footer-social-gradient)"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </a>
             </div>
           </div>
+
+          {/* Navigation Columns: SERVICES and COMPANY */}
+          <div className="md:col-span-6 lg:col-span-6 flex flex-row justify-start md:justify-end gap-12 sm:gap-20">
+            {/* Services Column */}
+            <div className="text-left md:text-right">
+              <h4 className="text-[12px] font-bold uppercase tracking-wider text-white mb-5 font-parkinsans">
+                SERVICES
+              </h4>
+              <ul className="space-y-3.5 text-[13px] sm:text-[14px] text-[#C4C4C4] font-manrope font-normal">
+                <li
+                  onClick={handleWhatWeDo}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Human-Centered Design
+                </li>
+                <li
+                  onClick={handleWhatWeDo}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  AI-Powered Development
+                </li>
+                <li
+                  onClick={handleWhatWeDo}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Engineering &amp; Cloud
+                </li>
+                <li
+                  onClick={handleWhatWeDo}
+                  className="hover:text-white transition-colors cursor-pointer"
+                >
+                  Data &amp; Digital Transformation
+                </li>
+              </ul>
+            </div>
+
+            {/* Company Column */}
+            <div className="text-left md:text-right">
+              <h4 className="text-[12px] font-bold uppercase tracking-wider text-white mb-5 font-parkinsans">
+                COMPANY
+              </h4>
+              <ul className="space-y-3.5 text-[13px] sm:text-[14px] text-[#C4C4C4] font-manrope font-normal">
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleWhatWeDo}
+                    className={`hover:text-white transition-colors cursor-pointer ${
+                      activePage === 'what-we-do' ? 'text-white font-medium' : ''
+                    }`}
+                  >
+                    What We do
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleWhyEsperia}
+                    className={`hover:text-white transition-colors cursor-pointer ${
+                      activePage === 'why-esperia' ? 'text-white font-medium' : ''
+                    }`}
+                  >
+                    Why Esperia
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleWorks}
+                    className={`hover:text-white transition-colors cursor-pointer ${
+                      activePage === 'works' || activePage === 'watermelon'
+                        ? 'text-white font-medium'
+                        : ''
+                    }`}
+                  >
+                    Our Products
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleBlogs}
+                    className={`hover:text-white transition-colors cursor-pointer ${
+                      activePage === 'blogs' ? 'text-white font-medium' : ''
+                    }`}
+                  >
+                    Blogs &amp; Newsletters
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleContact}
+                    className={`hover:text-white transition-colors cursor-pointer ${
+                      activePage === 'contact' ? 'text-white font-medium' : ''
+                    }`}
+                  >
+                    Contact Us
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        {/* Bottom Copyright & Legal Links */}
-        <div className="pt-6 border-t border-black/[0.07] flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-[#000000] font-manrope">
+        {/* ========================================================================= */}
+        {/* 3. BOTTOM LEGAL BAR                                                       */}
+        {/* ========================================================================= */}
+        <div className="w-full border-t border-white/[0.12] pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-[#888888] font-manrope">
           <p>© 2025 Esperia. All rights reserved.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6 sm:gap-8">
             <button
               type="button"
               onClick={handlePrivacy}
-              className={`hover:text-[#E63956] transition-colors cursor-pointer ${
-                activePage === 'privacy' ? 'text-[#E63956] font-semibold' : ''
+              className={`hover:text-white transition-colors cursor-pointer ${
+                activePage === 'privacy' ? 'text-white font-medium' : ''
               }`}
             >
               Privacy Policy
@@ -269,8 +389,8 @@ export default function Footer({
             <button
               type="button"
               onClick={handleTerms}
-              className={`hover:text-[#E63956] transition-colors cursor-pointer ${
-                activePage === 'terms' ? 'text-[#E63956] font-semibold' : ''
+              className={`hover:text-white transition-colors cursor-pointer ${
+                activePage === 'terms' ? 'text-white font-medium' : ''
               }`}
             >
               Terms of Service

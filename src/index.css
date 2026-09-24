@@ -66,7 +66,7 @@ body {
 }
 
 .text-gradient-impact {
-  background: linear-gradient(90deg, #9C727D 0%, #5E8980 100%);
+  background: linear-gradient(90deg, #A2626E 0%, #877475 45%, #688C82 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -82,11 +82,11 @@ body {
 }
 
 .bg-enterprise-banner {
-  background: linear-gradient(90deg, #5D7F72 0%, #678B7D 20%, #D67C65 100%);
+  background: linear-gradient(90deg, #6F8E7A 0%, #7D8E79 14%, #A28A75 45%, #C58972 75%, #DE8770 100%);
 }
 
 .bg-talk-button {
-  background: linear-gradient(90deg, #FF7E8B 0%, #F2576B 100%);
+  background: linear-gradient(90deg, #CD6263 0%, #9E817F 45%, #548072 100%);
 }
 
 /* ========================================================================= */

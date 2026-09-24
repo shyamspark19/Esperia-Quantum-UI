@@ -161,7 +161,7 @@ export default function ContactPage({
       {/* ========================================================================= */}
       <div className="w-full bg-white px-0 sm:px-4 lg:px-8">
         <section className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden bg-[#072826] min-h-[515px]">
-          {/* Exact Radial Gradient Background (#3019:1173) */}
+          {/* Exact Radial Gradient Background */}
           <div
             className="absolute inset-0 z-0 pointer-events-none rounded-b-[32px] sm:rounded-[40px]"
             style={{
@@ -170,28 +170,14 @@ export default function ContactPage({
             }}
           />
 
-          {/* Ambient Wave Graphic Texture Overlay (#3019:1176 - image 115) */}
-          <div className="absolute inset-0 opacity-40 pointer-events-none overflow-hidden rounded-b-[32px] sm:rounded-[40px] z-0">
-            <img
-              src="/assets/figma/b39e95a77eb26884c9d041d8589fa21e78323b6b.png"
-              alt=""
-              className="w-full h-full object-cover object-bottom"
-            />
-          </div>
 
-          {/* Watermark Emblem Graphic (#3019:1188) */}
-          <div className="absolute top-0 right-0 w-[550px] sm:w-[678px] h-[515px] pointer-events-none z-[1] overflow-hidden flex items-center justify-end">
-            <img
-              src="/assets/figma/blog_hero_ribbon.png"
-              alt=""
-              className="w-full h-auto max-w-none opacity-[0.25] mix-blend-screen translate-x-[8%] -translate-y-[2%]"
-            />
-          </div>
 
-          {/* Hero Headline Content (#3019:1177) */}
+
+
+          {/* Hero Headline Content */}
           <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-28 sm:pt-32 lg:pt-36 pb-16 lg:pb-24">
             <div className="max-w-[862px] flex flex-col gap-4 sm:gap-5">
-              {/* Home Button */}
+              {/* Back Button */}
               <div>
                 <button
                   type="button"
@@ -207,12 +193,15 @@ export default function ContactPage({
                 </button>
               </div>
 
-              {/* Headline (#3019:1185) */}
+              {/* Section Label */}
+              <p className="text-white/60 text-sm font-manrope font-normal">Blogs</p>
+
+              {/* Headline */}
               <h1 className="text-4xl sm:text-6xl lg:text-[64px] font-semibold font-display text-white tracking-tight leading-[1.12]">
                 Connect with us
               </h1>
 
-              {/* Subtitle (#3019:1187) */}
+              {/* Subtitle */}
               <p className="text-white text-[18px] font-normal font-manrope leading-normal mt-1">
                 Let&apos;s build something enduring.
               </p>

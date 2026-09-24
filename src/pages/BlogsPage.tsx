@@ -76,14 +76,7 @@ export default function BlogsPage({
             />
           </div>
 
-          {/* Geometric ribbon watermark on right */}
-          <div className="absolute top-0 right-0 w-[550px] sm:w-[680px] h-full pointer-events-none z-[1] overflow-hidden flex items-center justify-end">
-            <img
-              src="/assets/figma/blog_hero_ribbon.png"
-              alt=""
-              className="w-full h-auto max-w-none opacity-[0.25] mix-blend-screen translate-x-[8%] -translate-y-[2%]"
-            />
-          </div>
+
 
           {/* Ambient Top Glow */}
           <div className="absolute top-0 left-1/4 w-[450px] h-[260px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none z-0" />
