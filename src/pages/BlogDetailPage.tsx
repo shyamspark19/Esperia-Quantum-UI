@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   ChevronLeft,
-  Menu,
-  X,
   Share2,
   ThumbsUp,
   ThumbsDown,
@@ -12,6 +10,7 @@ import {
   Sparkles,
   BookOpen
 } from 'lucide-react';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { BLOGS_DATA, BlogItem } from '../data/blogsData';
 
@@ -45,7 +44,6 @@ export default function BlogDetailPage({
   onNavigateToWhatWeDo,
   onNavigateToWhyEsperia,
 }: BlogDetailPageProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeBlogId, setActiveBlogId] = useState(blogId);
 
   // Sync if prop changes
@@ -168,132 +166,18 @@ export default function BlogDetailPage({
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white flex flex-col justify-between">
       {/* ========================================================================= */}
-      {/* 1. HEADER NAVIGATION (Matching Our Works / Watermelon Detail Style)       */}
+      {/* 1. HEADER NAVIGATION                                                      */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-black/[0.06] transition-all duration-300">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 h-20 sm:h-24 flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => onNavigateToHome()}
-            className="focus:outline-none flex items-center group cursor-pointer"
-          >
-            <img
-              src="/assets/figma/esperia_header_logo.svg"
-              alt="ESPERIA QUANTUM"
-              className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-            />
-          </button>
-
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-[#4A4A4A]">
-            <button
-              type="button"
-              onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')}
-              className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
-            >
-              What We Do
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigateToWhyEsperia ? onNavigateToWhyEsperia() : onNavigateToHome('why-esperia')}
-              className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
-            >
-              Why Esperia
-            </button>
-            <button
-              type="button"
-              onClick={onNavigateToWorks}
-              className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
-            >
-              Our Works
-            </button>
-
-            {/* Blogs & Newsletters - Active Red State */}
-            <button
-              type="button"
-              onClick={onBack}
-              className="relative text-[#C5445A] font-semibold transition-colors duration-200 cursor-pointer flex flex-col items-center"
-            >
-              <span>Blogs &amp; Newsletters</span>
-              <span className="w-1 h-1 rounded-full bg-[#C5445A] mt-0.5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={onNavigateToContact}
-              className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer"
-            >
-              Contact Us
-            </button>
-          </nav>
-
-          {/* Mobile Menu Hamburger */}
-          <button
-            type="button"
-            aria-label="Toggle navigation menu"
-            className="md:hidden text-[#0A0A0A] p-2 hover:bg-slate-100 rounded-lg transition"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Nav Flyout */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-black/[0.08] px-6 py-6 flex flex-col gap-4 relative z-50 shadow-xl animate-in slide-in-from-top duration-300">
-            <button
-              type="button"
-              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do');
-              }}
-            >
-              What We Do
-            </button>
-            <button
-              type="button"
-              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onNavigateToWhyEsperia ? onNavigateToWhyEsperia() : onNavigateToHome('why-esperia');
-              }}
-            >
-              Why Esperia
-            </button>
-            <button
-              type="button"
-              className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onNavigateToWorks();
-              }}
-            >
-              Our Works
-            </button>
-            <button
-              type="button"
-              className="text-left text-[#C5445A] font-semibold text-sm py-1"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onBack();
-              }}
-            >
-              Blogs &amp; Newsletters
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onNavigateToContact();
-              }}
-              className="text-left text-[#C5445A] font-semibold pt-3 border-t border-slate-100 cursor-pointer text-sm"
-            >
-              Contact Us
-            </button>
-          </div>
-        )}
-      </header>
+      <Header
+        activePage="blogs"
+        solidBg
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWhatWeDo={onNavigateToWhatWeDo}
+        onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+        onNavigateToWorks={onNavigateToWorks}
+        onNavigateToBlogs={onBack}
+        onNavigateToContact={onNavigateToContact}
+      />
 
       {/* ========================================================================= */}
       {/* 2. MAIN DETAIL / BRIEF CONTENT                                            */}
@@ -325,12 +209,12 @@ export default function BlogDetailPage({
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-3xl sm:text-4xl lg:text-[48px] xl:text-[54px] font-bold font-['Parkinsans',sans-serif] tracking-tight text-[#0A0A0A] leading-[1.12] mb-5">
+            <h1 className="text-3xl sm:text-4xl lg:text-[46px] xl:text-[52px] font-bold font-['Parkinsans',sans-serif] tracking-normal text-[#0A0A0A] leading-[1.35] sm:leading-[1.32] lg:leading-[1.35] mb-7 sm:mb-8">
               {currentBlog.title}
             </h1>
 
             {/* Subtitle */}
-            <p className="text-[#555555] text-base sm:text-lg font-normal leading-relaxed max-w-2xl font-['Manrope',sans-serif] mb-6">
+            <p className="text-[#555555] text-base sm:text-lg font-normal leading-[1.8] max-w-2xl font-['Manrope',sans-serif] mb-7">
               {currentBlog.subtitle}
             </p>
 

@@ -106,7 +106,7 @@ export default function Footer({
 
               {/* Title & "Let's Talk" Button */}
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-                <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-bold tracking-tight text-white leading-[1.14] font-parkinsans">
+                <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-bold tracking-tight text-white leading-[1.18] sm:leading-[1.16] font-parkinsans">
                   Ready to <span className="text-gradient-transform">transform</span> <br />
                   your Business?
                 </h2>

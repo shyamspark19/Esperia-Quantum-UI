@@ -88,9 +88,9 @@ export default function WhyEsperiaPage({
       {/* ============================================================ */}
       {/* 2. HERO SECTION (EXACT FIGMA 2990:3929)                      */}
       {/* ============================================================ */}
-      <div className="w-full bg-white px-0 sm:px-4 lg:px-8">
+      <div className="w-full bg-white">
         <section
-          className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden min-h-[560px] lg:h-[594px] flex flex-col justify-between"
+          className="relative w-full text-white rounded-b-[36px] sm:rounded-b-[48px] overflow-hidden min-h-[560px] lg:h-[594px] flex flex-col justify-between"
           style={{
             background:
               'radial-gradient(circle at 75% 45%, #17382B 0%, #0E241B 55%, #081711 100%)',
@@ -99,30 +99,29 @@ export default function WhyEsperiaPage({
           {/* Subtle Ambient Radial Glow */}
           <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-[#1A382B]/30 rounded-full blur-[120px] pointer-events-none z-0" />
 
-          {/* Esperia Geometric Mark Watermark — right side */}
-          <div className="absolute top-0 right-0 bottom-0 w-[55%] sm:w-[50%] lg:w-[46%] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
-            <EsperiaEmblem
-              className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
-              fill="#1E4035"
-            />
-          </div>
-
-
-
-          {/* 3D Saturn / Orbital Planetary Graphic (Exact Figma 2990:3974) */}
-          <div className="hidden md:block absolute right-2 lg:right-10 top-[110px] lg:top-[124px] w-[460px] lg:w-[613px] h-auto z-20 drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
-            <img
-              src="/assets/figma/whyesperia_hero_3d.png"
-              alt="Esperia Enterprise Delivery Model 3D Graphic"
-              className="w-full h-auto object-contain select-none cursor-pointer transform-gpu transition-transform duration-500 ease-out hover:scale-110 active:scale-105 will-change-transform"
-            />
-          </div>
-
           {/* Hero Content Area */}
-          <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-32 pb-14 sm:pb-20 flex-1 flex flex-col justify-center">
-            <div className="max-w-[760px] flex flex-col gap-4 sm:gap-5">
+          <div className="relative z-10 max-w-[1440px] mx-auto w-full h-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-32 pb-14 sm:pb-20 flex-1 flex flex-col justify-center">
+
+            {/* Esperia Geometric Mark Watermark — locked to 1440px container */}
+            <div className="absolute top-0 right-0 sm:right-4 lg:right-6 bottom-0 w-[55%] sm:w-[50%] lg:w-[48%] max-w-[620px] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
+              <EsperiaEmblem
+                className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
+                fill="#1E4035"
+              />
+            </div>
+
+            {/* 3D Saturn / Orbital Planetary Graphic — locked to 1440px container */}
+            <div className="hidden md:block absolute right-0 sm:right-2 lg:right-6 xl:right-10 top-1/2 -translate-y-1/2 w-[440px] lg:w-[550px] xl:w-[613px] h-auto z-20 drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
+              <img
+                src="/assets/figma/whyesperia_hero_3d.png"
+                alt="Esperia Enterprise Delivery Model 3D Graphic"
+                className="w-full h-auto object-contain select-none cursor-pointer transform-gpu transition-transform duration-500 ease-out hover:scale-110 active:scale-105 will-change-transform"
+              />
+            </div>
+
+            <div className="relative z-10 max-w-[640px] lg:max-w-[720px] flex flex-col">
               {/* Home Button */}
-              <div>
+              <div className="mb-6 sm:mb-7">
                 <button
                   type="button"
                   onClick={() => onNavigateToHome()}
@@ -138,14 +137,16 @@ export default function WhyEsperiaPage({
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-semibold text-white font-parkinsans leading-[1.08] tracking-tight mb-6">
-                Enterprise <br />
-                <span className="font-playball text-[#91CBA6] font-normal">Delivery </span>
-                <span className="font-parkinsans font-semibold text-white">Model</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-semibold text-white font-parkinsans leading-[1.18] sm:leading-[1.15] tracking-tight mb-6 sm:mb-7">
+                <span>Enterprise</span>
+                <span className="block mt-2.5 sm:mt-3">
+                  <span className="font-playball text-[#91CBA6] font-normal mr-3 sm:mr-3.5">Delivery</span>
+                  <span className="font-parkinsans font-semibold text-white">Model</span>
+                </span>
               </h1>
 
               {/* Subtitle Description */}
-              <p className="text-[16px] sm:text-[18px] text-[#FFFFFF] font-manrope font-normal leading-[1.6] max-w-[563px]">
+              <p className="text-[16px] sm:text-[18px] text-[#FFFFFF] font-manrope font-normal leading-[1.78] sm:leading-[1.8] max-w-[580px]">
                 It's how we do it. Many agencies check the same capability boxes. What separates Esperia is the discipline we bring to execution — and the ambition we bring to outcomes.
               </p>
             </div>
@@ -177,7 +178,7 @@ export default function WhyEsperiaPage({
                 return (
                   <div
                     key={item.number}
-                    className={`group flex items-start gap-5 sm:gap-6 ${index === 0 ? 'pt-0 pb-7' : isLast ? 'pt-7 pb-0' : 'py-7'
+                    className={`group flex items-start gap-5 sm:gap-6 ${index === 0 ? 'pt-0 pb-8 sm:pb-9' : isLast ? 'pt-8 sm:pt-9 pb-0' : 'py-8 sm:py-9'
                       } ${!isLast ? 'border-b border-[#E5E7EB]' : ''}`}
                   >
                     {/* Number Badge Box (80x80px with subtle gradient & minimal hover scale) */}
@@ -194,17 +195,17 @@ export default function WhyEsperiaPage({
                     </div>
 
                     {/* Content Column */}
-                    <div className="flex-1 flex flex-col gap-2 pt-0.5">
+                    <div className="flex-1 flex flex-col gap-2.5 pt-0.5">
                       {/* Title row with red square dot and subtle hover color */}
                       <div className="flex items-center gap-2.5">
                         <span className="w-2 h-2 min-w-2 min-h-2 rounded-[2px] bg-[#C5445A] shrink-0" />
-                        <h3 className="font-parkinsans font-medium text-[15px] sm:text-[16px] text-[#000000] tracking-tight leading-snug transition-colors duration-200 group-hover:text-[#C5445A]">
+                        <h3 className="font-parkinsans font-medium text-[16px] sm:text-[17px] text-[#000000] tracking-tight leading-snug transition-colors duration-200 group-hover:text-[#C5445A]">
                           {item.title}
                         </h3>
                       </div>
 
                       {/* Description */}
-                      <p className="font-manrope font-normal text-[13px] sm:text-[14px] text-[#6B7280] leading-[1.65]">
+                      <p className="font-manrope font-normal text-[13.5px] sm:text-[14.5px] text-[#6B7280] leading-[1.75]">
                         {item.description}
                       </p>
                     </div>
@@ -226,7 +227,7 @@ export default function WhyEsperiaPage({
                 }}
               >
                 {/* Headline */}
-                <h3 className="text-[24px] sm:text-[30px] lg:text-[32px] font-bold font-parkinsans text-white leading-[1.22] tracking-tight mb-8">
+                <h3 className="text-[24px] sm:text-[30px] lg:text-[32px] font-bold font-parkinsans text-white leading-[1.26] tracking-tight mb-8">
                   We don't just <span className="text-[#C2E3D1]">deliver </span>projects<br className="hidden sm:inline" />
                   {' '}we build partnerships that <span className="text-[#C2E3D1]">grow.</span>
                 </h3>
@@ -285,10 +286,10 @@ export default function WhyEsperiaPage({
                   <span className="inline-block text-[12px] font-manrope font-normal text-[#D9D9D9] mb-3">
                     Contact us
                   </span>
-                  <h3 className="text-3xl sm:text-[44px] lg:text-[48px] font-bold font-parkinsans text-white leading-[1.12] tracking-tight mb-4">
+                  <h3 className="text-3xl sm:text-[44px] lg:text-[48px] font-bold font-parkinsans text-white leading-[1.18] tracking-tight mb-5">
                     Ready to <span className="text-[#FF928E]">transform</span> your Business?
                   </h3>
-                  <p className="text-[14px] sm:text-[16px] text-[#D9D9D9] font-manrope font-medium leading-[22.1px] max-w-[407px]">
+                  <p className="text-[14px] sm:text-[16px] text-[#D9D9D9] font-manrope font-medium leading-[1.75] max-w-[420px]">
                     Whether you need a product designed, an app developed, or an AI solution engineered - let's make it happen.
                   </p>
                 </div>

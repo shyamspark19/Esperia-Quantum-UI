@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronLeft } from 'lucide-react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import EsperiaEmblem from '../components/EsperiaEmblem';
@@ -126,60 +126,56 @@ export default function ContactPage({
         onNavigateToWorks={onNavigateToWorks}
         onNavigateToBlogs={onNavigateToBlogs}
         onNavigateToContact={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        scrolledBg="bg-[#072826]/95 shadow-xl backdrop-blur-md"
-        mobileBg="bg-[#072826]"
+        scrolledBg="bg-[#0E241B]/95 shadow-xl backdrop-blur-md"
+        mobileBg="bg-[#0E241B]"
         className="-mb-20 sm:-mb-24"
       />
 
       {/* ========================================================================= */}
-      {/* 2. HERO & NAVIGATION BANNER (#3019:1169)                                  */}
+      {/* 2. HERO & NAVIGATION BANNER (#3019:1169 - EXACT ATTACHED REFERENCE)      */}
       {/* ========================================================================= */}
-      <div className="w-full bg-white px-0 sm:px-4 lg:px-8">
-        <section className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden bg-[#072826] min-h-[515px]">
-          {/* Exact Radial Gradient Background */}
-          <div
-            className="absolute inset-0 z-0 pointer-events-none rounded-b-[32px] sm:rounded-[40px]"
-            style={{
-              background:
-                'radial-gradient(circle at 76% 59%, rgba(31, 59, 57, 1) 0%, rgba(7, 40, 38, 1) 45%, rgba(2, 15, 15, 1) 100%)',
-            }}
-          />
-          {/* Esperia Geometric Mark Watermark — right side */}
-          <div className="absolute top-0 right-0 bottom-0 w-[55%] sm:w-[50%] lg:w-[46%] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
-            <EsperiaEmblem
-              className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
-              fill="#1E4035"
-            />
-          </div>
-          <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-28 sm:pt-32 lg:pt-36 pb-16 lg:pb-24">
-            <div className="max-w-[862px] flex flex-col gap-4 sm:gap-5">
-              {/* Back Button */}
-              <div>
+      <div className="w-full bg-white">
+        <section
+          className="relative w-full text-white rounded-b-[36px] sm:rounded-b-[48px] overflow-hidden min-h-[560px] lg:h-[594px] flex flex-col justify-between"
+          style={{
+            background:
+              'radial-gradient(circle at 75% 45%, rgb(23, 56, 43) 0%, rgb(14, 36, 27) 55%, rgb(8, 23, 17) 100%)',
+          }}
+        >
+          {/* Subtle Ambient Radial Glow */}
+          <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-[#1A382B]/30 rounded-full blur-[120px] pointer-events-none z-0" />
+
+          <div className="relative z-10 max-w-[1440px] mx-auto w-full h-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-32 lg:pt-36 pb-16 lg:pb-24 flex-1 flex flex-col justify-center">
+
+            {/* Esperia Geometric Mark Watermark — locked to 1440px container */}
+            <div className="absolute top-0 right-0 sm:right-4 lg:right-6 bottom-0 w-[55%] sm:w-[50%] lg:w-[48%] max-w-[620px] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
+              <EsperiaEmblem
+                className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
+                fill="#1E4035"
+              />
+            </div>
+
+            <div className="relative z-10 max-w-[862px] flex flex-col items-start">
+              {/* Home Button */}
+              <div className="mb-6 sm:mb-7">
                 <button
                   type="button"
                   onClick={() => onNavigateToHome()}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-black/20 hover:bg-black/30 text-[#E5E7EB] text-[12px] font-manrope font-semibold transition-all duration-200 cursor-pointer border border-white/5"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 hover:bg-black/60 text-[#D8E6E3] hover:text-white text-[12px] font-manrope font-semibold transition-all duration-200 cursor-pointer border border-white/10 shadow-sm"
                 >
-                  <img
-                    src="/assets/figma/icon_chevron_left.svg"
-                    alt=""
-                    className="w-4 h-4 object-contain"
-                  />
+                  <ChevronLeft size={14} className="text-white/80" />
                   <span>Home</span>
                 </button>
               </div>
 
-              {/* Section Label */}
-              <p className="text-white/60 text-sm font-manrope font-normal">Blogs</p>
-
-              {/* Headline */}
-              <h1 className="text-4xl sm:text-6xl lg:text-[64px] font-semibold font-display text-white tracking-tight leading-[1.12]">
+              {/* Headline: Connect with us */}
+              <h1 className="text-4xl sm:text-6xl lg:text-[68px] font-semibold text-white font-parkinsans tracking-tight leading-[1.16] sm:leading-[1.14] mb-5 sm:mb-6">
                 Connect with us
               </h1>
 
-              {/* Subtitle */}
-              <p className="text-white text-[18px] font-normal font-manrope leading-normal mt-1">
-                Let&apos;s build something enduring.
+              {/* Subtitle: Let's build something enduring. */}
+              <p className="text-white/90 text-[16px] sm:text-[18px] lg:text-[19px] font-normal font-manrope leading-[1.78] sm:leading-[1.8]">
+                Let&rsquo;s build something enduring.
               </p>
             </div>
           </div>
@@ -190,16 +186,6 @@ export default function ContactPage({
       {/* 2. MAIN SPLIT CONTENT AREA (#3019:1218)                                   */}
       {/* ========================================================================= */}
       <main className="relative overflow-hidden w-full flex-1 bg-white">
-        {/* Giant Rose/Coral Watermark Emblem in Background (#3019:1289) */}
-        <div className="absolute right-0 bottom-6 w-[550px] sm:w-[650px] lg:w-[693px] h-[692px] pointer-events-none select-none z-0 overflow-hidden flex items-end justify-end">
-          <EsperiaEmblem
-            className="w-full h-auto opacity-[0.14] text-[#F56F6A] translate-x-[10%] translate-y-[5%]"
-            fill="#F56F6A"
-            stroke="#F56F6A"
-            strokeWidth={0.25}
-          />
-        </div>
-
         <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-10 py-16 lg:py-24 relative z-10">
           <div className="flex flex-col lg:flex-row justify-between items-start gap-12 xl:gap-14">
             {/* ========================================================== */}
@@ -208,48 +194,48 @@ export default function ContactPage({
             <div className="w-full lg:w-[58%] xl:w-[778px] flex flex-col">
               {/* Heading Section (#3019:1221) */}
               <div className="mb-14">
-                <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-[#0D0D0D] font-parkinsans leading-[1.35] sm:leading-[1.3] lg:leading-[58px] tracking-tight mb-5 max-w-[575px]">
+                <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-[#0D0D0D] font-parkinsans leading-[1.28] sm:leading-[1.25] tracking-tight mb-6 max-w-[575px]">
                   We are always ready to <span className="text-[#C5445A]">help you</span> and answer your questions
                 </h2>
 
-                <p className="text-[#6B7280] text-[16px] font-normal font-manrope leading-[1.65] max-w-[587px]">
+                <p className="text-[#6B7280] text-[16px] font-normal font-manrope leading-[1.75] max-w-[587px]">
                   Pacific hake false trevally queen parrotfish black prickleback mosshead warbonnet sweeper! Greenling sleeper.
                 </p>
               </div>
 
               {/* Studio Cards Grid (#3019:1227) */}
-              <div className="flex flex-col gap-5 max-w-[738px]">
+              <div className="flex flex-col gap-6 max-w-[738px]">
                 {/* Row 1: US & Malaysia (#3019:1228) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* United States - Headquarters (#3019:1229) */}
-                  <div className="bg-[#FAFAFA] rounded-[30px] p-[30px] flex flex-col justify-between border border-transparent hover:border-[#C5445A]/20 transition-all duration-300 group shadow-sm hover:shadow-md">
+                  <div className="bg-[#FAFAFA] rounded-[30px] p-[32px] flex flex-col justify-between border border-transparent hover:border-[#C5445A]/20 transition-all duration-300 group shadow-sm hover:shadow-md">
                     <div>
-                      <span className="text-[14px] font-medium text-[#333333] font-manrope leading-[30px] block uppercase tracking-wider">
+                      <span className="text-[13px] font-semibold text-[#555555] font-manrope leading-[24px] block uppercase tracking-wider mb-2">
                         UNITED STATES - HEAD QUARTERS
                       </span>
-                      <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-[30px] group-hover:text-[#C5445A] transition-colors pb-4">
+                      <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-[1.38] group-hover:text-[#C5445A] transition-colors pb-5">
                         Esperia LLC<br />Wyoming, United States
                       </h3>
                     </div>
 
-                    <div className="text-[14px] font-medium text-[#333333] font-manrope leading-[30px]">
+                    <div className="text-[14px] font-medium text-[#444444] font-manrope leading-[28px] pt-2 border-t border-gray-100/80">
                       <div>hello@esperia.me</div>
                       <div>+91-123 456 765</div>
                     </div>
                   </div>
 
                   {/* Malaysia (#3019:1234) */}
-                  <div className="bg-[#FAFAFA] rounded-[30px] p-[30px] flex flex-col justify-between border border-transparent hover:border-[#C5445A]/20 transition-all duration-300 group shadow-sm hover:shadow-md">
+                  <div className="bg-[#FAFAFA] rounded-[30px] p-[32px] flex flex-col justify-between border border-transparent hover:border-[#C5445A]/20 transition-all duration-300 group shadow-sm hover:shadow-md">
                     <div>
-                      <span className="text-[14px] font-medium text-[#333333] font-manrope leading-[30px] block uppercase tracking-wider">
+                      <span className="text-[13px] font-semibold text-[#555555] font-manrope leading-[24px] block uppercase tracking-wider mb-2">
                         MALAYSIA
                       </span>
-                      <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-[30px] group-hover:text-[#C5445A] transition-colors pb-4">
+                      <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-[1.38] group-hover:text-[#C5445A] transition-colors pb-5">
                         Esperia Quantum Sdn Bhd<br />Kuala Lumpur, Malaysia
                       </h3>
                     </div>
 
-                    <div className="text-[14px] font-medium text-[#333333] font-manrope leading-[30px]">
+                    <div className="text-[14px] font-medium text-[#444444] font-manrope leading-[28px] pt-2 border-t border-gray-100/80">
                       <div>hello@esperia.me</div>
                       <div>+91-123 456 765</div>
                     </div>
@@ -257,17 +243,17 @@ export default function ContactPage({
                 </div>
 
                 {/* Row 2: India Hub (#3019:1239) */}
-                <div className="bg-[#FAFAFA] rounded-[30px] p-[30px] flex flex-col justify-between border border-transparent hover:border-[#C5445A]/20 transition-all duration-300 group shadow-sm hover:shadow-md">
+                <div className="bg-[#FAFAFA] rounded-[30px] p-[32px] flex flex-col justify-between border border-transparent hover:border-[#C5445A]/20 transition-all duration-300 group shadow-sm hover:shadow-md">
                   <div>
-                    <span className="text-[14px] font-medium text-[#333333] font-manrope leading-[30px] block uppercase tracking-wider">
+                    <span className="text-[13px] font-semibold text-[#555555] font-manrope leading-[24px] block uppercase tracking-wider mb-2">
                       INDIA
                     </span>
-                    <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-[30px] group-hover:text-[#C5445A] transition-colors pb-4">
+                    <h3 className="text-[20px] font-bold text-[#111111] font-manrope leading-[1.38] group-hover:text-[#C5445A] transition-colors pb-5">
                       Esperia Studio
                     </h3>
                   </div>
 
-                  <div className="text-[14px] font-medium text-[#333333] font-manrope leading-[30px]">
+                  <div className="text-[14px] font-medium text-[#444444] font-manrope leading-[28px] pt-2 border-t border-gray-100/80">
                     <div>hello@esperia.me</div>
                     <div>+91-123 456 765</div>
                   </div>
@@ -278,8 +264,8 @@ export default function ContactPage({
             {/* ========================================================== */}
             {/* Right Column: Dark Form Card with Scoop (#3019:1247)       */}
             {/* ========================================================== */}
-            <div className="w-full lg:w-[42%] xl:w-[481px] flex justify-center lg:justify-end flex-shrink-0">
-              <div className="relative w-full max-w-[481px] min-h-[518px] select-none">
+            <div className="w-full lg:w-[42%] xl:w-[481px] flex flex-col items-center lg:items-end flex-shrink-0 relative">
+              <div className="relative w-full max-w-[481px] min-h-[518px] select-none z-10">
                 {/* Custom Scooped Radial Gradient Background Container */}
                 <div
                   className="w-full min-h-[518px] rounded-[30px] p-[30px] sm:p-[36px] text-white shadow-2xl relative overflow-hidden flex flex-col justify-between"
@@ -451,6 +437,16 @@ export default function ContactPage({
                     )}
                   </div>
                 </div>
+              </div>
+
+              {/* Watermark Emblem positioned as per reference screenshot */}
+              <div className="w-full flex justify-end pointer-events-none select-none z-0 -mt-24 sm:-mt-28">
+                <img
+                  src="/assets/figma/esperia_emblem_contact_watermark.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="w-[340px] sm:w-[380px] lg:w-[400px] xl:w-[420px] h-auto object-contain"
+                />
               </div>
             </div>
           </div>

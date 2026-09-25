@@ -95,9 +95,9 @@ export default function TermsOfServicePage({
       />
 
       {/* 2. Hero Section */}
-      <div className="w-full bg-white px-0 sm:px-4 lg:px-8">
+      <div className="w-full bg-white">
         <section
-          className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden min-h-[420px] sm:min-h-[480px] flex flex-col"
+          className="relative w-full text-white rounded-b-[36px] sm:rounded-b-[48px] overflow-hidden min-h-[420px] sm:min-h-[480px] flex flex-col"
           style={{
             background:
               'radial-gradient(circle at 75% 45%, #17382B 0%, #0E241B 55%, #081711 100%)',
@@ -110,9 +110,9 @@ export default function TermsOfServicePage({
 
           {/* Hero Content */}
           <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-36 pb-14 sm:pb-20 flex-1 flex flex-col justify-center">
-            <div className="max-w-[760px] flex flex-col gap-4">
+            <div className="max-w-[760px] flex flex-col">
               {/* Home Pill Button */}
-              <div>
+              <div className="mb-6 sm:mb-7">
                 <button
                   type="button"
                   onClick={() => onNavigateToHome()}
@@ -128,13 +128,13 @@ export default function TermsOfServicePage({
               </div>
 
               {/* Title */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white font-parkinsans leading-[1.1] tracking-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white font-parkinsans leading-[1.16] sm:leading-[1.14] tracking-tight mb-5 sm:mb-6">
                 Terms of <br />
-                <span className="font-playball text-[#91CBA6] font-normal">Service </span>
+                <span className="font-playball text-[#91CBA6] font-normal mr-2">Service</span>
                 <span className="font-parkinsans font-semibold text-white">&amp; Conditions</span>
               </h1>
 
-              <p className="text-[#91CBA6]/90 text-sm sm:text-base font-normal max-w-xl font-manrope pt-2 leading-relaxed">
+              <p className="text-[#91CBA6]/90 text-[15px] sm:text-[17px] font-normal max-w-xl font-manrope leading-[1.78] sm:leading-[1.8]">
                 Review the terms governing corporate engagements, intellectual property ownership, and digital delivery with Esperia Quantum.
               </p>
             </div>
@@ -149,19 +149,19 @@ export default function TermsOfServicePage({
             {terms.map((item) => (
               <div
                 key={item.num}
-                className="bg-[#FAFAFA] border border-slate-200/80 rounded-[28px] p-6 sm:p-8 shadow-xs hover:border-[#17382B]/30 hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+                className="bg-[#FAFAFA] border border-slate-200/80 rounded-[28px] p-7 sm:p-9 shadow-xs hover:border-[#17382B]/30 hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  <div className="flex items-center justify-between gap-3 mb-4">
+                  <div className="flex items-center justify-between gap-3 mb-5">
                     <span className="px-3 py-1 rounded-full bg-[#17382B]/10 text-[#17382B] text-xs font-mono font-bold tracking-wider">
                       ARTICLE {item.num}
                     </span>
                     <span className="w-2 h-2 rounded-full bg-[#C5445A]" />
                   </div>
-                  <h2 className="text-lg sm:text-xl font-bold font-parkinsans text-[#111111] group-hover:text-[#17382B] transition-colors mb-3 leading-snug">
+                  <h2 className="text-lg sm:text-xl font-bold font-parkinsans text-[#111111] group-hover:text-[#17382B] transition-colors mb-3.5 leading-snug">
                     {item.title}
                   </h2>
-                  <p className="text-sm text-[#444444] font-manrope leading-relaxed">
+                  <p className="text-[14px] text-[#555555] font-manrope leading-[1.8]">
                     {item.content}
                   </p>
                 </div>

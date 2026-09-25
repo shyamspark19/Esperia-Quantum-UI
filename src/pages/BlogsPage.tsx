@@ -66,35 +66,31 @@ export default function BlogsPage({
       {/* ============================================================ */}
       {/* 2. HERO SECTION                                               */}
       {/* ============================================================ */}
-      <div className="w-full bg-white px-0 sm:px-4 lg:px-8">
-        <section className="relative w-full text-white rounded-b-[32px] sm:rounded-[40px] overflow-hidden bg-[#071F1A]">
-          {/* Background gradient image */}
-          <div className="absolute inset-0 z-0 pointer-events-none">
-            <img
-              src="/assets/figma/blog_hero_bg.png"
-              alt=""
-              className="w-full h-full object-cover rounded-b-[32px] sm:rounded-[40px]"
-            />
-          </div>
+      <div className="w-full bg-white">
+        <section
+          className="relative w-full text-white rounded-b-[36px] sm:rounded-b-[48px] overflow-hidden min-h-[560px] lg:h-[594px] flex flex-col justify-between"
+          style={{
+            background:
+              'radial-gradient(circle at 75% 45%, #17382B 0%, #0E241B 55%, #081711 100%)',
+          }}
+        >
+          {/* Subtle Ambient Radial Glow */}
+          <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-[#1A382B]/30 rounded-full blur-[120px] pointer-events-none z-0" />
 
+          {/* Hero Content Area */}
+          <div className="relative z-10 max-w-[1440px] mx-auto w-full h-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-32 pb-14 sm:pb-20 flex-1 flex flex-col justify-center">
 
+            {/* Esperia Geometric Mark Watermark — locked to 1440px container */}
+            <div className="absolute top-0 right-0 sm:right-4 lg:right-6 bottom-0 w-[55%] sm:w-[50%] lg:w-[48%] max-w-[620px] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
+              <EsperiaEmblem
+                className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
+                fill="#1E4035"
+              />
+            </div>
 
-          {/* Esperia Geometric Mark Watermark — right side */}
-          <div className="absolute top-0 right-0 bottom-0 w-[55%] sm:w-[50%] lg:w-[46%] pointer-events-none z-[1] flex items-center justify-center overflow-hidden">
-            <EsperiaEmblem
-              className="w-[360px] sm:w-[440px] lg:w-[520px] xl:w-[580px] h-auto"
-              fill="#1E4035"
-            />
-          </div>
-
-          {/* Ambient Top Glow */}
-          <div className="absolute top-0 left-1/4 w-[450px] h-[260px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none z-0" />
-
-          {/* Hero Content */}
-          <div className="relative z-10 max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-20 pt-28 sm:pt-32 lg:pt-36 pb-16 lg:pb-20">
-            <div className="max-w-[920px] flex flex-col gap-4 sm:gap-5">
+            <div className="relative z-10 max-w-[1150px] flex flex-col">
               {/* Home Button */}
-              <div>
+              <div className="mb-6 sm:mb-7">
                 <button
                   type="button"
                   onClick={() => onNavigateToHome()}
@@ -110,17 +106,17 @@ export default function BlogsPage({
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-[60px] font-bold font-display text-white tracking-tight leading-[1.12]">
-                <span>Perspectives on the </span>
-                <span className="font-playball text-[#91CBA6] font-normal italic tracking-normal inline-block ml-1">
-                  Frontier
+              <h1 className="text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] font-semibold text-white font-parkinsans leading-[1.18] sm:leading-[1.14] tracking-tight mb-6 sm:mb-7">
+                <span>AI Doesn't Replace</span>{' '}
+                <span className="font-playball text-[#91CBA6] font-normal italic tracking-normal ml-1">
+                  Creativity.
                 </span>
                 <br />
-                <span className="block mt-1">of Enterprise Technology.</span>
+                <span className="block mt-2 sm:mt-2.5">It Removes Friction.</span>
               </h1>
 
-              {/* Subtitle */}
-              <p className="text-[#D1D5DB] text-sm sm:text-base lg:text-[17px] max-w-2xl font-manrope font-normal leading-relaxed mt-1">
+              {/* Subtitle Description */}
+              <p className="text-[16px] sm:text-[18px] text-[#FFFFFF]/85 font-manrope font-normal leading-[1.78] sm:leading-[1.8] max-w-[580px]">
                 Explore our latest research, architectural blueprints, and engineering insights on AI resilience, multi-cloud microservices, and quantum readiness.
               </p>
             </div>
@@ -152,12 +148,12 @@ export default function BlogsPage({
               </div>
 
               {/* Headline */}
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-['Parkinsans',sans-serif] text-white mb-4 group-hover:text-[#91CBA6] transition-colors leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-['Parkinsans',sans-serif] text-white mb-5 group-hover:text-[#91CBA6] transition-colors leading-[1.35] tracking-normal">
                 {featuredBlog.title}
               </h2>
 
               {/* Subtitle / Excerpt */}
-              <p className="text-gray-300 text-sm sm:text-base font-normal leading-relaxed mb-6 font-manrope">
+              <p className="text-gray-300 text-sm sm:text-[15px] font-normal leading-[1.8] mb-8 font-manrope">
                 {featuredBlog.excerpt}
               </p>
 
@@ -248,7 +244,7 @@ export default function BlogsPage({
                 </div>
 
                 {/* Card Content Area */}
-                <div className="p-6 sm:p-7 pt-7 flex flex-col gap-3">
+                <div className="p-6 sm:p-7 pt-7 flex flex-col gap-3.5">
                   {/* Category & Read Time */}
                   <div className="flex items-center justify-between text-xs">
                     <span className="px-2.5 py-1 rounded-full border border-[#C2E3D1] text-[10px] font-bold uppercase tracking-wider text-[#111827] bg-[#E8F5EE]">
@@ -261,12 +257,12 @@ export default function BlogsPage({
                   </div>
 
                   {/* Headline */}
-                  <h3 className="text-[17px] font-bold font-['Parkinsans',sans-serif] text-[#0D0D0D] leading-snug group-hover:text-[#C5445A] transition-colors line-clamp-2">
+                  <h3 className="text-[18px] font-bold font-['Parkinsans',sans-serif] text-[#0D0D0D] leading-[1.35] group-hover:text-[#C5445A] transition-colors line-clamp-2">
                     {blog.title}
                   </h3>
 
                   {/* Excerpt */}
-                  <p className="text-[13px] text-[#6B7280] font-manrope line-clamp-3 leading-relaxed">
+                  <p className="text-[13.5px] text-[#6B7280] font-manrope line-clamp-3 leading-[1.75]">
                     {blog.excerpt}
                   </p>
                 </div>

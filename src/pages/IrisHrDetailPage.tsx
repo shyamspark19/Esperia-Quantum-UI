@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { ChevronLeft, Menu, X } from 'lucide-react';
+import React from 'react';
+import { ChevronLeft } from 'lucide-react';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 interface IrisHrDetailPageProps {
@@ -25,46 +26,22 @@ export default function IrisHrDetailPage({
   onViewYoungGenius,
   onViewTasConnect,
 }: IrisHrDetailPageProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <div className="min-h-screen bg-white text-[#0A0A0A] font-['Manrope',sans-serif] antialiased selection:bg-[#C5445A] selection:text-white flex flex-col justify-between">
 
       {/* HEADER */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-black/[0.06] transition-all duration-300">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 h-20 sm:h-24 flex items-center justify-between">
-          <button type="button" onClick={() => onNavigateToHome()} className="focus:outline-none flex items-center group cursor-pointer">
-            <img src="/assets/figma/esperia_header_logo.svg" alt="ESPERIA QUANTUM" className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
-          </button>
-
-          <nav className="hidden md:flex items-center gap-8 text-[13px] font-medium text-[#4A4A4A]">
-            <button type="button" onClick={() => onNavigateToWhatWeDo ? onNavigateToWhatWeDo() : onNavigateToHome('what-we-do')} className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer">What We Do</button>
-            <button type="button" onClick={() => onNavigateToHome('why-esperia')} className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer">Why Esperia</button>
-            <button type="button" onClick={onBack} className="relative text-[#C5445A] font-semibold transition-colors duration-200 cursor-pointer flex flex-col items-center">
-              <span>Our Products</span>
-              <span className="w-1 h-1 rounded-full bg-[#C5445A] mt-0.5" />
-            </button>
-            <button type="button" onClick={() => onNavigateToHome('blogs')} className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer">Blogs &amp; Newsletters</button>
-            <button type="button" onClick={onNavigateToContact} className="hover:text-[#C5445A] transition-colors duration-200 cursor-pointer">Contact Us</button>
-          </nav>
-
-          <button type="button" aria-label="Toggle navigation menu" className="md:hidden text-[#0A0A0A] p-2 hover:bg-slate-100 rounded-lg transition" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-black/[0.08] px-6 py-6 flex flex-col gap-4 relative z-50 shadow-xl animate-in slide-in-from-top duration-300">
-            <button type="button" className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1" onClick={() => { setMobileMenuOpen(false); if (onNavigateToWhatWeDo) onNavigateToWhatWeDo(); else onNavigateToHome('what-we-do'); }}>What We Do</button>
-            <button type="button" className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1" onClick={() => { setMobileMenuOpen(false); onNavigateToHome('why-esperia'); }}>Why Esperia</button>
-            <button type="button" className="text-left text-[#C5445A] font-semibold text-sm py-1" onClick={() => { setMobileMenuOpen(false); onBack(); }}>Our Products</button>
-            <button type="button" className="text-left text-[#4A4A4A] hover:text-[#C5445A] text-sm py-1" onClick={() => { setMobileMenuOpen(false); onNavigateToHome('blogs'); }}>Blogs &amp; Newsletters</button>
-            <button type="button" className="text-left text-[#C5445A] font-semibold pt-3 border-t border-slate-100 cursor-pointer text-sm" onClick={() => { setMobileMenuOpen(false); onNavigateToContact(); }}>Contact Us</button>
-          </div>
-        )}
-      </header>
+      <Header
+        activePage="works"
+        solidBg
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToWhatWeDo={onNavigateToWhatWeDo}
+        onNavigateToWhyEsperia={onNavigateToWhyEsperia}
+        onNavigateToWorks={onBack}
+        onNavigateToBlogs={onNavigateToBlogs}
+        onNavigateToContact={onNavigateToContact}
+      />
 
       {/* MAIN */}
       <main className="flex-1 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pt-6 pb-20">
@@ -79,10 +56,10 @@ export default function IrisHrDetailPage({
         {/* Hero */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-12 sm:mb-16">
           <div className="lg:col-span-6 flex flex-col justify-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold font-['Parkinsans',sans-serif] tracking-tight text-[#0A0A0A] uppercase leading-[1.08] mb-4 sm:mb-5">
+            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold font-['Parkinsans',sans-serif] tracking-tight text-[#0A0A0A] uppercase leading-[1.16] sm:leading-[1.14] mb-5 sm:mb-6">
               IRIS HR<br />SYSTEM
             </h1>
-            <p className="text-[#555555] text-sm sm:text-base lg:text-[17px] font-normal leading-relaxed max-w-lg font-['Manrope',sans-serif]">
+            <p className="text-[#555555] text-sm sm:text-base lg:text-[17px] font-normal leading-[1.8] max-w-lg font-['Manrope',sans-serif]">
               Intelligent digital HR platform that streamlines operations, centralizes employee data, and enhances collaboration across modern workplaces.
             </p>
           </div>
@@ -136,7 +113,7 @@ export default function IrisHrDetailPage({
         {/* Other Works */}
         <section className="mb-20">
           <h2 className="text-2xl sm:text-3xl font-bold font-['Parkinsans',sans-serif] text-[#0A0A0A] mb-8">Other Works</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <div className="bg-[#F4F4F1] rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
               <div className="bg-white rounded-xl overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center mb-4 border border-slate-100/80">
@@ -157,19 +134,6 @@ export default function IrisHrDetailPage({
               <div className="flex items-center justify-between pt-1">
                 <span className="font-bold text-[15px] text-[#0A0A0A] font-['Parkinsans',sans-serif] truncate pr-2">Young Genius Program</span>
                 <button type="button" onClick={() => onViewYoungGenius ? onViewYoungGenius() : onBack()} className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors cursor-pointer shrink-0">
-                  <span>View Details</span><span className="text-xs">&gt;</span>
-                </button>
-              </div>
-            </div>
-
-            {/* IRIS HR (current - active ring) */}
-            <div className="bg-[#F4F4F1] rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group ring-1 ring-[#C5445A]/20">
-              <div className="bg-white rounded-xl overflow-hidden shadow-sm aspect-[16/10] flex items-center justify-center mb-4 border border-slate-100/80">
-                <img src="/assets/figma/exact_iris_hr_hq.png" alt="IRIS HR System" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              </div>
-              <div className="flex items-center justify-between pt-1">
-                <span className="font-bold text-[15px] text-[#0A0A0A] font-['Parkinsans',sans-serif]">IRIS HR System</span>
-                <button type="button" onClick={scrollToTop} className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#C5445A] hover:text-[#9e2e41] transition-colors cursor-pointer">
                   <span>View Details</span><span className="text-xs">&gt;</span>
                 </button>
               </div>

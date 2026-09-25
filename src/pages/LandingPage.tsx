@@ -19,7 +19,12 @@ interface EsperiaLandingProps {
   onNavigateToWhatWeDo?: () => void;
   onNavigateToBlogs?: () => void;
   onNavigateToWhyEsperia?: () => void;
+  onViewWatermelon?: () => void;
+  onViewYoungGenius?: () => void;
+  onViewIrisHr?: () => void;
+  onViewTasConnect?: () => void;
 }
+
 
 // Hero Carousel Slides Configuration (Figma Website UI 5, UI 7)
 const heroSlides = [
@@ -35,12 +40,12 @@ const heroSlides = [
     scrolledHeaderBg: 'bg-[#051413]/95 shadow-xl backdrop-blur-md',
     mobileMenuBg: 'bg-[#071D1B]',
     renderHeading: () => (
-      <>
+      <div className="space-y-1 sm:space-y-2">
         <span className="text-[#73A7A3] block">Cloud-Native.</span>
         <span className="bg-gradient-to-r from-[#F26E65] via-[#E2857E] to-[#73A7A3] bg-clip-text text-transparent block">
           AI-Driven.
         </span>
-      </>
+      </div>
     ),
     descriptionText:
       'From modern cloud architecture to AI-powered experiences, we engineer digital products that are scalable, secure, resilient, and built to move fast.',
@@ -67,10 +72,10 @@ const heroSlides = [
     scrolledHeaderBg: 'bg-[#141618]/95 shadow-xl backdrop-blur-md',
     mobileMenuBg: 'bg-[#181B1E]',
     renderHeading: () => (
-      <>
+      <div className="space-y-1 sm:space-y-2">
         <span className="text-white block">Cloud-Native.</span>
         <span className="text-white block">AI-Driven.</span>
-      </>
+      </div>
     ),
     descriptionText:
       'From modern cloud architecture to AI-powered experiences, we engineer digital products that are scalable, secure, resilient, and built to move fast.',
@@ -116,28 +121,107 @@ export default function EsperiaLanding({
   onNavigateToWorks,
   onNavigateToWhatWeDo,
   onNavigateToBlogs,
-  onNavigateToWhyEsperia
+  onNavigateToWhyEsperia,
+  onViewWatermelon,
+  onViewYoungGenius,
+  onViewIrisHr,
+  onViewTasConnect
 }: EsperiaLandingProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
-  // Auto-advance carousel in a continuous loop every 5 seconds
+  // Products Carousel State & Data
+  const [currentProductIndex, setCurrentProductIndex] = useState(0);
+
+  const carouselProducts = [
+    {
+      id: 'xconnect',
+      name: 'XConnect',
+      tag: 'XConnect',
+      badgeGradient: 'linear-gradient(90deg, rgba(197, 68, 90, 0.85) 0%, rgba(62, 165, 148, 0.8) 100%)',
+      shortDesc: 'Management platform that unifies projects, tasks, and collaboration',
+      description: 'Management platform that unifies projects, tasks, and collaboration to improve visibility, efficiency, and productivity.',
+      tallImage: '/assets/figma/bb9dd026594ae371c3f28fc99578043dbe6c0457.png',
+      tallImagePos: 'object-[78%_center]',
+      landscapeImage: '/assets/figma/xconnect_fiber_clean.png',
+      route: '#tas-connect',
+      onView: onViewTasConnect
+    },
+    {
+      id: 'watermelon',
+      name: 'Watermelon',
+      tag: 'Watermelon',
+      badgeGradient: 'linear-gradient(90deg, rgba(220, 53, 69, 0.85) 0%, rgba(53, 158, 140, 0.8) 100%)',
+      shortDesc: 'AI-driven Enterprise Software Reliability & Operations Platform',
+      description: 'Empowers businesses to create resilient, scalable, and intelligent digital ecosystems, enhancing operational reliability and decision-making.',
+      tallImage: '/assets/figma/watermelon_dash_crystal_2x.png',
+      tallImagePos: 'object-cover',
+      landscapeImage: '/assets/figma/exact_watermelon_hq.png',
+      route: '#watermelon',
+      onView: onViewWatermelon
+    },
+    {
+      id: 'young-genius',
+      name: 'Young Genius',
+      tag: 'Young Genius',
+      badgeGradient: 'linear-gradient(90deg, rgba(245, 111, 106, 0.85) 0%, rgba(76, 175, 80, 0.8) 100%)',
+      shortDesc: 'AI-driven adaptive learning platform for scalable education',
+      description: 'Personalized education ecosystem tailoring learning paths to individual needs, elevating student engagement, and simplifying administrative workflows.',
+      tallImage: '/assets/figma/exact_young_genius_hq.png',
+      tallImagePos: 'object-cover',
+      landscapeImage: '/assets/figma/other_works_young_genius_hq.png',
+      route: '#young-genius',
+      onView: onViewYoungGenius
+    },
+    {
+      id: 'iris-hr',
+      name: 'IRIS HR System',
+      tag: 'IRIS HR',
+      badgeGradient: 'linear-gradient(90deg, rgba(160, 70, 150, 0.85) 0%, rgba(62, 165, 148, 0.8) 100%)',
+      shortDesc: 'Intelligent digital human resource management platform',
+      description: 'Modernizes workforce management through unified employee insights, automated workflows, and streamlined cross-organizational collaboration.',
+      tallImage: '/assets/figma/exact_iris_hr_hq.png',
+      tallImagePos: 'object-cover',
+      landscapeImage: '/assets/figma/works_iris_hr_dash_hd.png',
+      route: '#iris-hr',
+      onView: onViewIrisHr
+    },
+    {
+      id: 'tas-connect',
+      name: 'TASConnect',
+      tag: 'TASConnect',
+      badgeGradient: 'linear-gradient(90deg, rgba(197, 68, 90, 0.85) 0%, rgba(53, 158, 140, 0.8) 100%)',
+      shortDesc: 'Real-time logistics monitoring & supply chain visibility platform',
+      description: 'Combines real-time sentiment analysis and predictive telemetry to transform complex logistics data into actionable operational clarity.',
+      tallImage: '/assets/figma/exact_tasconnect_hq.png',
+      tallImagePos: 'object-cover',
+      landscapeImage: '/assets/figma/other_works_tasconnect_hq.png',
+      route: '#tas-connect',
+      onView: onViewTasConnect
+    }
+  ];
+
+  const handleNextProduct = () => {
+    setCurrentProductIndex((prev) => (prev + 1) % carouselProducts.length);
+  };
+
+  const handlePrevProduct = () => {
+    setCurrentProductIndex((prev) => (prev - 1 + carouselProducts.length) % carouselProducts.length);
+  };
+
+  const currentBigProduct = carouselProducts[currentProductIndex];
+  const nextSmallProduct = carouselProducts[(currentProductIndex + 1) % carouselProducts.length];
+
+
+  // Auto-advance between the two slides in a clean horizontal scroll loop
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(interval);
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
+    }, 6000);
+    return () => clearInterval(timer);
   }, []);
-
-  const goToPrevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
-  };
-
-  const goToNextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-  };
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX);
@@ -145,12 +229,11 @@ export default function EsperiaLanding({
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX === null) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const diff = touchStartX - touchEndX;
+    const diff = touchStartX - e.changedTouches[0].clientX;
     if (diff > 50) {
-      goToNextSlide();
+      setCurrentSlide(1);
     } else if (diff < -50) {
-      goToPrevSlide();
+      setCurrentSlide(0);
     }
     setTouchStartX(null);
   };
@@ -282,151 +365,131 @@ export default function EsperiaLanding({
       </header>
 
       {/* ========================================================================= */}
-      {/* 1. HERO SECTION (CONTINUOUS LOOPING CAROUSEL: FIGMA UI 5, 6, 7)           */}
+      {/* 1. HERO SECTION (SIMPLE LEFT-TO-RIGHT HORIZONTAL SLIDE TRANSITION)       */}
       {/* ========================================================================= */}
       <section
+        id="hero"
         className="relative text-white overflow-hidden select-none"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Dynamic Atmospheric Background Cross-fade Layers */}
-        {heroSlides.map((slide, index) => {
-          const isActive = currentSlide === index;
-          return (
+        {/* Horizontal Slide Track */}
+        <div
+          className="flex w-full transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {heroSlides.map((slide) => (
             <div
-              key={`bg-${slide.id}`}
-              className={`absolute inset-0 transition-opacity duration-[1400ms] ease-in-out pointer-events-none overflow-hidden ${isActive ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
-                }`}
-              style={{ background: slide.bgStyle }}
+              key={slide.id}
+              className="w-full shrink-0 min-w-full relative flex flex-col justify-between"
             >
-              {slide.bgImage && (
-                <img
-                  src={slide.bgImage}
-                  alt=""
-                  className="absolute right-0 bottom-0 w-full h-full object-cover object-right-bottom pointer-events-none select-none"
-                />
-              )}
-            </div>
-          );
-        })}
-
-        {/* Ambient subtle light glow that moves softly */}
-        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-white/[0.03] rounded-full blur-[140px] pointer-events-none z-[2]" />
-
-        {/* Main Hero Stage (Stable, unified layout with zero text jitter) */}
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 pt-32 sm:pt-36 lg:pt-40 pb-8 sm:pb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
-
-          {/* Left Column: Heading, description, button */}
-          <div className="lg:col-span-6 z-10">
-            {/* Seamless Heading Cross-Dissolve */}
-            <div className="relative mb-7">
-              {/* UI 5 Style: Metallic Teal + Coral to Teal Gradient */}
-              <h1
-                className={`text-5xl sm:text-7xl lg:text-[84px] xl:text-[92px] font-bold tracking-[-0.03em] leading-[1.04] font-sora transition-opacity duration-1000 ease-in-out ${currentSlide === 0
-                  ? 'opacity-100 pointer-events-auto'
-                  : 'opacity-0 pointer-events-none absolute inset-0'
-                  }`}
+              {/* Background Layer */}
+              <div
+                className="absolute inset-0 pointer-events-none overflow-hidden"
+                style={{ background: slide.bgStyle }}
               >
-                <span className="text-[#73A7A3] block">Cloud-Native.</span>
-                <span className="bg-gradient-to-r from-[#F26E65] via-[#E2857E] to-[#73A7A3] bg-clip-text text-transparent block">
-                  AI-Driven.
-                </span>
-              </h1>
+                {slide.bgImage && (
+                  <img
+                    src={slide.bgImage}
+                    alt=""
+                    className="absolute right-0 bottom-0 w-full h-full object-cover object-right-bottom pointer-events-none select-none"
+                  />
+                )}
+              </div>
 
-              {/* UI 6 & 7 Style: Solid White */}
-              <h1
-                className={`text-5xl sm:text-7xl lg:text-[84px] xl:text-[92px] font-bold tracking-[-0.03em] leading-[1.04] font-sora text-white transition-opacity duration-1000 ease-in-out ${currentSlide !== 0
-                  ? 'opacity-100 pointer-events-auto'
-                  : 'opacity-0 pointer-events-none absolute inset-0'
-                  }`}
-              >
-                <span className="block">Cloud-Native.</span>
-                <span className="block">AI-Driven.</span>
-              </h1>
-            </div>
+              {/* Ambient subtle light glow */}
+              <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-white/[0.03] rounded-full blur-[140px] pointer-events-none z-[2]" />
 
-            {/* Description Text with Smooth Color Palette Adaptation */}
-            <p
-              className={`text-base sm:text-[17px] leading-[1.75] max-w-[490px] mb-10 font-manrope font-normal transition-colors duration-1000 ease-in-out ${currentSlideConfig.descClass}`}
-            >
-              From modern cloud architecture to AI-powered experiences, we engineer digital products that are scalable, secure, resilient, and built to move fast.
-            </p>
+              {/* Main Hero Stage */}
+              <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-12 lg:px-16 pt-32 sm:pt-36 lg:pt-40 pb-8 sm:pb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
 
-            {/* CTA Button with Smooth Color & Border Transition */}
-            <div>
-              <a
-                href="#our-works"
-                onClick={(e) => {
-                  if (onNavigateToWorks) {
-                    e.preventDefault();
-                    onNavigateToWorks();
-                  }
-                }}
-                className={`inline-flex items-center justify-center font-medium text-sm sm:text-base px-8 py-3 rounded-full border border-white hover:border-white hover:bg-white/10 text-white transition-all duration-1000 ease-in-out cursor-pointer shadow-sm ${currentSlideConfig.buttonClass}`}
-              >
-                See our works
-              </a>
-            </div>
-          </div>
-
-          {/* Right Column: 3D Visual Centerpiece */}
-          <div className="lg:col-span-6 flex justify-center lg:justify-end relative">
-            <div className="relative w-full max-w-[640px] lg:max-w-[760px] xl:max-w-[820px] -mr-4 lg:-mr-12 xl:-mr-16 min-h-[380px] sm:min-h-[460px] lg:min-h-[520px] flex items-center justify-center lg:justify-end">
-              {heroSlides.map((slide, index) => {
-                const isActive = currentSlide === index;
-                if (!slide.imageSrc) return null;
-                return (
-                  <div
-                    key={slide.id}
-                    className={`absolute inset-0 flex items-center justify-center lg:justify-end transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 pointer-events-auto z-10' : 'opacity-0 pointer-events-none z-0'
-                      }`}
-                  >
-                    <img
-                      src={slide.imageSrc}
-                      alt={slide.imageAlt}
-                      className="w-full h-auto max-h-[540px] object-contain select-none pointer-events-none drop-shadow-[0_24px_48px_rgba(0,0,0,0.35)]"
-                    />
+                {/* Left Column: Heading, description, button */}
+                <div className="lg:col-span-6 z-10">
+                  <div className="mb-8 sm:mb-9">
+                    <h1 className="text-5xl sm:text-7xl lg:text-[84px] xl:text-[92px] font-bold tracking-[-0.03em] leading-[1.12] sm:leading-[1.10] font-sora">
+                      {slide.renderHeading()}
+                    </h1>
                   </div>
-                );
-              })}
-            </div>
-          </div>
 
-        </div>
+                  {/* Description Text */}
+                  <div className="max-w-[510px] mb-10 sm:mb-12">
+                    <p className={`text-base sm:text-[18px] leading-[1.8] font-manrope font-normal ${slide.descClass}`}>
+                      {slide.descriptionText}
+                    </p>
+                  </div>
 
-        {/* Hero Stats Strip - Seamlessly adapting colors with active slide (No horizontal lines, no black backdrop) */}
-        <div className="relative z-20 pb-12 sm:pb-16 pt-2">
-          <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
-            {statsItems.map((stat, idx) => {
-              const Icon = stat.icon;
-              const isFirst = idx === 0;
-              const isLast = idx === statsItems.length - 1;
-              return (
-                <div
-                  key={stat.label}
-                  className={`flex flex-col transition-colors duration-1000 ease-in-out ${!isLast ? `pr-6 md:pr-8 lg:pr-12 md:border-r ${currentSlideConfig.statDividerClass}` : ''
-                    } ${!isFirst ? 'md:pl-6 lg:pl-10' : ''}`}
-                >
-                  <div className="flex items-center gap-3 mb-2">
-                    <Icon
-                      size={24}
-                      className={`shrink-0 transition-colors duration-1000 ease-in-out ${currentSlideConfig.statIconClass}`}
-                    />
-                    <span
-                      className={`text-3xl sm:text-4xl lg:text-[42px] font-bold font-manrope leading-none tracking-tight transition-colors duration-1000 ease-in-out ${currentSlideConfig.statNumberClass}`}
+                  {/* CTA Button */}
+                  <div>
+                    <a
+                      href="#our-works"
+                      onClick={(e) => {
+                        if (onNavigateToWorks) {
+                          e.preventDefault();
+                          onNavigateToWorks();
+                        }
+                      }}
+                      className={`inline-flex items-center justify-center font-medium text-sm sm:text-base px-8 py-3 rounded-full border border-white hover:bg-white/10 text-white cursor-pointer shadow-sm ${slide.buttonClass}`}
                     >
-                      {stat.value}
-                    </span>
+                      See our works
+                    </a>
                   </div>
-                  <span
-                    className={`text-[10.5px] sm:text-[11.5px] font-bold tracking-[0.18em] uppercase font-manrope transition-colors duration-1000 ease-in-out ${currentSlideConfig.statLabelClass}`}
-                  >
-                    {stat.label}
-                  </span>
                 </div>
-              );
-            })}
-          </div>
+
+                {/* Right Column: 3D Visual Centerpiece */}
+                <div className="lg:col-span-6 flex justify-center lg:justify-end relative group">
+                  <div className="relative w-full max-w-[640px] lg:max-w-[760px] xl:max-w-[820px] -mr-4 lg:-mr-12 xl:-mr-16 min-h-[340px] sm:min-h-[420px] lg:min-h-[480px] flex items-center justify-center lg:justify-end">
+                    {slide.imageSrc ? (
+                      <img
+                        src={slide.imageSrc}
+                        alt={slide.imageAlt}
+                        className="w-full h-auto max-h-[540px] object-contain select-none pointer-events-none drop-shadow-[0_24px_48px_rgba(0,0,0,0.35)] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                      />
+                    ) : (
+                      <div className="w-full h-full min-h-[340px]" />
+                    )}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Hero Stats Strip */}
+              <div className="relative z-20 pb-12 sm:pb-16 pt-2">
+                <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
+                  {statsItems.map((stat, idx) => {
+                    const Icon = stat.icon;
+                    const isFirst = idx === 0;
+                    const isLast = idx === statsItems.length - 1;
+                    return (
+                      <div
+                        key={stat.label}
+                        className={`group cursor-pointer flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 ${!isLast ? `md:border-r ${slide.statDividerClass}` : ''
+                          }`}
+                      >
+                        <div className="flex flex-col items-center justify-center text-center transition-transform duration-700 ease-out group-hover:scale-[1.02] origin-center">
+                          <div className="flex items-center justify-center gap-3 mb-2">
+                            <Icon
+                              size={24}
+                              className={`shrink-0 transition-transform duration-700 ease-out group-hover:scale-[1.08] ${slide.statIconClass}`}
+                            />
+                            <span
+                              className={`text-3xl sm:text-4xl lg:text-[42px] font-bold font-manrope leading-none tracking-tight transition-transform duration-700 ease-out ${slide.statNumberClass}`}
+                            >
+                              {stat.value}
+                            </span>
+                          </div>
+                          <span
+                            className={`text-[10.5px] sm:text-[11.5px] font-bold tracking-[0.18em] uppercase font-manrope transition-opacity duration-700 ease-out group-hover:opacity-100 text-center ${slide.statLabelClass}`}
+                          >
+                            {stat.label}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -444,14 +507,14 @@ export default function EsperiaLanding({
                 </span>
               </div>
 
-              <h2 className="text-4xl sm:text-6xl lg:text-[68px] xl:text-[72px] font-bold tracking-[-0.03em] text-[#0A0A0A] leading-[1.08] font-parkinsans mb-8">
+              <h2 className="text-4xl sm:text-6xl lg:text-[68px] xl:text-[72px] font-bold tracking-[-0.03em] text-[#0A0A0A] leading-[1.16] sm:leading-[1.14] font-parkinsans mb-9">
                 We are where <span className="text-[#DE3D5B]">creative</span>{' '}
                 <span className="text-[#2EB89E]">vision</span>
                 <br className="hidden sm:inline" />
                 meets <span className="text-[#6B8079]">intelligent</span> solutions.
               </h2>
 
-              <div className="space-y-4 text-sm sm:text-[16px] text-[#4A4A4A] leading-[1.8] max-w-2xl font-manrope">
+              <div className="space-y-5 text-sm sm:text-[16px] text-[#4A4A4A] leading-[1.85] max-w-2xl font-manrope">
                 <p>
                   We turn ideas into products people can understand, adopt, and rely on — combining creativity, technology, and deep human understanding.
                 </p>
@@ -463,11 +526,11 @@ export default function EsperiaLanding({
 
             {/* Floating 3D Crystal Visual (Seamless, No Container Box) */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative">
+              <div className="relative group cursor-pointer">
                 <img
                   src="/assets/figma/93db253d9a77bca6768960eed7492c046fe70768.png"
                   alt="Esperia Intelligent Vision"
-                  className="w-72 sm:w-96 lg:w-[460px] xl:w-[500px] h-auto object-contain select-none pointer-events-none drop-shadow-sm hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-72 sm:w-96 lg:w-[460px] xl:w-[500px] h-auto object-contain select-none cursor-pointer drop-shadow-sm group-hover:scale-105 group-hover:-translate-y-1.5 transition-all duration-700 ease-in-out"
                 />
               </div>
             </div>
@@ -558,13 +621,13 @@ export default function EsperiaLanding({
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-[48px] xl:text-[54px] font-bold text-[#0A0A0A] tracking-[-0.03em] leading-[1.1] mb-5 sm:mb-6 font-parkinsans">
+            <h2 className="text-3xl sm:text-5xl lg:text-[48px] xl:text-[54px] font-bold text-[#0A0A0A] tracking-[-0.03em] leading-[1.18] sm:leading-[1.15] mb-6 sm:mb-7 font-parkinsans">
               Human <span className="text-[#857F7A]">I</span><span className="text-[#359E8C]">ngenuity</span><span className="text-[#E63956]">.</span>
               <br />
               Intelligent Systems.
             </h2>
 
-            <p className="text-[#555555] text-sm sm:text-[15px] lg:text-[16px] leading-[1.75] max-w-lg mb-8 sm:mb-9 font-manrope">
+            <p className="text-[#555555] text-sm sm:text-[15px] lg:text-[16px] leading-[1.85] max-w-lg mb-8 sm:mb-10 font-manrope">
               We connect AI, data, cloud, and digital design to unlock business transformation — enabling organisations to innovate with purpose and scale with agility.
             </p>
 
@@ -624,11 +687,11 @@ export default function EsperiaLanding({
                 </span>
               </div>
 
-              <h2 className="text-4xl sm:text-5xl lg:text-[46px] xl:text-[54px] font-bold text-[#0A0A0A] tracking-[-0.03em] leading-[1.08] mb-4 font-parkinsans">
+              <h2 className="text-4xl sm:text-5xl lg:text-[46px] xl:text-[54px] font-bold text-[#0A0A0A] tracking-[-0.03em] leading-[1.15] mb-5 font-parkinsans">
                 What We have Built.
               </h2>
 
-              <p className="text-[#555555] text-sm sm:text-base leading-[1.7] max-w-[340px] font-manrope">
+              <p className="text-[#555555] text-sm sm:text-base leading-[1.8] max-w-[360px] font-manrope">
                 Platforms and products we designed, engineered, and shipped — end to end.
               </p>
             </div>
@@ -655,40 +718,47 @@ export default function EsperiaLanding({
             </div>
           </div>
 
-          {/* Column 2: Middle Tall Portrait Card (Whiteboard Innovation Collaboration) */}
+          {/* Column 2: Middle Tall Portrait Card (Featured Product) */}
           <div className="lg:col-span-4 flex flex-col">
             <div
+              key={`featured-${currentBigProduct.id}`}
               onClick={() => {
-                if (onNavigateToWorks) onNavigateToWorks();
+                if (currentBigProduct.onView) {
+                  currentBigProduct.onView();
+                } else if (currentBigProduct.route) {
+                  window.location.hash = currentBigProduct.route;
+                } else if (onNavigateToWorks) {
+                  onNavigateToWorks();
+                }
               }}
-              className="group relative rounded-[24px] sm:rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between w-full h-[420px] sm:h-[480px] lg:h-full min-h-[400px] lg:min-h-[460px]"
+              className="group relative rounded-[24px] sm:rounded-[28px] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between w-full h-[420px] sm:h-[480px] lg:h-full min-h-[400px] lg:min-h-[460px] animate-card-in"
             >
-              {/* High-res Whiteboard / Brainstorming Image */}
+              {/* High-res Product Image */}
               <img
-                src="/assets/figma/bb9dd026594ae371c3f28fc99578043dbe6c0457.png"
-                alt="XConnect Platform"
-                className="absolute inset-0 w-full h-full object-cover object-[78%_center] group-hover:scale-105 transition-transform duration-700 ease-out"
+                src={currentBigProduct.tallImage}
+                alt={currentBigProduct.name}
+                className={`absolute inset-0 w-full h-full object-cover ${currentBigProduct.tallImagePos || 'object-cover'} group-hover:scale-105 transition-transform duration-700 ease-out`}
               />
 
               {/* Gradient Scrim Overlay for optimal text legibility */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/10 pointer-events-none" />
 
-              {/* Top-Left Frosted Badge: XConnect */}
+              {/* Top-Left Frosted Badge */}
               <div className="relative z-10 p-5 sm:p-6">
                 <span
                   className="inline-flex items-center text-xs font-semibold text-white px-4 py-1.5 rounded-full border border-white/20 backdrop-blur-md shadow-sm"
                   style={{
-                    background: 'linear-gradient(90deg, rgba(197, 68, 90, 0.8) 0%, rgba(62, 165, 148, 0.7) 100%)'
+                    background: currentBigProduct.badgeGradient
                   }}
                 >
-                  XConnect
+                  {currentBigProduct.tag}
                 </span>
               </div>
 
               {/* Bottom Content: Title & Angled Up-Right Arrow */}
               <div className="relative z-10 p-6 flex items-end justify-between gap-4 mt-auto">
                 <p className="text-white text-sm sm:text-[15px] font-medium leading-snug max-w-[240px] font-manrope">
-                  Management platform that unifies projects, tasks, and collaboration
+                  {currentBigProduct.shortDesc}
                 </p>
                 <div className="w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -702,23 +772,35 @@ export default function EsperiaLanding({
           {/* Column 3: Right Landscape Card & Bottom Carousel Controls */}
           <div className="lg:col-span-4 flex flex-col justify-between">
             <div>
-              {/* Landscape Card: Fiber Optics / Data Network */}
+              {/* Landscape Card: Upcoming Product */}
               <div
-                onClick={() => {
-                  if (onNavigateToWorks) onNavigateToWorks();
-                }}
-                className="group relative rounded-[20px] sm:rounded-[24px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer aspect-[16/10] sm:aspect-[16/9.5] w-full"
+                key={`preview-${nextSmallProduct.id}`}
+                onClick={handleNextProduct}
+                title={`Click to show ${nextSmallProduct.name}`}
+                className="group relative rounded-[20px] sm:rounded-[24px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer aspect-[16/10] sm:aspect-[16/9.5] w-full animate-card-in"
               >
                 <img
-                  src="/assets/figma/xconnect_fiber_clean.png"
-                  alt="XConnect Technology"
+                  src={nextSmallProduct.landscapeImage}
+                  alt={nextSmallProduct.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
+
+                {/* Top-Left Frosted Badge */}
+                <div className="absolute top-4 left-4 z-10">
+                  <span
+                    className="inline-flex items-center text-xs font-semibold text-white px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full border border-white/20 backdrop-blur-md shadow-sm"
+                    style={{
+                      background: nextSmallProduct.badgeGradient
+                    }}
+                  >
+                    {nextSmallProduct.tag}
+                  </span>
+                </div>
               </div>
 
               {/* Description Text */}
-              <p className="text-[#333333] text-sm sm:text-[14.5px] leading-[1.65] mt-5 sm:mt-6 font-manrope">
-                Management platform that unifies projects, tasks, and collaboration to improve visibility, efficiency, and productivity.
+              <p key={`desc-${nextSmallProduct.id}`} className="text-[#333333] text-sm sm:text-[14.5px] leading-[1.65] mt-5 sm:mt-6 font-manrope animate-card-in min-h-[4.5rem]">
+                {nextSmallProduct.description}
               </p>
             </div>
 
@@ -726,8 +808,9 @@ export default function EsperiaLanding({
             <div className="flex items-center gap-4 mt-6 sm:mt-8 pt-2">
               <button
                 type="button"
+                onClick={handlePrevProduct}
                 aria-label="Previous product"
-                className="w-8 h-8 flex items-center justify-center text-[#9E7B70] hover:text-[#0A0A0A] hover:scale-110 transition-all cursor-pointer"
+                className="w-8 h-8 flex items-center justify-center text-[#9E7B70] hover:text-[#0A0A0A] hover:scale-110 active:scale-95 transition-all cursor-pointer"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M5 12L12 19M5 12L12 5" />
@@ -735,8 +818,9 @@ export default function EsperiaLanding({
               </button>
               <button
                 type="button"
+                onClick={handleNextProduct}
                 aria-label="Next product"
-                className="w-8 h-8 flex items-center justify-center text-[#9E7B70] hover:text-[#0A0A0A] hover:scale-110 transition-all cursor-pointer"
+                className="w-8 h-8 flex items-center justify-center text-[#9E7B70] hover:text-[#0A0A0A] hover:scale-110 active:scale-95 transition-all cursor-pointer"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 12H19M19 12L12 5M19 12L12 19" />
@@ -762,11 +846,11 @@ export default function EsperiaLanding({
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-[32px] lg:text-[40px] xl:text-[46px] font-bold tracking-tight leading-[1.12] mb-4 sm:mb-5 font-parkinsans text-white sm:whitespace-nowrap">
+            <h2 className="text-2xl sm:text-3xl md:text-[32px] lg:text-[40px] xl:text-[46px] font-bold tracking-tight leading-[1.18] mb-5 sm:mb-6 font-parkinsans text-white sm:whitespace-nowrap">
               Enterprise Delivery Model
             </h2>
 
-            <div className="text-[#E8F1EF] text-xs sm:text-sm lg:text-[14.5px] leading-[1.65] mb-6 sm:mb-7 font-manrope space-y-1.5 max-w-xl">
+            <div className="text-[#E8F1EF] text-xs sm:text-sm lg:text-[14.5px] leading-[1.75] mb-7 sm:mb-8 font-manrope space-y-2 max-w-xl">
               <p className="font-normal text-white/95">It’s how we do it.</p>
               <p className="text-[#EDF3F1]/85">
                 Many agencies check the same capability boxes. What separates Esperia is the discipline we bring to execution — and the ambition we bring to outcomes.
@@ -839,80 +923,264 @@ export default function EsperiaLanding({
       </section>
 
       {/* ========================================================================= */}
-      {/* 8. TESTIMONIALS (MASONRY WITH ELEVATION & HOVER ANIMATIONS)               */}
+      {/* 8. TESTIMONIALS (MASONRY GRID REPLICATING EXACT REFERENCE DESIGN)          */}
       {/* ========================================================================= */}
-      <section className="py-28 px-6 max-w-7xl mx-auto relative">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="flex justify-center gap-2 mb-5 text-[#ECB22E] animate-bounce" style={{ animationDuration: '3s' }}>
+      <section className="pt-16 sm:pt-20 pb-4 sm:pb-6 px-6 max-w-7xl mx-auto relative overflow-hidden">
+        {/* Header with 5 golden stars and colored "love" highlight */}
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <div className="flex justify-center gap-1.5 sm:gap-2 mb-4 sm:mb-5 text-[#F5A623]">
             {[...Array(5)].map((_, i) => (
-              <svg key={i} className="w-8 h-8 fill-current" viewBox="0 0 24 24">
+              <svg key={i} className="w-5 h-5 sm:w-6 sm:h-6 fill-current" viewBox="0 0 24 24">
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
               </svg>
             ))}
           </div>
 
-          <h2
-            className="text-4xl sm:text-6xl font-normal text-[#0A0A0A] tracking-tight leading-tight font-parkinsans"
-          >
-            Hear what leaders love about our work
+          <h2 className="text-3xl sm:text-5xl lg:text-[54px] font-semibold text-[#0A0A0A] tracking-[-0.02em] leading-[1.18] font-parkinsans">
+            Hear what others <span className="text-[#DE6362]">love</span> about our Work
           </h2>
         </div>
 
         {/* 4-Column Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start relative z-10">
-          {[
-            {
-              name: "Rajeev Vashist",
-              role: "CEO, Watermelon Software Inc",
-              quote: "Esperia is one of the most innovative design and technology studios we've worked with — and they truly are a fundamental value differentiator."
-            },
-            {
-              name: "Kane William",
-              role: "VP Engineering, CloudScale",
-              quote: "From day one, their architectural rigor and velocity astonished our board. They delivered what would have taken internal teams eighteen months in just four."
-            },
-            {
-              name: "Elena Rostova",
-              role: "CTO, Horizon FinTech",
-              quote: "Their combination of human-first design thinking and AI-powered pipeline automation is unlike anything else in the modern agency landscape."
-            },
-            {
-              name: "Steve Fleming",
-              role: "Head of Product, Omnichannel",
-              quote: "The colossal improvements in our user adoption metrics speak for themselves. Esperia doesn't just build software — they craft category leaders."
-            }
-          ].map((t, idx) => (
-            <div
-              key={idx}
-              className="colossal-card bg-white border border-[#E9E5E5] rounded-[30px] p-8 flex flex-col justify-between shadow-colossal hover:border-[#C5445A]/30 transition-all duration-300 min-h-[320px]"
-            >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 items-start relative z-10 pb-0">
+          {/* Column 1 */}
+          <div className="flex flex-col gap-5 sm:gap-6">
+            {/* Card 1.1 */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
               <div>
-                <h4 className="text-[22px] font-bold text-[#111827] font-parkinsans leading-tight">
-                  {t.name}
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  Rajeev Vashist
                 </h4>
-                <p className="text-xs text-[#6B7280] font-medium mt-1">
-                  {t.role}
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
                 </p>
-                <div className="flex gap-1.5 my-4 text-[#ECB22E]">
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
                   {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                     </svg>
                   ))}
                 </div>
               </div>
-              <p className="text-[#222222] text-[15px] leading-relaxed font-manrope italic">
-                &ldquo;{t.quote}&rdquo;
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                &ldquo;Esperia is one of the most innovative design studios we&apos;ve worked with - and they truly are a value differentiator.&rdquo;
               </p>
             </div>
-          ))}
+
+            {/* Card 1.2 */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  John Kate
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                Maecenas non lorem et turpis convallis pharetra eget quis ipsum. Pellentesque nec rutrum mi.
+              </p>
+            </div>
+
+            {/* Card 1.3 (Partially Faded Baseline) */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between opacity-45 hover:opacity-100 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  John Kate
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                Maecenas non lorem et turpis convallis pharetra eget quis ipsum. Pellentesque nec rutrum mi.
+              </p>
+            </div>
+          </div>
+
+          {/* Column 2 */}
+          <div className="flex flex-col gap-5 sm:gap-6">
+            {/* Card 2.1 (Taller Card) */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  Kane William
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                Maecenas non lorem et turpis convallis pharetra eget quis ipsum. Pellentesque nec rutrum mi. Fusce porta orci justo, vitae placerat nisi vestibulum a. Cras interdum convallis arcu, eu posuere velit congue in. Aenean egestas bibendum nisl, et vestibulum felis commodo ac. Nulla at neque sed risus commodo ultrices id quis tortor.
+              </p>
+            </div>
+
+            {/* Card 2.2 */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] opacity-70 hover:opacity-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  John Kate
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                Maecenas non lorem et turpis convallis pharetra eget quis ipsum. Pellentesque nec rutrum mi.
+              </p>
+            </div>
+          </div>
+
+          {/* Column 3 */}
+          <div className="flex flex-col gap-5 sm:gap-6">
+            {/* Card 3.1 */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  John Kate
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                Maecenas non lorem et turpis convallis pharetra eget quis ipsum. Pellentesque nec rutrum mi.
+              </p>
+            </div>
+
+            {/* Card 3.2 (Taller Card) */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  Kane William
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                Maecenas non lorem et turpis convallis pharetra eget quis ipsum. Pellentesque nec rutrum mi. Fusce porta orci justo, vitae placerat nisi vestibulum a. Cras interdum convallis arcu, eu posuere velit congue in. Aenean egestas bibendum nisl, et vestibulum felis commodo ac. Nulla at neque sed risus commodo ultrices id quis tortor.
+              </p>
+            </div>
+          </div>
+
+          {/* Column 4 */}
+          <div className="flex flex-col gap-5 sm:gap-6">
+            {/* Card 4.1 */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  Steve Fleming
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                Maecenas non lorem et turpis convallis pharetra eget quis ipsum. Pellentesque nec rutrum mi. Fusce porta orci justo, vitae placerat nisi vestibulum a.
+              </p>
+            </div>
+
+            {/* Card 4.2 */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  Steve Fleming
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+              <p className="text-[#4B515D] text-[13.5px] sm:text-[14px] leading-[1.65] font-manrope">
+                Maecenas non lorem et turpis convallis pharetra eget quis ipsum. Pellentesque nec rutrum mi. Fusce porta orci justo, vitae placerat nisi vestibulum a.
+              </p>
+            </div>
+
+            {/* Card 4.3 (Partially Faded Baseline) */}
+            <div className="bg-[#FAF9F6] border border-[#ECE8E1] rounded-[22px] p-6 sm:p-7 flex flex-col justify-between opacity-35 hover:opacity-100 transition-all duration-300">
+              <div>
+                <h4 className="text-[19px] sm:text-[20px] font-bold text-[#111827] font-parkinsans leading-tight">
+                  John Kate
+                </h4>
+                <p className="text-[12.5px] sm:text-[13px] text-[#717680] font-normal mt-1 font-manrope">
+                  CEO, Watermelon Software Inc
+                </p>
+                <div className="flex gap-1.5 my-3 text-[#F5A623]">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Bottom smooth fade-out gradient mask overlay (as in the reference image) */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-28 sm:h-36 bg-gradient-to-t from-[#F6F6F3] via-[#F6F6F3]/85 to-transparent z-20" />
       </section>
 
       {/* ========================================================================= */}
       {/* 9. OUR WORKS: DIGITAL PRODUCTS (EXACT FIGMA FRAME REPLICA)                */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 lg:py-24 px-6 max-w-7xl mx-auto relative overflow-visible w-full">
+      <section className="pt-2 sm:pt-4 pb-16 sm:pb-20 lg:pb-24 px-6 max-w-7xl mx-auto relative overflow-visible w-full">
         {/* The Figma Frame (Bounded container with ambient gradient & overflow-hidden) */}
         <div
           className="relative w-full rounded-[24px] sm:rounded-[32px] overflow-hidden border border-[#E8DFD9]/60 shadow-[0_12px_40px_rgba(0,0,0,0.04)] pt-6 sm:pt-8 lg:pt-9 px-4 sm:px-8 lg:px-12 xl:px-14 pb-16 sm:pb-20 lg:pb-24"
@@ -975,11 +1243,11 @@ export default function EsperiaLanding({
           </div>
 
           {/* 3D Woman Artwork - anchored to Frame bottom, clipped flush by frame boundary */}
-          <div className="hidden lg:flex absolute right-8 sm:right-12 lg:right-16 xl:right-20 bottom-0 w-[295px] xl:w-[325px] z-20 justify-end pointer-events-none select-none">
+          <div className="hidden lg:flex absolute right-8 sm:right-12 lg:right-16 xl:right-20 bottom-0 w-[295px] xl:w-[325px] z-20 justify-end pointer-events-auto select-none">
             <img
               src="/assets/figma/digital_products_woman_clean.png"
               alt="Digital Products Real Impact"
-              className="w-full h-auto object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.08)] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+              className="w-full h-auto object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.08)] cursor-pointer transform-gpu transition-transform duration-500 ease-in-out origin-bottom hover:scale-110 active:scale-105 will-change-transform"
             />
           </div>
 
@@ -988,7 +1256,7 @@ export default function EsperiaLanding({
             <img
               src="/assets/figma/digital_products_woman_clean.png"
               alt="Digital Products Real Impact"
-              className="w-full max-w-[260px] h-auto object-contain"
+              className="w-full max-w-[260px] h-auto object-contain cursor-pointer transform-gpu transition-transform duration-500 ease-in-out origin-bottom hover:scale-110 active:scale-105 will-change-transform"
             />
           </div>
         </div>
@@ -1008,7 +1276,7 @@ export default function EsperiaLanding({
             </div>
 
             <h2
-              className="text-3xl sm:text-5xl font-bold text-[#0A0A0A] tracking-tight leading-tight font-parkinsans"
+              className="text-3xl sm:text-5xl font-bold text-[#0A0A0A] tracking-normal leading-[1.3] sm:leading-[1.35] font-parkinsans"
             >
               Insights at the Edge of Design, AI, and Enterprise
             </h2>

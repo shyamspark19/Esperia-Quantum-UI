@@ -259,6 +259,9 @@ export default function App() {
           onNavigateToWhatWeDo={navigateToWhatWeDo}
           onNavigateToBlogs={navigateToBlogs}
           onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onViewYoungGenius={navigateToYoungGenius}
+          onViewIrisHr={navigateToIrisHr}
+          onViewTasConnect={navigateToTasConnect}
         />
       ) : currentPage === 'young-genius' ? (
         <YoungGeniusDetailPage
@@ -326,6 +329,10 @@ export default function App() {
           onNavigateToWhatWeDo={navigateToWhatWeDo}
           onNavigateToBlogs={navigateToBlogs}
           onNavigateToWhyEsperia={navigateToWhyEsperia}
+          onViewWatermelon={navigateToWatermelon}
+          onViewYoungGenius={navigateToYoungGenius}
+          onViewIrisHr={navigateToIrisHr}
+          onViewTasConnect={navigateToTasConnect}
         />
       )}
     </>

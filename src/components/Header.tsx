@@ -15,6 +15,8 @@ interface HeaderProps {
   mobileBg?: string;
   /** Extra classes applied to the outer <header> element (e.g. negative margin for overlay). */
   className?: string;
+  /** Force solid dark teal background even when not scrolled */
+  solidBg?: boolean;
 }
 
 export default function Header({
@@ -28,6 +30,7 @@ export default function Header({
   scrolledBg = 'bg-[#051413]/95 shadow-xl backdrop-blur-md',
   mobileBg = 'bg-[#071D1B]',
   className = '',
+  solidBg = false,
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -75,7 +78,7 @@ export default function Header({
 
   const desktopLinkClass = (page: string) =>
     activePage === page
-      ? 'text-[#F56F6A] font-semibold transition-colors duration-200 cursor-default'
+      ? 'text-[#F56F6A] font-semibold transition-colors duration-200 cursor-pointer'
       : 'text-white font-medium hover:text-white/80 transition-colors duration-200 cursor-pointer';
 
   const mobileLinkClass = (page: string) =>
@@ -85,7 +88,7 @@ export default function Header({
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-500 ${isScrolled ? scrolledBg : 'bg-transparent'} ${className}`}
+      className={`sticky top-0 z-50 transition-all duration-500 ${solidBg || isScrolled ? scrolledBg : 'bg-transparent'} ${className}`}
     >
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 h-20 sm:h-24 flex items-center justify-between">
         {/* Logo */}
@@ -104,45 +107,21 @@ export default function Header({
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-8 lg:gap-10 text-[13px] font-manrope">
-          {activePage === 'what-we-do' ? (
-            <span className={desktopLinkClass('what-we-do')}>What We Do</span>
-          ) : (
-            <button type="button" onClick={handleWhatWeDo} className={desktopLinkClass('what-we-do')}>
-              What We Do
-            </button>
-          )}
-
-          {activePage === 'why-esperia' ? (
-            <span className={desktopLinkClass('why-esperia')}>Why Esperia</span>
-          ) : (
-            <button type="button" onClick={handleWhyEsperia} className={desktopLinkClass('why-esperia')}>
-              Why Esperia
-            </button>
-          )}
-
-          {activePage === 'works' ? (
-            <span className={desktopLinkClass('works')}>Our Works</span>
-          ) : (
-            <button type="button" onClick={handleWorks} className={desktopLinkClass('works')}>
-              Our Works
-            </button>
-          )}
-
-          {activePage === 'blogs' ? (
-            <span className={desktopLinkClass('blogs')}>Blogs &amp; Newsletters</span>
-          ) : (
-            <button type="button" onClick={handleBlogs} className={desktopLinkClass('blogs')}>
-              Blogs &amp; Newsletters
-            </button>
-          )}
-
-          {activePage === 'contact' ? (
-            <span className={desktopLinkClass('contact')}>Contact Us</span>
-          ) : (
-            <button type="button" onClick={handleContact} className={desktopLinkClass('contact')}>
-              Contact Us
-            </button>
-          )}
+          <button type="button" onClick={handleWhatWeDo} className={desktopLinkClass('what-we-do')}>
+            What We Do
+          </button>
+          <button type="button" onClick={handleWhyEsperia} className={desktopLinkClass('why-esperia')}>
+            Why Esperia
+          </button>
+          <button type="button" onClick={handleWorks} className={desktopLinkClass('works')}>
+            Our Works
+          </button>
+          <button type="button" onClick={handleBlogs} className={desktopLinkClass('blogs')}>
+            Blogs &amp; Newsletters
+          </button>
+          <button type="button" onClick={handleContact} className={desktopLinkClass('contact')}>
+            Contact Us
+          </button>
         </nav>
 
         {/* Mobile Hamburger Button */}
